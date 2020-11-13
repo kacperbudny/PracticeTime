@@ -12,6 +12,7 @@
                 Content="START"
                 FontSize="50" Click="StartButton_Click"/>
             <Label x:Name="lblTiming" Content="lol" />
+            <Button x:Name="ChangeTempoButton" Content="Change tempo" Click="ChangeTempoButton_Click"/>
         </DockPanel>
     </Grid>
 </Window>
