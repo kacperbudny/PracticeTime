@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Media;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 using MetronomeApp.Properties;
 
 namespace MetronomeApp.Classes
@@ -22,6 +25,8 @@ namespace MetronomeApp.Classes
         public Metronome()
         {
             Tick = 500;
+            IsMetronomePlaying = false;
+            metronomeSound.Play();
         }
         
         public async Task Run()
@@ -52,10 +57,10 @@ namespace MetronomeApp.Classes
                 }
             }
 
-            if (!IsMetronomePlaying)
-            {
-                SaveTempoList();
-            }
+            //if (!IsMetronomePlaying)
+            //{
+            //    SaveTempoList();
+            //}
         }
 
         public void Stop()
@@ -65,6 +70,7 @@ namespace MetronomeApp.Classes
 
         public void SetTempo(int tempo)
         {
+            tempo = 60000 / tempo;
             Tick = tempo;
             Sleep = Tick - 20;
         }

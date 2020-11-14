@@ -5,14 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MetronomeApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="400">
+        Title="MainWindow" Height="300" Width="300">
     <Grid>
-        <DockPanel>
+        <DockPanel Margin="10" >
+            <Grid DockPanel.Dock="Top">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal"  Margin="0,5">
+                <Button x:Name="TempoDownButton"
+                        Content="◄"
+                        FontSize="20"
+                        Width="30"
+                        Click="TempoDownButton_Click"/>
+                <TextBox x:Name="TempoBox" 
+                     Text="120" Margin="10,0"
+                     PreviewTextInput="TempoBox_PreviewTextInput"
+                     TextChanged="TempoBox_TextChanged"
+                     FontSize="20"
+                     Width="100"
+                     TextAlignment="Center"/>
+                <Button x:Name="TempoUpButton"
+                        Content="►"
+                        FontSize="20"
+                        Width="30"
+                        Click="TempoUpButton_Click"/>
+            </StackPanel>
+            </Grid>
             <Button x:Name="StartButton" 
-                Content="START"
-                FontSize="50" Click="StartButton_Click"/>
-            <Label x:Name="lblTiming" Content="lol" />
-            <Button x:Name="ChangeTempoButton" Content="Change tempo" Click="ChangeTempoButton_Click"/>
+                    Content="START"
+                    FontSize="50" Click="StartButton_Click"
+                    />
         </DockPanel>
     </Grid>
 </Window>

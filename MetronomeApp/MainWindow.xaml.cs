@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Media;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
@@ -28,7 +29,6 @@ namespace MetronomeApp
     {
         Metronome metronome = new Metronome();
 
-
         public MainWindow()
         {
             InitializeComponent();
@@ -51,9 +51,62 @@ namespace MetronomeApp
             }
         }
 
-        private void ChangeTempoButton_Click(object sender, RoutedEventArgs e)
+        private void TempoBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            metronome.SetTempo(1000);
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        public static bool IsValid(string str)
+        {
+            int i;
+            return int.TryParse(str, out i) && i >= 5 && i <= 9999;
+        }
+
+        private async void TempoBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            async Task<bool> UserKeepsTyping()
+            {
+                string txt = TempoBox.Text;   // remember text
+                await Task.Delay(500);        // wait some
+                return txt != TempoBox.Text;  // return that text chaged or not
+            }
+            if (await UserKeepsTyping()) return;
+            // user is done typing, do your stuff 
+            if (Int32.TryParse(TempoBox.Text, out int tempo))
+            {
+                if (tempo < 40)
+                {
+                    TempoBox.Text = "40";
+                    tempo = 40;
+                }
+                else if(tempo > 300)
+                {
+                    TempoBox.Text = "300";
+                    tempo = 300;
+                }
+                metronome.SetTempo(tempo);
+            }
+        }
+
+        private void TempoDownButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (Int32.TryParse(TempoBox.Text, out int tempo))
+            {
+                tempo--;
+                TempoBox.Text = tempo.ToString();
+                metronome.SetTempo(tempo);
+            }
+        }
+
+        private void TempoUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (Int32.TryParse(TempoBox.Text, out int tempo))
+            {
+                tempo++;
+                TempoBox.Text = tempo.ToString();
+                metronome.SetTempo(tempo);
+            }
         }
     }
 }

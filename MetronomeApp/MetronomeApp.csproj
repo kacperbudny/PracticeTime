@@ -98,6 +98,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Resources\metronome.wav" />
+    <Resource Include="Sounds\metronome.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
