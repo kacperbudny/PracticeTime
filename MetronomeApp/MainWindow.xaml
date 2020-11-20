@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MetronomeApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="300">
+        Title="MainWindow" SizeToContent="WidthAndHeight">
     <Grid>
         <DockPanel Margin="10" >
             <Grid DockPanel.Dock="Top">
@@ -32,7 +32,43 @@
             <Button x:Name="StartButton" 
                     Content="START"
                     FontSize="50" Click="StartButton_Click"
+                    DockPanel.Dock="Top"
+                    Height="180"
                     />
+            <Grid DockPanel.Dock="Bottom" Margin="0,15,0,0">
+                <Border Background="GhostWhite" 
+                        BorderBrush="Silver" 
+                        BorderThickness="1" 
+                        CornerRadius="8,8,3,3" 
+                        Padding="5">
+                <StackPanel HorizontalAlignment="Center" 
+                            Orientation="Horizontal">
+                    <Button x:Name="CancelTapTempo"
+                        Content="Cancel"
+                        FontSize="20"
+                        Height="40"
+                            Padding="5"
+                        Click="CancelTapTempo_Click"
+                            IsEnabled="{Binding IsTapTempoEnabled}"/>
+                    <Button x:Name="TapTempoButton"
+                        Content="Tap tempo"
+                        FontSize="20"
+                        Height="40"
+                            Padding="5"
+                        Click="TapTempoButton_Click"
+                            Margin="5"
+                            Width="120"/>
+                    <Button x:Name="AcceptTapTempo"
+                        Content="Accept"
+                        FontSize="20"
+                        Height="40"
+                            Padding="5"
+                        Click="AcceptTapTempo_Click"
+                            IsEnabled="{Binding IsTapTempoEnabled}"/>
+                </StackPanel>
+                </Border>
+            </Grid>
         </DockPanel>
     </Grid>
 </Window>
+ 

@@ -19,8 +19,8 @@ namespace MetronomeApp.Classes
         SoundPlayer metronomeSound = new SoundPlayer(Resources.metronome);
 
         public bool IsMetronomePlaying { get; set; }
+        public int Sleep { get; private set; }
         private int Tick;
-        private int Sleep;
 
         public Metronome()
         {
@@ -28,7 +28,7 @@ namespace MetronomeApp.Classes
             IsMetronomePlaying = false;
             metronomeSound.Play();
         }
-        
+
         public async Task Run()
         {
             Sleep = Tick - 20;
@@ -53,6 +53,8 @@ namespace MetronomeApp.Classes
                     sw.Reset();
                     sw.Start();
 
+                    if (!IsMetronomePlaying) break;
+
                     await Task.Delay(Sleep);
                 }
             }
@@ -73,6 +75,15 @@ namespace MetronomeApp.Classes
             tempo = 60000 / tempo;
             Tick = tempo;
             Sleep = Tick - 20;
+        }
+
+        public async Task SetTempoAndRun(int tempo)
+        {
+            Stop();
+            await Task.Delay(Sleep + 100);
+            SetTempo(tempo);
+            await Run();
+
         }
 
         private void SaveTempoList()
