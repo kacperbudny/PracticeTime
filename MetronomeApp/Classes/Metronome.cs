@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Media;
 using System.Runtime.InteropServices;
@@ -14,12 +15,13 @@ namespace MetronomeApp.Classes
 {
     public class Metronome
     {
-        List<DateTime> times = new List<DateTime>();
-        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-        SoundPlayer metronomeSound = new SoundPlayer(Resources.metronome);
-
         public bool IsMetronomePlaying { get; set; }
         public int Sleep { get; private set; }
+
+        readonly List<DateTime> times = new List<DateTime>();
+        readonly Stopwatch sw = new Stopwatch();
+        readonly SoundPlayer metronomeSound = new SoundPlayer(Resources.metronome);
+
         private int Tick;
 
         public Metronome()
@@ -32,7 +34,6 @@ namespace MetronomeApp.Classes
         public async Task Run()
         {
             Sleep = Tick - 20;
-            long OldElapsedMilliseconds = 0;
             IsMetronomePlaying = true;
 
             sw.Start();
@@ -42,16 +43,12 @@ namespace MetronomeApp.Classes
                 long ElapsedMilliseconds = sw.ElapsedMilliseconds;
                 long mod = (ElapsedMilliseconds % Tick);
 
-                if (OldElapsedMilliseconds != ElapsedMilliseconds && (mod == 0 || ElapsedMilliseconds > Tick))
+                if (ElapsedMilliseconds != 0 && (mod == 0 || ElapsedMilliseconds > Tick))
                 {
                     metronomeSound.Play();
                     times.Add(DateTime.Now);
 
-                    //Restarting the counter
-                    OldElapsedMilliseconds = ElapsedMilliseconds;
-                    OldElapsedMilliseconds = 0;
-                    sw.Reset();
-                    sw.Start();
+                    sw.Restart();
 
                     if (!IsMetronomePlaying) break;
 
@@ -68,6 +65,7 @@ namespace MetronomeApp.Classes
         public void Stop()
         {
             IsMetronomePlaying = false;
+            sw.Reset();
         }
 
         public void SetTempo(int tempo)
@@ -83,7 +81,6 @@ namespace MetronomeApp.Classes
             await Task.Delay(Sleep + 100);
             SetTempo(tempo);
             await Run();
-
         }
 
         private void SaveTempoList()

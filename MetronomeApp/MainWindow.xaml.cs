@@ -27,18 +27,15 @@ namespace MetronomeApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        Metronome metronome = new Metronome();
-        Stopwatch sw = new Stopwatch();
-        Stopwatch tapTempoTimer = new Stopwatch();
-        List<long> tapTempoClicks = new List<long>();
-        private TapTempoBinding tapTempoBinding = new TapTempoBinding();
-        int tapTempoFinalTempo = 0;
-        
+        readonly Metronome metronome = new Metronome();
+        readonly Stopwatch sw = new Stopwatch();
+        readonly TapTempo tapTempo = new TapTempo();
+
         public MainWindow()
         {
             InitializeComponent();
+
             sw.Start();
-            DataContext = tapTempoBinding;
         }
 
         private async void StartButton_Click(object sender, RoutedEventArgs e)
@@ -49,15 +46,15 @@ namespace MetronomeApp
                 {
                     sw.Reset();
                     StartButton.Content = "STOP";
-                    metronome.IsMetronomePlaying = true;
+
                     await metronome.Run();
                 }
             }
             else
             {
                 sw.Start();
-                metronome.IsMetronomePlaying = false;
                 metronome.Stop();
+
                 StartButton.Content = "START";
             }
         }
@@ -68,12 +65,6 @@ namespace MetronomeApp
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        public static bool IsValid(string str)
-        {
-            int i;
-            return int.TryParse(str, out i) && i >= 5 && i <= 9999;
-        }
-
         private async void TempoBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             async Task<bool> UserKeepsTyping()
@@ -82,7 +73,9 @@ namespace MetronomeApp
                 await Task.Delay(500);        // wait some
                 return txt != TempoBox.Text;  // return that text chaged or not
             }
+
             if (await UserKeepsTyping()) return;
+
             // user is done typing, do your stuff 
             if (Int32.TryParse(TempoBox.Text, out int tempo))
             {
@@ -96,6 +89,7 @@ namespace MetronomeApp
                     TempoBox.Text = "300";
                     tempo = 300;
                 }
+
                 if (metronome.IsMetronomePlaying)
                 {
                     await metronome.SetTempoAndRun(tempo);
@@ -127,33 +121,40 @@ namespace MetronomeApp
             if(metronome.IsMetronomePlaying == true)
             {
                 metronome.Stop();
+                StartButton.Content = "START";
             }
-            if(tapTempoBinding.IsTapTempoEnabled == false)
+
+            if(tapTempo.IsTapTempoModeEnabled == false)
             {
-                tapTempoBinding.IsTapTempoEnabled = true;
                 StartButton.IsEnabled = false;
+                CancelTapTempoButton.IsEnabled = true;
                 TapTempoButton.Content = "TAP HERE";
-                tapTempoTimer.Start();
+
+                tapTempo.Start();
             }
             else
             {
-                tapTempoClicks.Add(tapTempoTimer.ElapsedMilliseconds);
-                long averageTime = (long)Math.Round(tapTempoClicks.Average());
-                tapTempoFinalTempo = (int)(60000 / averageTime);
-                TapTempoButton.Content = tapTempoFinalTempo.ToString();
-                tapTempoTimer.Restart();
+                tapTempo.NextTap();
+                TapTempoButton.Content = tapTempo.FinalTempo.ToString();
+
+                if(tapTempo.AreTapTimesNotEmpty())
+                {
+                    AcceptTapTempoButton.IsEnabled = true;
+                }
             }
         }
 
-        private async void AcceptTapTempo_Click(object sender, RoutedEventArgs e)
+        private async void AcceptTapTempoButton_Click(object sender, RoutedEventArgs e)
         {
-            TempoBox.Text = tapTempoFinalTempo.ToString();
-            await metronome.Run();
+            TempoBox.Text = tapTempo.FinalTempo.ToString();
             ResetAfterTapTempo();
+
+            await Task.Delay(500);
+            await metronome.Run();
             StartButton.Content = "STOP";
         }
 
-        private void CancelTapTempo_Click(object sender, RoutedEventArgs e)
+        private void CancelTapTempoButton_Click(object sender, RoutedEventArgs e)
         {
             ResetAfterTapTempo();
         }
@@ -161,10 +162,11 @@ namespace MetronomeApp
         private void ResetAfterTapTempo()
         {
             StartButton.IsEnabled = true;
+            AcceptTapTempoButton.IsEnabled = false;
+            CancelTapTempoButton.IsEnabled = false;
             TapTempoButton.Content = "Tap tempo";
-            tapTempoBinding.IsTapTempoEnabled = false;
-            tapTempoTimer.Reset();
-            tapTempoClicks.Clear();
+
+            tapTempo.Reset();
         }
     }
 }

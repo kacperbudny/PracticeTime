@@ -9,63 +9,62 @@
     <Grid>
         <DockPanel Margin="10" >
             <Grid DockPanel.Dock="Top">
-                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal"  Margin="0,5">
-                <Button x:Name="TempoDownButton"
-                        Content="◄"
-                        FontSize="20"
-                        Width="30"
-                        Click="TempoDownButton_Click"/>
-                <TextBox x:Name="TempoBox" 
-                     Text="120" Margin="10,0"
-                     PreviewTextInput="TempoBox_PreviewTextInput"
-                     TextChanged="TempoBox_TextChanged"
-                     FontSize="20"
-                     Width="100"
-                     TextAlignment="Center"/>
-                <Button x:Name="TempoUpButton"
-                        Content="►"
-                        FontSize="20"
-                        Width="30"
-                        Click="TempoUpButton_Click"/>
-            </StackPanel>
+                <StackPanel HorizontalAlignment="Center" 
+                            Orientation="Horizontal"  
+                            Margin="0,5">
+                    <Button x:Name="TempoDownButton"
+                            Content="◄"
+                            Style="{StaticResource changeTempoButtonsStyle}"
+                            Click="TempoDownButton_Click"/>
+                    <TextBox x:Name="TempoBox" 
+                             Text="120" 
+                             Margin="10,0"
+                             PreviewTextInput="TempoBox_PreviewTextInput"
+                             TextChanged="TempoBox_TextChanged"
+                             FontSize="20"
+                             Width="100"
+                             TextAlignment="Center"/>
+                    <Button x:Name="TempoUpButton"
+                            Content="►"
+                            Style="{StaticResource changeTempoButtonsStyle}"
+                            Click="TempoUpButton_Click"/>
+                </StackPanel>
             </Grid>
+
             <Button x:Name="StartButton" 
                     Content="START"
-                    FontSize="50" Click="StartButton_Click"
+                    FontSize="50" 
+                    Click="StartButton_Click"
                     DockPanel.Dock="Top"
                     Height="180"
                     />
-            <Grid DockPanel.Dock="Bottom" Margin="0,15,0,0">
+
+            <Grid DockPanel.Dock="Bottom" 
+                  Margin="0,15,0,0">
                 <Border Background="GhostWhite" 
                         BorderBrush="Silver" 
                         BorderThickness="1" 
                         CornerRadius="8,8,3,3" 
-                        Padding="5">
-                <StackPanel HorizontalAlignment="Center" 
-                            Orientation="Horizontal">
-                    <Button x:Name="CancelTapTempo"
-                        Content="Cancel"
-                        FontSize="20"
-                        Height="40"
-                            Padding="5"
-                        Click="CancelTapTempo_Click"
-                            IsEnabled="{Binding IsTapTempoEnabled}"/>
-                    <Button x:Name="TapTempoButton"
-                        Content="Tap tempo"
-                        FontSize="20"
-                        Height="40"
-                            Padding="5"
-                        Click="TapTempoButton_Click"
-                            Margin="5"
-                            Width="120"/>
-                    <Button x:Name="AcceptTapTempo"
-                        Content="Accept"
-                        FontSize="20"
-                        Height="40"
-                            Padding="5"
-                        Click="AcceptTapTempo_Click"
-                            IsEnabled="{Binding IsTapTempoEnabled}"/>
-                </StackPanel>
+                        Padding="10,5">
+                    <StackPanel HorizontalAlignment="Center" 
+                                Orientation="Horizontal">
+                        <Button x:Name="CancelTapTempoButton"
+                                Content="Cancel"
+                                Style="{StaticResource tapTempoButtonsStyle}"
+                                Click="CancelTapTempoButton_Click"
+                                IsEnabled="False"/>
+                        <Button x:Name="TapTempoButton"
+                                Content="Tap tempo"
+                                Style="{StaticResource tapTempoButtonsStyle}"
+                                Click="TapTempoButton_Click"
+                                Margin="5"
+                                Width="120"/>
+                        <Button x:Name="AcceptTapTempoButton"
+                                Content="Accept"
+                                Style="{StaticResource tapTempoButtonsStyle}"
+                                Click="AcceptTapTempoButton_Click"
+                                IsEnabled="False"/>
+                    </StackPanel>
                 </Border>
             </Grid>
         </DockPanel>
