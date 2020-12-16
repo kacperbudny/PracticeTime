@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" SizeToContent="WidthAndHeight">
     <Grid>
-        <DockPanel Margin="10" >
-            <Grid DockPanel.Dock="Top">
+        <StackPanel x:Name="WindowStackPanel" 
+                    Margin="10">
+            <Grid Margin="0,0,0,5">
                 <StackPanel HorizontalAlignment="Center" 
                             Orientation="Horizontal"  
                             Margin="0,5">
@@ -35,17 +36,16 @@
                     Content="START"
                     FontSize="50" 
                     Click="StartButton_Click"
-                    DockPanel.Dock="Top"
-                    Height="180"
+                    MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
+                    MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
                     />
 
-            <Grid DockPanel.Dock="Bottom" 
-                  Margin="0,15,0,0">
-                <Border Background="GhostWhite" 
+            <Grid Margin="0,5,0,5">
+                <GroupBox Background="GhostWhite" 
                         BorderBrush="Silver" 
                         BorderThickness="1" 
-                        CornerRadius="8,8,3,3" 
                         Padding="10,5">
+                    <GroupBox.Header>Tap Tempo</GroupBox.Header>
                     <StackPanel HorizontalAlignment="Center" 
                                 Orientation="Horizontal">
                         <Button x:Name="CancelTapTempoButton"
@@ -65,9 +65,48 @@
                                 Click="AcceptTapTempoButton_Click"
                                 IsEnabled="False"/>
                     </StackPanel>
-                </Border>
+                </GroupBox>
             </Grid>
-        </DockPanel>
+
+            <Grid>
+                <GroupBox Background="GhostWhite" 
+                        BorderBrush="Silver" 
+                        BorderThickness="1" 
+                        Padding="10,5"
+                        Width="{Binding ActualWidth, ElementName=WindowStackPanel}">
+                    <GroupBox.Header>Timer</GroupBox.Header>
+                    <StackPanel>
+                        <StackPanel HorizontalAlignment="Center" 
+                                Orientation="Horizontal"
+                                x:Name="TimerStackPanel">
+                            <Button x:Name="TimerDownButton"
+                                    Content="-"
+                                    Style="{StaticResource tapTempoButtonsStyle}"
+                                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Click="TimerDownButton_Click"/>
+                            <Label x:Name="TimerLabel" 
+                                   x:FieldModifier="public"
+                                   Content="01:00"
+                                   Style="{StaticResource labelStyle}"
+                                   Margin="5,0"/>
+                            <Button x:Name="TimerUpButton"
+                                    Content="+"
+                                    Style="{StaticResource tapTempoButtonsStyle}"
+                                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Click="TimerUpButton_Click"/>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center" 
+                                Orientation="Horizontal"
+                                >
+                            <Button x:Name="StartTimerButton"
+                                    Content="Start timer"
+                                    Margin="0,5,0,0"
+                                    Style="{StaticResource tapTempoButtonsStyle}"
+                                    Width="{Binding ActualWidth, ElementName=TimerStackPanel}" Click="StartTimerButton_Click" />
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+
+        </StackPanel>
     </Grid>
 </Window>
  

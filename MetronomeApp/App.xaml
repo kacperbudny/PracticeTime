@@ -14,5 +14,9 @@
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="Height" Value="40"/>
         </Style>
+
+        <Style TargetType="Label" x:Key="labelStyle">
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
     </Application.Resources>
 </Application>

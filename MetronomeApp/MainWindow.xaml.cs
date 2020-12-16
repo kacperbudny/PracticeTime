@@ -30,10 +30,18 @@ namespace MetronomeApp
         readonly Metronome metronome = new Metronome();
         readonly Stopwatch sw = new Stopwatch();
         readonly TapTempo tapTempo = new TapTempo();
+        readonly DispatcherTimer timer = new DispatcherTimer();
+
+        private int time = 300;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            timer.Tick += new EventHandler(timer_Tick);
+            timer.Interval = new TimeSpan(0, 0, 1);
+
+            UpdateTimerLabel();
 
             sw.Start();
         }
@@ -52,11 +60,16 @@ namespace MetronomeApp
             }
             else
             {
-                sw.Start();
-                metronome.Stop();
-
-                StartButton.Content = "START";
+                StopMetronome();
             }
+        }
+
+        private void StopMetronome()
+        {
+            sw.Start();
+            metronome.Stop();
+
+            StartButton.Content = "START";
         }
 
         private void TempoBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -120,8 +133,7 @@ namespace MetronomeApp
         {
             if(metronome.IsMetronomePlaying == true)
             {
-                metronome.Stop();
-                StartButton.Content = "START";
+                StopMetronome();
             }
 
             if(tapTempo.IsTapTempoModeEnabled == false)
@@ -167,6 +179,69 @@ namespace MetronomeApp
             TapTempoButton.Content = "Tap tempo";
 
             tapTempo.Reset();
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if (time > 0)
+            {
+                time--;
+                UpdateTimerLabel();
+            }
+            else
+            {
+                timer.Stop();
+                if (metronome.IsMetronomePlaying) StopMetronome();
+                time = 300;
+                UpdateTimerLabel();
+                StartTimerButton.Content = "Start timer";
+                SystemSounds.Beep.Play();
+            }
+        }
+
+        private void UpdateTimerLabel()
+        {
+            string minutes = (time/60) >= 10 ? (time/60).ToString() : "0" + (time/60).ToString();
+            string seconds = (time % 60) >= 10 ? (time % 60).ToString() : "0" + (time % 60).ToString();
+
+            TimerLabel.Content = string.Format("{0}:{1}", minutes, seconds);
+        }
+
+        private void StartTimerButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(!timer.IsEnabled)
+            {
+                StartTimerButton.Content = "Stop timer";
+                timer.Start();
+            }
+            else
+            {
+                StartTimerButton.Content = "Start timer";
+                timer.Stop();
+            }
+        }
+
+        private void TimerDownButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (time > 60)
+            { 
+                time -= 60;
+                UpdateTimerLabel();
+            } 
+        }
+
+        private void TimerUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (time < 3540)
+            {
+                time += 60;
+            }
+            else
+            {
+                time = 3600;
+            }
+
+            UpdateTimerLabel();
         }
     }
 }
