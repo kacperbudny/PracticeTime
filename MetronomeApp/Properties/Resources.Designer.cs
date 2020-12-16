@@ -68,5 +68,14 @@ namespace MetronomeApp.Properties {
                 return ResourceManager.GetStream("metronome", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream timekeeper {
+            get {
+                return ResourceManager.GetStream("timekeeper", resourceCulture);
+            }
+        }
     }
 }

@@ -65,7 +65,7 @@
     </Compile>
     <Compile Include="Classes\Metronome.cs" />
     <Compile Include="Classes\TapTempo.cs" />
-    <Compile Include="Classes\Timekeeper.cs" />
+    <Compile Include="Classes\TimekeeperHelper.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -100,7 +100,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Resources\metronome.wav" />
-    <Resource Include="Sounds\metronome.wav" />
+    <None Include="Resources\timekeeper.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

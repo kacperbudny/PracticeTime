@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MetronomeApp"
         mc:Ignorable="d"
-        Title="MainWindow" SizeToContent="WidthAndHeight">
+        ResizeMode="CanMinimize"
+        Title="MetronomeApp"
+        SizeToContent="WidthAndHeight">
     <Grid>
         <StackPanel x:Name="WindowStackPanel" 
                     Margin="10">
@@ -82,7 +84,8 @@
                             <Button x:Name="TimerDownButton"
                                     Content="-"
                                     Style="{StaticResource tapTempoButtonsStyle}"
-                                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Click="TimerDownButton_Click"/>
+                                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
+                                    Click="TimerDownButton_Click"/>
                             <Label x:Name="TimerLabel" 
                                    x:FieldModifier="public"
                                    Content="01:00"
@@ -91,16 +94,23 @@
                             <Button x:Name="TimerUpButton"
                                     Content="+"
                                     Style="{StaticResource tapTempoButtonsStyle}"
-                                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Click="TimerUpButton_Click"/>
+                                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
+                                    Click="TimerUpButton_Click"/>
                         </StackPanel>
-                        <StackPanel HorizontalAlignment="Center" 
-                                Orientation="Horizontal"
-                                >
+                        <StackPanel x:Name="TimerButtonsStackPanel"
+                                    HorizontalAlignment="Center" 
+                                    Orientation="Horizontal">
                             <Button x:Name="StartTimerButton"
                                     Content="Start timer"
+                                    Margin="0,5,5,0"
+                                    Style="{StaticResource tapTempoButtonsStyle}"
+                                    Click="StartTimerButton_Click" />
+                            <Button x:Name="ResetTimerButton"
+                                    Content="Reset timer"
                                     Margin="0,5,0,0"
                                     Style="{StaticResource tapTempoButtonsStyle}"
-                                    Width="{Binding ActualWidth, ElementName=TimerStackPanel}" Click="StartTimerButton_Click" />
+                                    Click="ResetTimerButton_Click"
+                                    IsEnabled="False"/>
                         </StackPanel>
                     </StackPanel>
                 </GroupBox>
