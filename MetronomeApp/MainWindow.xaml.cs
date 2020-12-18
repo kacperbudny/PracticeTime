@@ -20,6 +20,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using MetronomeApp.Properties;
+using SQLite;
+using System.IO;
 
 namespace MetronomeApp
 {
@@ -43,6 +45,13 @@ namespace MetronomeApp
             timekeeper.Interval = new TimeSpan(0, 0, 1);
 
             UpdateTimerLabel();
+
+            if(!Directory.Exists(App.applicationDirectoryPath))
+            {
+                Directory.CreateDirectory(App.applicationDirectoryPath);
+            }
+
+            ReadDatabase();
 
             sw.Start();
         }
@@ -250,6 +259,48 @@ namespace MetronomeApp
             UpdateTimerLabel();
             StartTimerButton.Content = "Start timer";
             ResetTimerButton.IsEnabled = false;
+        }
+
+        private void addExerciseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Exercise exercise = new Exercise()
+            {
+                Name = "SCOM",
+                PracticeTime = 5,
+                StartingTempo = 150,
+                TargetTempo = 220,
+                Notes = "Tak"
+            };
+
+            
+            using(SQLiteConnection connection = new SQLiteConnection(App.databasePath))
+            {
+                connection.CreateTable<Exercise>();
+                connection.Insert(exercise);
+            }
+        }
+
+        void ReadDatabase()
+        {
+            using(SQLiteConnection conn = new SQLiteConnection(App.databasePath))
+            {
+                conn.CreateTable<Exercise>();
+                var exercises = conn.Table<Exercise>().ToList();
+            }
+        }
+
+        private void readDatabaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            ReadDatabase();
+        }
+
+        private void deleteDatabaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (SQLiteConnection conn = new SQLiteConnection(App.databasePath))
+            {
+                conn.CreateTable<Exercise>();
+                conn.DeleteAll<Exercise>();
+            }
         }
     }
 }

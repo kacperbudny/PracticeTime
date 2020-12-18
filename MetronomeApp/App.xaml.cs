@@ -13,5 +13,10 @@ namespace MetronomeApp
     /// </summary>
     public partial class App : Application
     {
+        static readonly string databaseName = "Exercises.db";
+        static readonly string folderName = "MetronomeApp";
+        static readonly string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        public static string applicationDirectoryPath = System.IO.Path.Combine(folderPath, folderName);
+        public static string databasePath = System.IO.Path.Combine(folderPath, folderName, databaseName);
     }
 }

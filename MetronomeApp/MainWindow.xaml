@@ -8,18 +8,19 @@
         ResizeMode="CanMinimize"
         Title="MetronomeApp"
         SizeToContent="WidthAndHeight">
-    <Grid>
-        <StackPanel x:Name="WindowStackPanel" 
-                    Margin="10">
-            <Grid Margin="0,0,0,5">
-                <StackPanel HorizontalAlignment="Center" 
+    <Grid Margin="10">
+        <StackPanel Orientation="Horizontal">
+            <StackPanel x:Name="MetronomeStackPanel" 
+                    Grid.Column="1">
+                <Grid Margin="0,0,0,5">
+                    <StackPanel HorizontalAlignment="Center" 
                             Orientation="Horizontal"  
                             Margin="0,5">
-                    <Button x:Name="TempoDownButton"
+                        <Button x:Name="TempoDownButton"
                             Content="◄"
                             Style="{StaticResource changeTempoButtonsStyle}"
                             Click="TempoDownButton_Click"/>
-                    <TextBox x:Name="TempoBox" 
+                        <TextBox x:Name="TempoBox" 
                              Text="120" 
                              Margin="10,0"
                              PreviewTextInput="TempoBox_PreviewTextInput"
@@ -27,14 +28,14 @@
                              FontSize="20"
                              Width="100"
                              TextAlignment="Center"/>
-                    <Button x:Name="TempoUpButton"
+                        <Button x:Name="TempoUpButton"
                             Content="►"
                             Style="{StaticResource changeTempoButtonsStyle}"
                             Click="TempoUpButton_Click"/>
-                </StackPanel>
-            </Grid>
+                    </StackPanel>
+                </Grid>
 
-            <Button x:Name="StartButton" 
+                <Button x:Name="StartButton" 
                     Content="START"
                     FontSize="50" 
                     Click="StartButton_Click"
@@ -42,80 +43,90 @@
                     MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
                     />
 
-            <Grid Margin="0,5,0,5">
-                <GroupBox Background="GhostWhite" 
+                <Grid Margin="0,5,0,5">
+                    <GroupBox Background="GhostWhite" 
                         BorderBrush="Silver" 
                         BorderThickness="1" 
                         Padding="10,5">
-                    <GroupBox.Header>Tap Tempo</GroupBox.Header>
-                    <StackPanel HorizontalAlignment="Center" 
+                        <GroupBox.Header>Tap Tempo</GroupBox.Header>
+                        <StackPanel HorizontalAlignment="Center" 
                                 Orientation="Horizontal">
-                        <Button x:Name="CancelTapTempoButton"
+                            <Button x:Name="CancelTapTempoButton"
                                 Content="Cancel"
                                 Style="{StaticResource tapTempoButtonsStyle}"
                                 Click="CancelTapTempoButton_Click"
                                 IsEnabled="False"/>
-                        <Button x:Name="TapTempoButton"
+                            <Button x:Name="TapTempoButton"
                                 Content="Tap tempo"
                                 Style="{StaticResource tapTempoButtonsStyle}"
                                 Click="TapTempoButton_Click"
                                 Margin="5"
                                 Width="120"/>
-                        <Button x:Name="AcceptTapTempoButton"
+                            <Button x:Name="AcceptTapTempoButton"
                                 Content="Accept"
                                 Style="{StaticResource tapTempoButtonsStyle}"
                                 Click="AcceptTapTempoButton_Click"
                                 IsEnabled="False"/>
-                    </StackPanel>
-                </GroupBox>
-            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
 
-            <Grid>
-                <GroupBox Background="GhostWhite" 
+                <Grid>
+                    <GroupBox Background="GhostWhite" 
                         BorderBrush="Silver" 
                         BorderThickness="1" 
                         Padding="10,5"
-                        Width="{Binding ActualWidth, ElementName=WindowStackPanel}">
-                    <GroupBox.Header>Timer</GroupBox.Header>
-                    <StackPanel>
-                        <StackPanel HorizontalAlignment="Center" 
+                        Width="{Binding ActualWidth, ElementName=MetronomeStackPanel}">
+                        <GroupBox.Header>Timer</GroupBox.Header>
+                        <StackPanel>
+                            <StackPanel HorizontalAlignment="Center" 
                                 Orientation="Horizontal"
                                 x:Name="TimerStackPanel">
-                            <Button x:Name="TimerDownButton"
+                                <Button x:Name="TimerDownButton"
                                     Content="-"
                                     Style="{StaticResource tapTempoButtonsStyle}"
                                     Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
                                     Click="TimerDownButton_Click"/>
-                            <Label x:Name="TimerLabel" 
+                                <Label x:Name="TimerLabel" 
                                    x:FieldModifier="public"
                                    Content="01:00"
                                    Style="{StaticResource labelStyle}"
                                    Margin="5,0"/>
-                            <Button x:Name="TimerUpButton"
+                                <Button x:Name="TimerUpButton"
                                     Content="+"
                                     Style="{StaticResource tapTempoButtonsStyle}"
                                     Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
                                     Click="TimerUpButton_Click"/>
-                        </StackPanel>
-                        <StackPanel x:Name="TimerButtonsStackPanel"
+                            </StackPanel>
+                            <StackPanel x:Name="TimerButtonsStackPanel"
                                     HorizontalAlignment="Center" 
                                     Orientation="Horizontal">
-                            <Button x:Name="StartTimerButton"
+                                <Button x:Name="StartTimerButton"
                                     Content="Start timer"
                                     Margin="0,5,5,0"
                                     Style="{StaticResource tapTempoButtonsStyle}"
                                     Click="StartTimerButton_Click" />
-                            <Button x:Name="ResetTimerButton"
+                                <Button x:Name="ResetTimerButton"
                                     Content="Reset timer"
                                     Margin="0,5,0,0"
                                     Style="{StaticResource tapTempoButtonsStyle}"
                                     Click="ResetTimerButton_Click"
                                     IsEnabled="False"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </GroupBox>
-            </Grid>
+                    </GroupBox>
+                </Grid>
 
+            </StackPanel>
+            <StackPanel Margin="10,0,0,0"
+                        Width="500">
+                <Button x:Name="addExerciseButton"
+                        Content="Add" Click="addExerciseButton_Click"/>
+                <Button x:Name="readDatabaseButton"
+                        Content="Read" Click="readDatabaseButton_Click"/>
+                <Button x:Name="deleteDatabaseButton"
+                        Content="Clear" Click="deleteDatabaseButton_Click"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>
