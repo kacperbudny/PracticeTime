@@ -156,16 +156,45 @@
                             Grid.Row="0"/>
 
 
-                <ListView Margin="0,10,0,10"
+                <ListView x:Name="ExercisesListView"
+                    Margin="0,10,0,10"
                               Grid.Row="1"
-                              Grid.ColumnSpan="7">
+                              Grid.ColumnSpan="7"
+                          Width="650">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Name" Width="180"/>
-                            <GridViewColumn Header="Current tempo" Width="100"/>
-                            <GridViewColumn Header="Target tempo" Width="100"/>
-                            <GridViewColumn Header="Practice time" Width="100"/>
-                            <GridViewColumn Header="Notes" Width="180"/>
+                            <GridViewColumn Header="Name" 
+                                            Width="240" 
+                                            DisplayMemberBinding="{Binding Name}"/>
+                            <GridViewColumn Header="Tempo" 
+                                            Width="80"
+                                            >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <TextBlock Text="{Binding CurrentTempo}"/>
+                                            <TextBlock Text="/"/>
+                                            <TextBlock Text="{Binding TargetTempo}"
+                                                       FontWeight="Bold"/>
+                                            <TextBlock Text=" BPM"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Practice time" 
+                                            Width="80">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <TextBlock Text="{Binding PracticeTime}"/>
+                                            <TextBlock Text=" minutes"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Notes" 
+                                            Width="240"
+                                            DisplayMemberBinding="{Binding Notes}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

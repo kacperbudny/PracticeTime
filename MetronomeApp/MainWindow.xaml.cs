@@ -261,6 +261,8 @@ namespace MetronomeApp
             ResetTimerButton.IsEnabled = false;
         }
 
+        // EXERCICES
+
         private void AddExerciseButton_Click(object sender, RoutedEventArgs e)
         {
             Exercise exercise = new Exercise()
@@ -282,10 +284,17 @@ namespace MetronomeApp
 
         void ReadDatabase()
         {
+            List<Exercise> exercises = new List<Exercise>();
+
             using(SQLiteConnection conn = new SQLiteConnection(App.databasePath))
             {
                 conn.CreateTable<Exercise>();
-                var exercises = conn.Table<Exercise>().ToList();
+                exercises = conn.Table<Exercise>().ToList();
+            }
+
+            if(exercises != null)
+            {
+                ExercisesListView.ItemsSource = exercises;
             }
         }
 

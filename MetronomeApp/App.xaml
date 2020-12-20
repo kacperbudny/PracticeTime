@@ -24,5 +24,6 @@
         <Style TargetType="Label" x:Key="labelStyle">
             <Setter Property="FontSize" Value="20"/>
         </Style>
+
     </Application.Resources>
 </Application>
