@@ -261,7 +261,7 @@ namespace MetronomeApp
             ResetTimerButton.IsEnabled = false;
         }
 
-        private void addExerciseButton_Click(object sender, RoutedEventArgs e)
+        private void AddExerciseButton_Click(object sender, RoutedEventArgs e)
         {
             Exercise exercise = new Exercise()
             {
@@ -289,18 +289,28 @@ namespace MetronomeApp
             }
         }
 
-        private void readDatabaseButton_Click(object sender, RoutedEventArgs e)
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             ReadDatabase();
         }
 
-        private void deleteDatabaseButton_Click(object sender, RoutedEventArgs e)
+        private void DeleteExerciseButton_Click(object sender, RoutedEventArgs e)
         {
             using (SQLiteConnection conn = new SQLiteConnection(App.databasePath))
             {
                 conn.CreateTable<Exercise>();
                 conn.DeleteAll<Exercise>();
             }
+        }
+
+        private void EditExerciseButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ApplyMetronomeSettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

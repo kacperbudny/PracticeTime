@@ -53,18 +53,18 @@
                                 Orientation="Horizontal">
                             <Button x:Name="CancelTapTempoButton"
                                 Content="Cancel"
-                                Style="{StaticResource tapTempoButtonsStyle}"
+                                Style="{StaticResource defaultButtonStyle}"
                                 Click="CancelTapTempoButton_Click"
                                 IsEnabled="False"/>
                             <Button x:Name="TapTempoButton"
                                 Content="Tap tempo"
-                                Style="{StaticResource tapTempoButtonsStyle}"
+                                Style="{StaticResource defaultButtonStyle}"
                                 Click="TapTempoButton_Click"
                                 Margin="5"
                                 Width="120"/>
                             <Button x:Name="AcceptTapTempoButton"
                                 Content="Accept"
-                                Style="{StaticResource tapTempoButtonsStyle}"
+                                Style="{StaticResource defaultButtonStyle}"
                                 Click="AcceptTapTempoButton_Click"
                                 IsEnabled="False"/>
                         </StackPanel>
@@ -84,7 +84,7 @@
                                 x:Name="TimerStackPanel">
                                 <Button x:Name="TimerDownButton"
                                     Content="-"
-                                    Style="{StaticResource tapTempoButtonsStyle}"
+                                    Style="{StaticResource defaultButtonStyle}"
                                     Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
                                     Click="TimerDownButton_Click"/>
                                 <Label x:Name="TimerLabel" 
@@ -94,7 +94,7 @@
                                    Margin="5,0"/>
                                 <Button x:Name="TimerUpButton"
                                     Content="+"
-                                    Style="{StaticResource tapTempoButtonsStyle}"
+                                    Style="{StaticResource defaultButtonStyle}"
                                     Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
                                     Click="TimerUpButton_Click"/>
                             </StackPanel>
@@ -104,12 +104,12 @@
                                 <Button x:Name="StartTimerButton"
                                     Content="Start timer"
                                     Margin="0,5,5,0"
-                                    Style="{StaticResource tapTempoButtonsStyle}"
+                                    Style="{StaticResource defaultButtonStyle}"
                                     Click="StartTimerButton_Click" />
                                 <Button x:Name="ResetTimerButton"
                                     Content="Reset timer"
                                     Margin="0,5,0,0"
-                                    Style="{StaticResource tapTempoButtonsStyle}"
+                                    Style="{StaticResource defaultButtonStyle}"
                                     Click="ResetTimerButton_Click"
                                     IsEnabled="False"/>
                             </StackPanel>
@@ -118,15 +118,102 @@
                 </Grid>
 
             </StackPanel>
-            <StackPanel Margin="10,0,0,0"
-                        Width="500">
-                <Button x:Name="addExerciseButton"
-                        Content="Add" Click="addExerciseButton_Click"/>
-                <Button x:Name="readDatabaseButton"
-                        Content="Read" Click="readDatabaseButton_Click"/>
-                <Button x:Name="deleteDatabaseButton"
-                        Content="Clear" Click="deleteDatabaseButton_Click"/>
-            </StackPanel>
+
+            <Grid Margin="10,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="AddExerciseButton"
+                            Content="Add exercise" 
+                            Click="AddExerciseButton_Click"
+                            Style="{StaticResource gridButtonsStyle}"
+                            Grid.Column="0"
+                            Grid.Row="0"/>
+                <Button x:Name="EditExerciseButton"
+                            Content="Edit exercise" 
+                            Click="EditExerciseButton_Click"
+                            Style="{StaticResource gridButtonsStyle}"
+                            Grid.Column="2"
+                            Grid.Row="0"/>
+                <Button x:Name="DeleteExerciseButton"
+                            Content="Delete exercise" 
+                            Click="DeleteExerciseButton_Click"
+                            Style="{StaticResource gridButtonsStyle}"
+                            Grid.Column="4"
+                            Grid.Row="0"/>
+
+
+                <ListView Margin="0,10,0,10"
+                              Grid.Row="1"
+                              Grid.ColumnSpan="7">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" Width="180"/>
+                            <GridViewColumn Header="Current tempo" Width="100"/>
+                            <GridViewColumn Header="Target tempo" Width="100"/>
+                            <GridViewColumn Header="Practice time" Width="100"/>
+                            <GridViewColumn Header="Notes" Width="180"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <Button x:Name="ApplyMetronomeSettingsButton"
+                            Content="Set up metronome for selected song" 
+                            Click="ApplyMetronomeSettingsButton_Click"
+                            Style="{StaticResource gridButtonsStyle}"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="5"
+                            Grid.Row="2"/>
+                <Button x:Name="RefreshButton"
+                            Content="Refresh list" 
+                            Click="RefreshButton_Click"
+                            Style="{StaticResource gridButtonsStyle}"
+                            Grid.Column="6"
+                            Grid.Row="2"/>
+
+                <Grid Grid.Column="7"
+                         Grid.Row="0" >
+                    <TextBox x:Name="SearchBox" 
+                             Width="230"
+                         Padding="5,0"
+                             VerticalContentAlignment="Center"
+                             Height="36">
+                    </TextBox>
+                    <TextBlock IsHitTestVisible="False" 
+                               Text="Search..." 
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Left" 
+                               Margin="10,0,0,0" 
+                               Foreground="DarkGray"
+                               >
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=SearchBox}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+            </Grid>
+
+
         </StackPanel>
     </Grid>
 </Window>
