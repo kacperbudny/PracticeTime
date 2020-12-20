@@ -33,6 +33,7 @@ namespace MetronomeApp
         readonly Metronome metronome = new Metronome();
         readonly TapTempo tapTempo = new TapTempo();
         readonly TimekeeperHelper timekeeperHelper = new TimekeeperHelper();
+        List<Exercise> exercises = new List<Exercise>();
 
         readonly DispatcherTimer timekeeper = new DispatcherTimer();
         readonly Stopwatch sw = new Stopwatch();
@@ -86,8 +87,12 @@ namespace MetronomeApp
 
         private void TempoBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+            e.Handled = Utilities.AllowNumericInputOnly(e);
+        }
+
+        private void TempoBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = Utilities.BlockSpaceInput(e);
         }
 
         private async void TempoBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -265,27 +270,13 @@ namespace MetronomeApp
 
         private void AddExerciseButton_Click(object sender, RoutedEventArgs e)
         {
-            Exercise exercise = new Exercise()
-            {
-                Name = "SCOM",
-                PracticeTime = 5,
-                StartingTempo = 150,
-                TargetTempo = 220,
-                Notes = "Tak"
-            };
-
-            
-            using(SQLiteConnection connection = new SQLiteConnection(App.databasePath))
-            {
-                connection.CreateTable<Exercise>();
-                connection.Insert(exercise);
-            }
+            AddExerciseWindow addExerciseWindow = new AddExerciseWindow(exercises);
+            addExerciseWindow.ShowDialog();
+            ReadDatabase();
         }
 
         void ReadDatabase()
         {
-            List<Exercise> exercises = new List<Exercise>();
-
             using(SQLiteConnection conn = new SQLiteConnection(App.databasePath))
             {
                 conn.CreateTable<Exercise>();

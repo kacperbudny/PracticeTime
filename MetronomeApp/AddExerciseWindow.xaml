@@ -11,7 +11,7 @@
     <StackPanel Margin="10,5,10,10">
         <StackPanel>
             <Label Content="Name"/>
-            <TextBox />
+            <TextBox x:Name="NameTextBox"/>
         </StackPanel>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -20,29 +20,37 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Margin="0,0,10,0">
                 <Label Content="Starting tempo"/>
-                <TextBox />
+                <TextBox x:Name="StartingTempoTextBox"
+                         PreviewTextInput="PreviewNumericTextInput"
+                         PreviewKeyDown="PreviewSpaceKeyDown"/>
             </StackPanel>
             <StackPanel Grid.Column="1">
                 <Label Content="Target tempo"/>
-                <TextBox />
+                <TextBox x:Name="TargetTempoTextBox"
+                         PreviewTextInput="PreviewNumericTextInput"
+                         PreviewKeyDown="PreviewSpaceKeyDown"/>
             </StackPanel>
         </Grid>
         
         <StackPanel>
             <Label Content="Practice time (in minutes)"/>
-            <TextBox />
+            <TextBox x:Name="PracticeTimeTextBox"
+                     PreviewTextInput="PreviewNumericTextInput"
+                     PreviewKeyDown="PreviewSpaceKeyDown"/>
         </StackPanel>
         <StackPanel>
             <Label Content="Notes (additional information)"/>
-            <TextBox />
+            <TextBox x:Name="NotesTextBox"/>
         </StackPanel>
         <DockPanel HorizontalAlignment="Center" 
                    Margin="0,15,0,0">
-            <Button Content="Add exercise" 
+            <Button x:Name="AddButton"
+                    Content="Add exercise" 
                     Margin="0,0,10,0" 
-                    Padding="10,0"/>
-            <Button Content="Cancel"
-                    Padding="10,0"/>
+                    Padding="10,0" Click="AddButton_Click"/>
+            <Button x:Name="CancelButton"
+                    Content="Cancel"
+                    Padding="10,0" Click="CancelButton_Click"/>
         </DockPanel>
     </StackPanel>
 </Window>

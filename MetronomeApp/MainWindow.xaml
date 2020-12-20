@@ -27,7 +27,8 @@
                              TextChanged="TempoBox_TextChanged"
                              FontSize="20"
                              Width="100"
-                             TextAlignment="Center"/>
+                             TextAlignment="Center"
+                                 PreviewKeyDown="TempoBox_PreviewKeyDown"/>
                         <Button x:Name="TempoUpButton"
                             Content="►"
                             Style="{StaticResource changeTempoButtonsStyle}"
