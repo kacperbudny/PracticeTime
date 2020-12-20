@@ -296,21 +296,77 @@ namespace MetronomeApp
 
         private void DeleteExerciseButton_Click(object sender, RoutedEventArgs e)
         {
-            using (SQLiteConnection conn = new SQLiteConnection(App.databasePath))
+            Exercise selectedExercise = (Exercise)ExercisesListView.SelectedItem;
+
+            var result = MessageBox.Show("Are you sure you want to delete this exercise? " + selectedExercise.Name, "Deleting exercise", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+
+            switch(result)
             {
-                conn.CreateTable<Exercise>();
-                conn.DeleteAll<Exercise>();
+                case MessageBoxResult.Yes:
+                    using (SQLiteConnection conn = new SQLiteConnection(App.databasePath))
+                    {
+                        conn.CreateTable<Exercise>();
+                        conn.Delete((Exercise)ExercisesListView.SelectedItem);
+                    }
+                    ReadDatabase();
+                    break;
+                case MessageBoxResult.No:
+                    break;
             }
         }
 
         private void EditExerciseButton_Click(object sender, RoutedEventArgs e)
         {
-
+            EditExerciseWindow editExerciseWindow = new EditExerciseWindow(exercises, (Exercise)ExercisesListView.SelectedItem);
+            editExerciseWindow.ShowDialog();
+            ReadDatabase();
         }
 
         private void ApplyMetronomeSettingsButton_Click(object sender, RoutedEventArgs e)
         {
+            ApplyMetronomeSettings();
+        }
 
+        private void ExercisesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DependencyObject obj = (DependencyObject)e.OriginalSource;
+
+            while (obj != null && obj != ExercisesListView)
+            {
+                if (obj.GetType() == typeof(ListViewItem))
+                {
+                    ApplyMetronomeSettings();
+
+                    break;
+                }
+                obj = VisualTreeHelper.GetParent(obj);
+            }
+        }
+
+        private void ApplyMetronomeSettings()
+        {
+            Exercise selectedExercise = (Exercise)ExercisesListView.SelectedItem;
+
+            TempoBox.Text = selectedExercise.CurrentTempo.ToString();
+            timekeeperHelper.Time = 60 * selectedExercise.PracticeTime;
+            UpdateTimerLabel();
+
+        }
+
+        private void ExercisesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(ExercisesListView.SelectedIndex == -1)
+            {
+                EditExerciseButton.IsEnabled = false;
+                DeleteExerciseButton.IsEnabled = false;
+                ApplyMetronomeSettingsButton.IsEnabled = false;
+            }
+            else
+            {
+                EditExerciseButton.IsEnabled = true;
+                DeleteExerciseButton.IsEnabled = true;
+                ApplyMetronomeSettingsButton.IsEnabled = true;
+            }
         }
     }
 }
