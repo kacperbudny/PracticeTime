@@ -21,5 +21,9 @@ namespace MetronomeApp.Classes
         [NotNull]
         public int PracticeTime { get; set; }
         public string Notes { get; set; }
+        [NotNull]
+        public bool IsInSessionMode { get; set; }
+        [Unique]
+        public int SessionModeOrder { get; set; }
     }
 }

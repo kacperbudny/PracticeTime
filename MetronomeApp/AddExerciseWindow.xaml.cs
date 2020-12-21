@@ -65,7 +65,8 @@ namespace MetronomeApp
                 StartingTempo = Int32.Parse(StartingTempoTextBox.Text),
                 CurrentTempo = Int32.Parse(StartingTempoTextBox.Text),
                 TargetTempo = Int32.Parse(TargetTempoTextBox.Text),
-                Notes = NotesTextBox.Text.Trim()
+                Notes = NotesTextBox.Text.Trim(),
+                IsInSessionMode = false
             };
 
 

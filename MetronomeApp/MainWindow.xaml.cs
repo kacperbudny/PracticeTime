@@ -179,10 +179,10 @@ namespace MetronomeApp
         {
             TempoBox.Text = tapTempo.FinalTempo.ToString();
             ResetAfterTapTempo();
+            StartButton.Content = "STOP";
 
             await Task.Delay(500);
             await metronome.Run();
-            StartButton.Content = "STOP";
         }
 
         private void CancelTapTempoButton_Click(object sender, RoutedEventArgs e)
@@ -298,7 +298,8 @@ namespace MetronomeApp
         {
             Exercise selectedExercise = (Exercise)ExercisesListView.SelectedItem;
 
-            var result = MessageBox.Show("Are you sure you want to delete this exercise? " + selectedExercise.Name, "Deleting exercise", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            var result = MessageBox.Show("Are you sure you want to delete this exercise? " + selectedExercise.Name, 
+                "Deleting exercise", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
 
             switch(result)
             {
@@ -360,13 +361,54 @@ namespace MetronomeApp
                 EditExerciseButton.IsEnabled = false;
                 DeleteExerciseButton.IsEnabled = false;
                 ApplyMetronomeSettingsButton.IsEnabled = false;
+                SaveMetronomeSettingsIntoItemButton.IsEnabled = false;
             }
             else
             {
                 EditExerciseButton.IsEnabled = true;
                 DeleteExerciseButton.IsEnabled = true;
                 ApplyMetronomeSettingsButton.IsEnabled = true;
+                SaveMetronomeSettingsIntoItemButton.IsEnabled = true;
             }
+        }
+
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var filteredList = exercises.Where(ex => ex.Name.ToLower().Contains(SearchBox.Text.ToLower())).ToList();
+
+            ExercisesListView.ItemsSource = filteredList;
+        }
+
+        private void SaveMetronomeSettingsIntoItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            Exercise exercise = (Exercise)ExercisesListView.SelectedItem;
+
+            if(Int32.Parse(TempoBox.Text) > exercise.TargetTempo)
+            {
+                var result = MessageBox.Show("The current tempo of the metronome is higher than the selected exercise's target tempo.\n\n" +
+                    "Do you want to update the target tempo of the selected exercise to match the metronome's tempo?", 
+                    "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        exercise.TargetTempo = Int32.Parse(TempoBox.Text);
+                        break;
+
+                    case MessageBoxResult.No:
+                        return;
+                }
+            }
+
+            exercise.CurrentTempo = Int32.Parse(TempoBox.Text);
+
+            using (SQLiteConnection connection = new SQLiteConnection(App.databasePath))
+            {
+                connection.CreateTable<Exercise>();
+                connection.Update(exercise);
+            }
+
+            ReadDatabase();
         }
     }
 }
