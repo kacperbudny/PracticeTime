@@ -8,8 +8,15 @@
         ResizeMode="CanMinimize"
         Title="MetronomeApp"
         SizeToContent="WidthAndHeight">
-    <Grid Margin="10">
-        <StackPanel Orientation="Horizontal">
+    <Grid>
+        <Rectangle x:Name="OverlayRectangle"
+                   Fill="Black" 
+                   Stroke="Black" 
+                   Panel.ZIndex="1" 
+                   Opacity="0.3"
+                   Visibility="Hidden"/>
+        <StackPanel Orientation="Horizontal" 
+                    Margin="10">
             <StackPanel x:Name="MetronomeStackPanel" 
                     Grid.Column="1">
                 <Grid Margin="0,0,0,5">
@@ -169,6 +176,10 @@
                       Grid.ColumnSpan="7"
                          Grid.Row="1" 
                       Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
                     <TextBox x:Name="SearchBox" 
                          Padding="5,0"
                              VerticalContentAlignment="Center"
@@ -193,23 +204,53 @@
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
+
+                    <ComboBox Grid.Column="1"
+                              Margin="10,0,0,0"
+                              Name="ExercisesCategoriesComboBox"
+                              Text="All exercices"
+                              FontSize="16"
+                              VerticalContentAlignment="Center"
+                              HorizontalContentAlignment="Center"
+                              Padding="10,0"
+                              Width="250"
+                              SelectionChanged="ExercisesCategoriesComboBox_SelectionChanged">
+                        <ComboBoxItem>
+                            <TextBlock Text="All exercices"/>
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <TextBlock Text="Exercices in session mode"/>
+                        </ComboBoxItem>
+                    </ComboBox>
                 </Grid>
 
                 <ListView x:Name="ExercisesListView"
                     Margin="0,10,0,10"
                               Grid.Row="2"
                               Grid.ColumnSpan="7"
-                          Width="650"
+                          Width="700"
                           MouseDoubleClick="ExercisesListView_MouseDoubleClick"
-                          SelectionChanged="ExercisesListView_SelectionChanged">
+                          SelectionChanged="ExercisesListView_SelectionChanged"
+                          >
                     <ListView.View>
                         <GridView>
+                            <GridViewColumn Header="Session" 
+                                            Width="Auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel HorizontalAlignment="Center">
+                                            <CheckBox Click="CheckBox_Click"
+                                                      IsChecked="{Binding IsInSessionMode}" 
+                                                      HorizontalAlignment="Center"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Header="Name" 
-                                            Width="240" 
+                                            Width="Auto" 
                                             DisplayMemberBinding="{Binding Name}"/>
                             <GridViewColumn Header="Tempo" 
-                                            Width="80"
-                                            >
+                                            Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <DockPanel>
@@ -223,7 +264,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="Practice time" 
-                                            Width="80">
+                                            Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <DockPanel>
@@ -234,8 +275,25 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="Notes" 
-                                            Width="240"
+                                            Width="Auto"
                                             DisplayMemberBinding="{Binding Notes}"/>
+                            <GridViewColumn Width="Auto"
+                                            x:Name="ButtonsColumn"
+                                            >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <Button x:Name="ListDownButton"
+                                                    Content="▼"
+                                                    Padding="2,0"
+                                                    Margin="0,0,5,0"/>
+                                            <Button x:Name="ListUpButton"
+                                                    Content="▲"
+                                                    Padding="2,0"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>

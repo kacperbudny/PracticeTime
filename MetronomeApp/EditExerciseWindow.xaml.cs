@@ -28,6 +28,9 @@ namespace MetronomeApp
         {
             InitializeComponent();
 
+            this.Owner = Application.Current.MainWindow;
+            WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
             NameTextBox.Text = exercise.Name;
             PracticeTimeTextBox.Text = exercise.PracticeTime.ToString();
             CurrentTempoTextBox.Text = exercise.CurrentTempo.ToString();

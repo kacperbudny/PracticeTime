@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MetronomeApp"
         mc:Ignorable="d"
-        ResizeMode="CanMinimize"
-        Title="Add new exercise" SizeToContent="Height"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Title="Add new exercise" 
+        SizeToContent="Height"
         Width="250">
     <StackPanel Margin="10,5,10,10">
         <StackPanel>

@@ -23,7 +23,6 @@ namespace MetronomeApp.Classes
         public string Notes { get; set; }
         [NotNull]
         public bool IsInSessionMode { get; set; }
-        [Unique]
         public int SessionModeOrder { get; set; }
     }
 }

@@ -27,6 +27,9 @@ namespace MetronomeApp
         {
             InitializeComponent();
 
+            this.Owner = Application.Current.MainWindow;
+            WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
             this.exercises = exercises;
         }
 

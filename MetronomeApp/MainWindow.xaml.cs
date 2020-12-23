@@ -52,7 +52,7 @@ namespace MetronomeApp
                 Directory.CreateDirectory(App.applicationDirectoryPath);
             }
 
-            ReadDatabase();
+            ExercisesCategoriesComboBox.SelectedIndex = 0;
 
             sw.Start();
         }
@@ -270,8 +270,10 @@ namespace MetronomeApp
 
         private void AddExerciseButton_Click(object sender, RoutedEventArgs e)
         {
+            OverlayRectangle.Visibility = Visibility.Visible;
             AddExerciseWindow addExerciseWindow = new AddExerciseWindow(exercises);
             addExerciseWindow.ShowDialog();
+            OverlayRectangle.Visibility = Visibility.Hidden;
             ReadDatabase();
         }
 
@@ -285,7 +287,14 @@ namespace MetronomeApp
 
             if(exercises != null)
             {
-                ExercisesListView.ItemsSource = exercises;
+                if (ExercisesCategoriesComboBox.SelectedIndex == 0)
+                {
+                    ExercisesListView.ItemsSource = exercises;
+                }
+                else if (ExercisesCategoriesComboBox.SelectedIndex == 1)
+                {
+                    ExercisesListView.ItemsSource = exercises.Where(ex => ex.IsInSessionMode == true).ToList().OrderBy(ex => ex.SessionModeOrder);
+                }
             }
         }
 
@@ -311,6 +320,7 @@ namespace MetronomeApp
                     }
                     ReadDatabase();
                     break;
+
                 case MessageBoxResult.No:
                     break;
             }
@@ -318,8 +328,10 @@ namespace MetronomeApp
 
         private void EditExerciseButton_Click(object sender, RoutedEventArgs e)
         {
+            OverlayRectangle.Visibility = Visibility.Visible;
             EditExerciseWindow editExerciseWindow = new EditExerciseWindow(exercises, (Exercise)ExercisesListView.SelectedItem);
             editExerciseWindow.ShowDialog();
+            OverlayRectangle.Visibility = Visibility.Hidden;
             ReadDatabase();
         }
 
@@ -408,6 +420,40 @@ namespace MetronomeApp
                 connection.Update(exercise);
             }
 
+            ReadDatabase();
+        }
+
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            var checkbox = (CheckBox)e.OriginalSource;
+            Exercise exercise = (Exercise)checkbox.DataContext;
+
+            if(checkbox.IsChecked == false)
+            {
+                exercise.IsInSessionMode = false;
+                exercise.SessionModeOrder = 0;
+            }
+            else
+            {
+                exercise.IsInSessionMode = true;
+                int highestSessionOrder = exercises.Max(ex => ex.SessionModeOrder);
+                exercise.SessionModeOrder = highestSessionOrder + 1;
+            }
+
+            using (SQLiteConnection connection = new SQLiteConnection(App.databasePath))
+            {
+                connection.CreateTable<Exercise>();
+                connection.Update(exercise);
+            }
+
+            if(ExercisesCategoriesComboBox.SelectedIndex == 1)
+            {
+                ReadDatabase();
+            }
+        }
+
+        private void ExercisesCategoriesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
             ReadDatabase();
         }
     }
