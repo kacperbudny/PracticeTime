@@ -25,5 +25,13 @@
             <Setter Property="FontSize" Value="20"/>
         </Style>
 
+        <Style TargetType="ListViewItem" x:Key="disableListViewSelectionStyle">
+            <Setter Property="Focusable" Value="False"/>
+        </Style>
+
+        <Style TargetType="ListViewItem" x:Key="enableListViewSelectionStyle">
+            <Setter Property="Focusable" Value="True"/>
+        </Style>
+
     </Application.Resources>
 </Application>

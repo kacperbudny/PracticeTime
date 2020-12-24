@@ -317,24 +317,30 @@
                                 Click="ApplyMetronomeSettingsButton_Click"
                                 Style="{StaticResource gridButtonsStyle}"
                                 Grid.Column="0"
-                                Grid.Row="3"
                             IsEnabled="False"/>
 
-                    <Button x:Name="StartSessionModeButton"
+                    <DockPanel  Grid.Column="1"
+                                Margin="20,0,10,0">
+                        <Button x:Name="StartSessionModeButton"
                                 Content="Start session" 
                                 FontWeight="Bold"
                                 Click="StartSessionModeButton_Click"
-                                Style="{StaticResource gridButtonsStyle}"
-                                Grid.Column="1"
-                                Grid.Row="3"
-                                Margin="10,0"/>
+                                Style="{StaticResource gridButtonsStyle}"/>
+                        <Ellipse Margin="5,0,5,0"
+                                Width="15"
+                                Height="15"
+                                Stroke="Black"
+                                StrokeThickness="1"
+                                 Fill="DarkSlateGray"
+                                 x:Name="SessionIndicator"/>
+                    </DockPanel>
+
 
                     <Button x:Name="SaveMetronomeSettingsIntoItemButton"
                                 Content="Save current tempo into selected exercise" 
                                 Click="SaveMetronomeSettingsIntoItemButton_Click"
                                 Style="{StaticResource gridButtonsStyle}"
                                 Grid.Column="2"
-                                Grid.Row="3"
                             IsEnabled="False"/>
                 </Grid>
 

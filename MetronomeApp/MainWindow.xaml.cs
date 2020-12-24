@@ -226,13 +226,7 @@ namespace MetronomeApp
                 {
                     Exercise exercise = (Exercise)ExercisesListView.Items[currentSessionExercise];
 
-                    exercise.CurrentTempo = Int32.Parse(TempoBox.Text);
-
-                    using (SQLiteConnection connection = new SQLiteConnection(App.databasePath))
-                    {
-                        connection.CreateTable<Exercise>();
-                        connection.Update(exercise);
-                    }
+                    SaveTempoIntoItem(exercise);
 
                     currentSessionExercise++;
 
@@ -242,11 +236,14 @@ namespace MetronomeApp
                     {
                         ApplyMetronomeSettings((Exercise)ExercisesListView.Items[currentSessionExercise]);
 
+                        ExercisesListView.SelectedIndex = currentSessionExercise;
+
                         await StartMetronomeAndTimerAsync();
                     }
                     else
                     {
-                        MessageBox.Show("Congratulations! You've finished your session.");
+                        MessageBox.Show("Congratulations! You've finished your session.\n\n" +
+                            "You've spent x playing x exercises and raised your total BPMs by x.");
 
                         ExitSessionMode();
                     }
@@ -297,6 +294,11 @@ namespace MetronomeApp
         }
 
         private void ResetTimerButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetTimer();
+        }
+
+        private void ResetTimer()
         {
             timekeeper.Stop();
             timekeeperHelper.Reset();
@@ -442,6 +444,13 @@ namespace MetronomeApp
         {
             Exercise exercise = (Exercise)ExercisesListView.SelectedItem;
 
+            SaveTempoIntoItem(exercise);
+
+            ReadDatabase();
+        }
+
+        private void SaveTempoIntoItem(Exercise exercise)
+        {
             if (Int32.Parse(TempoBox.Text) > exercise.TargetTempo)
             {
                 var result = MessageBox.Show("The current tempo of the metronome is higher than the selected exercise's target tempo.\n\n" +
@@ -466,8 +475,6 @@ namespace MetronomeApp
                 connection.CreateTable<Exercise>();
                 connection.Update(exercise);
             }
-
-            ReadDatabase();
         }
 
         private void CheckBox_Click(object sender, RoutedEventArgs e)
@@ -593,6 +600,9 @@ namespace MetronomeApp
                 StartSessionModeButton.Content = "Cancel session";
                 ButtonsColumn.Width = 0;
                 currentSessionExercise = 0;
+                SessionIndicator.Fill = Brushes.Lime;
+                ExercisesListView.ItemContainerStyle = (Style)FindResource("disableListViewSelectionStyle");
+                ExercisesListView.SelectedIndex = currentSessionExercise;
 
                 ApplyMetronomeSettings((Exercise)ExercisesListView.Items[currentSessionExercise]);
 
@@ -600,7 +610,18 @@ namespace MetronomeApp
             }
             else
             {
-                ExitSessionMode();
+                var result = MessageBox.Show("Are you sure you want to cancel your sesssion?",
+                    "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        ExitSessionMode();
+                        break;
+
+                    case MessageBoxResult.No:
+                        return;
+                }
             }
         }
 
@@ -610,13 +631,27 @@ namespace MetronomeApp
 
             StartTimer();
 
-            await Task.Delay(500);
+            await Task.Delay(1000);
             await metronome.Run();
         }
 
         private void ExitSessionMode()
         {
+            StopMetronome();
+            ResetTimer();
 
+            SessionIndicator.Fill = Brushes.DarkSlateGray;
+            isSessionModeEnabled = false;
+            AddExerciseButton.IsEnabled = true;
+            RefreshButton.IsEnabled = true;
+            ExercisesCategoriesComboBox.IsEnabled = true;
+            SearchBox.IsEnabled = true;
+            StartSessionModeButton.Content = "Start session";
+            ButtonsColumn.Width = double.NaN;
+            currentSessionExercise = 0;
+            ExercisesListView.ItemContainerStyle = (Style)FindResource("enableListViewSelectionStyle");
+
+            ReadDatabase();
         }
     }
 }
