@@ -230,10 +230,32 @@
                               Grid.ColumnSpan="7"
                           Width="700"
                           MouseDoubleClick="ExercisesListView_MouseDoubleClick"
-                          SelectionChanged="ExercisesListView_SelectionChanged"
-                          >
+                          SelectionChanged="ExercisesListView_SelectionChanged">
                     <ListView.View>
-                        <GridView>
+                        <GridView x:Name="ExercisesGridView">
+                            <GridViewColumn Width="0"
+                                            x:Name="ButtonsColumn">
+                                <GridViewColumn.HeaderContainerStyle>
+                                    <Style TargetType="{x:Type FrameworkElement}">
+                                        <Setter Property="IsHitTestVisible" Value="False"/>
+                                    </Style>
+                                </GridViewColumn.HeaderContainerStyle>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate x:Name="ButtonsDataTemplate">
+                                        <DockPanel>
+                                            <Button x:Name="ListDownButton"
+                                                    Content="▼"
+                                                    Padding="2,0"
+                                                    Margin="0,0,5,0"
+                                                    Click="ListDownButton_Click"/>
+                                            <Button x:Name="ListUpButton"
+                                                    Content="▲"
+                                                    Padding="2,0"
+                                                    Click="ListUpButton_Click"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Header="Session" 
                                             Width="Auto">
                                 <GridViewColumn.CellTemplate>
@@ -277,23 +299,8 @@
                             <GridViewColumn Header="Notes" 
                                             Width="Auto"
                                             DisplayMemberBinding="{Binding Notes}"/>
-                            <GridViewColumn Width="Auto"
-                                            x:Name="ButtonsColumn"
-                                            >
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <DockPanel>
-                                            <Button x:Name="ListDownButton"
-                                                    Content="▼"
-                                                    Padding="2,0"
-                                                    Margin="0,0,5,0"/>
-                                            <Button x:Name="ListUpButton"
-                                                    Content="▲"
-                                                    Padding="2,0"/>
-                                        </DockPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+
+
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -301,9 +308,9 @@
                 <Grid Grid.ColumnSpan="7"
                       Grid.Row="3">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Button x:Name="ApplyMetronomeSettingsButton"
                                 Content="Set up for selected exercise" 
@@ -312,7 +319,16 @@
                                 Grid.Column="0"
                                 Grid.Row="3"
                             IsEnabled="False"/>
-                
+
+                    <Button x:Name="StartSessionModeButton"
+                                Content="Start session" 
+                                FontWeight="Bold"
+                                Click="StartSessionModeButton_Click"
+                                Style="{StaticResource gridButtonsStyle}"
+                                Grid.Column="1"
+                                Grid.Row="3"
+                                Margin="10,0"/>
+
                     <Button x:Name="SaveMetronomeSettingsIntoItemButton"
                                 Content="Save current tempo into selected exercise" 
                                 Click="SaveMetronomeSettingsIntoItemButton_Click"
