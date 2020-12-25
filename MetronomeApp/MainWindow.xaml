@@ -129,19 +129,20 @@
 
             <Grid Margin="10,0,0,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="0" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="0" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="0" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
@@ -228,9 +229,10 @@
                     Margin="0,10,0,10"
                               Grid.Row="2"
                               Grid.ColumnSpan="7"
-                          Width="700"
+                          Width="750"
                           MouseDoubleClick="ExercisesListView_MouseDoubleClick"
-                          SelectionChanged="ExercisesListView_SelectionChanged">
+                          SelectionChanged="ExercisesListView_SelectionChanged"
+                          SelectionMode="Single">
                     <ListView.View>
                         <GridView x:Name="ExercisesGridView">
                             <GridViewColumn Width="0"
@@ -269,7 +271,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="Name" 
-                                            Width="Auto" 
+                                            Width="Auto"
                                             DisplayMemberBinding="{Binding Name}"/>
                             <GridViewColumn Header="Tempo" 
                                             Width="Auto">
@@ -309,32 +311,15 @@
                       Grid.Row="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="10" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Button x:Name="ApplyMetronomeSettingsButton"
-                                Content="Set up for selected exercise" 
+                                Content="Set up metronome for selected exercise" 
                                 Click="ApplyMetronomeSettingsButton_Click"
                                 Style="{StaticResource gridButtonsStyle}"
                                 Grid.Column="0"
                             IsEnabled="False"/>
-
-                    <DockPanel  Grid.Column="1"
-                                Margin="20,0,10,0">
-                        <Button x:Name="StartSessionModeButton"
-                                Content="Start session" 
-                                FontWeight="Bold"
-                                Click="StartSessionModeButton_Click"
-                                Style="{StaticResource gridButtonsStyle}"/>
-                        <Ellipse Margin="5,0,5,0"
-                                Width="15"
-                                Height="15"
-                                Stroke="Black"
-                                StrokeThickness="1"
-                                 Fill="DarkSlateGray"
-                                 x:Name="SessionIndicator"/>
-                    </DockPanel>
-
 
                     <Button x:Name="SaveMetronomeSettingsIntoItemButton"
                                 Content="Save current tempo into selected exercise" 
@@ -343,6 +328,52 @@
                                 Grid.Column="2"
                             IsEnabled="False"/>
                 </Grid>
+
+                <Grid
+                                Grid.ColumnSpan="7"
+                                Grid.Row="4"
+                            Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="PreviousSessionExerciseButton"
+                                Click="PreviousSessionExerciseButton_Click"
+                                Style="{StaticResource gridButtonsStyle}"
+                                Content="◄ Previous exercise"
+                            Width="160"
+                            Grid.Column="0"
+                            IsEnabled="False"/>
+                    <Button x:Name="StartSessionModeButton"
+                                FontWeight="Bold"
+                                Click="StartSessionModeButton_Click"
+                                Style="{StaticResource gridButtonsStyle}"
+                            Margin="10,0,10,0"
+                            Grid.Column="1">
+                        <DockPanel>
+                            <Ellipse Margin="0,0,10,0"
+                                     Width="15"
+                                     Height="15"
+                                     Stroke="Black"
+                                     StrokeThickness="1"
+                                     Fill="DarkSlateGray"
+                                     x:Name="SessionIndicator"/>
+                            <TextBlock Text="Start session"
+                                       Margin="0,0,0,0"
+                                       x:Name="SessionButtonLabel"/>
+                        </DockPanel>
+                    </Button>
+
+                    <Button x:Name="NextSessionExerciseButton"
+                                Click="NextSessionExerciseButton_Click"
+                                Style="{StaticResource gridButtonsStyle}"
+                            Content="Next exercise ►"
+                            Width="160"
+                            Grid.Column="2"
+                            IsEnabled="False"/>
+                </Grid>
+
 
 
             </Grid>
