@@ -11,10 +11,44 @@
     <Grid>
         <Rectangle x:Name="OverlayRectangle"
                    Fill="Black" 
-                   Stroke="Black" 
                    Panel.ZIndex="1" 
                    Opacity="0.3"
                    Visibility="Hidden"/>
+        
+        <Grid x:Name="CountdownGrid"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Panel.ZIndex="1"
+              Visibility="Hidden">
+            <Rectangle Fill="White" 
+                       Width="150"
+                       Height="100"
+                       Stroke="Black"/>
+            <TextBlock Text="3"
+                        HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="50"
+                       FontWeight="DemiBold"/>
+        </Grid>
+
+        <Grid x:Name="InformationGrid"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Panel.ZIndex="1"
+              Visibility="Hidden">
+            <Rectangle Fill="White" 
+                       Width="400"
+                       Height="200"
+                       Stroke="Black"/>
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <TextBlock Text="Congratulations!"
+                        
+                           FontSize="20"/>
+            </StackPanel>
+        </Grid>
+
+
         <StackPanel Orientation="Horizontal" 
                     Margin="10">
             <StackPanel x:Name="MetronomeStackPanel" 
