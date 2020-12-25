@@ -41,6 +41,8 @@ namespace MetronomeApp
 
         bool isSessionModeEnabled = false;
         int currentSessionExercise;
+        Stopwatch sessionTime = new Stopwatch();
+        int totalBPMIncrease;
 
         public MainWindow()
         {
@@ -226,7 +228,19 @@ namespace MetronomeApp
                 {
                     Exercise exercise = (Exercise)ExercisesListView.Items[currentSessionExercise];
 
+                    int currentTempoBeforeUpdating = exercise.CurrentTempo;
+                    int targetTempoBeforeUpdating = exercise.TargetTempo;
+
                     SaveTempoIntoItem(exercise);
+
+                    if (Int32.Parse(TempoBox.Text) > exercise.TargetTempo && targetTempoBeforeUpdating == exercise.TargetTempo)
+                    {
+                        totalBPMIncrease += exercise.TargetTempo - currentTempoBeforeUpdating;
+                    }
+                    else
+                    {
+                        totalBPMIncrease += Int32.Parse(TempoBox.Text) - currentTempoBeforeUpdating;
+                    }
 
                     currentSessionExercise++;
 
@@ -242,10 +256,11 @@ namespace MetronomeApp
                     }
                     else
                     {
-                        MessageBox.Show("Congratulations! You've finished your session.\n\n" +
-                            "You've spent x playing x exercises and raised your total BPMs by x.");
-
                         ExitSessionMode();
+
+                        MessageBox.Show("Congratulations! You've finished your session.\n\n" +
+                            "You've spent " + sessionTime.Elapsed.ToString(@"hh\:mm\:ss") + " playing " 
+                            + ExercisesListView.Items.Count + " exercises and raised your total BPMs by " + totalBPMIncrease + ".");
                     }
                 }
             }
@@ -451,6 +466,8 @@ namespace MetronomeApp
 
         private void SaveTempoIntoItem(Exercise exercise)
         {
+            bool matchCurrentAndTargetTempo = false;
+
             if (Int32.Parse(TempoBox.Text) > exercise.TargetTempo)
             {
                 var result = MessageBox.Show("The current tempo of the metronome is higher than the selected exercise's target tempo.\n\n" +
@@ -464,11 +481,16 @@ namespace MetronomeApp
                         break;
 
                     case MessageBoxResult.No:
-                        return;
+                        exercise.CurrentTempo = exercise.TargetTempo;
+                        matchCurrentAndTargetTempo = true;
+                        break;
                 }
             }
 
-            exercise.CurrentTempo = Int32.Parse(TempoBox.Text);
+            if (!matchCurrentAndTargetTempo)
+            {
+                exercise.CurrentTempo = Int32.Parse(TempoBox.Text);
+            }
 
             using (SQLiteConnection connection = new SQLiteConnection(App.databasePath))
             {
@@ -603,6 +625,8 @@ namespace MetronomeApp
                 SessionIndicator.Fill = Brushes.Lime;
                 ExercisesListView.ItemContainerStyle = (Style)FindResource("disableListViewSelectionStyle");
                 ExercisesListView.SelectedIndex = currentSessionExercise;
+                sessionTime.Restart();
+                totalBPMIncrease = 0;
 
                 ApplyMetronomeSettings((Exercise)ExercisesListView.Items[currentSessionExercise]);
 
@@ -650,6 +674,7 @@ namespace MetronomeApp
             ButtonsColumn.Width = double.NaN;
             currentSessionExercise = 0;
             ExercisesListView.ItemContainerStyle = (Style)FindResource("enableListViewSelectionStyle");
+            sessionTime.Stop();
 
             ReadDatabase();
         }
