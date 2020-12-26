@@ -108,6 +108,7 @@
     <Compile Include="Classes\Metronome.cs" />
     <Compile Include="Classes\TapTempo.cs" />
     <Compile Include="Classes\TimekeeperHelper.cs" />
+    <Compile Include="Classes\TrainingSession.cs" />
     <Compile Include="Classes\Utilities.cs" />
     <Compile Include="EditExerciseWindow.xaml.cs">
       <DependentUpon>EditExerciseWindow.xaml</DependentUpon>
@@ -146,6 +147,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\clock-high.wav" />
+    <None Include="Resources\clock-low.wav" />
+    <None Include="Resources\completed.wav" />
     <Content Include="Resources\metronome.wav" />
     <None Include="Resources\timekeeper.wav" />
   </ItemGroup>

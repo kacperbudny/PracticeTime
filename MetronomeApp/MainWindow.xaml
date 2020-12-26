@@ -21,14 +21,29 @@
               Panel.ZIndex="1"
               Visibility="Hidden">
             <Rectangle Fill="White" 
-                       Width="150"
-                       Height="100"
+                       Width="300"
+                       Height="150"
                        Stroke="Black"/>
-            <TextBlock Text="3"
+            <StackPanel VerticalAlignment="Center"
                         HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="50"
-                       FontWeight="DemiBold"/>
+                        Width="300">
+                <TextBlock x:Name="CountdownTextblock"
+                            Text="3"
+                            HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="50"
+                           FontWeight="DemiBold"/>
+                <TextBlock
+                            Text="Coming next:"
+                            HorizontalAlignment="Center"
+                           FontSize="18"/>
+                <TextBlock x:Name="ComingSongTextblock"
+                            Text="Song name"
+                            HorizontalAlignment="Center"
+                           FontSize="18"
+                    FontWeight="DemiBold"
+                           MaxWidth="300"/>
+            </StackPanel>
         </Grid>
 
         <Grid x:Name="InformationGrid"
@@ -37,14 +52,49 @@
               Panel.ZIndex="1"
               Visibility="Hidden">
             <Rectangle Fill="White" 
-                       Width="400"
+                       Width="350"
                        Height="200"
                        Stroke="Black"/>
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center">
                 <TextBlock Text="Congratulations!"
-                        
-                           FontSize="20"/>
+                           FontWeight="DemiBold"
+                           FontSize="20"
+                           Margin="0,10"/>
+                <TextBlock Text="You've finished your session."
+                           FontSize="18"/>
+                <DockPanel>
+                    <TextBlock Text="You've spent "
+                           FontSize="18"/>
+                    <TextBlock x:Name="TotalSessionTimeTextblock"
+                        Text="x"
+                           FontSize="18"
+                               FontWeight="DemiBold"/>
+                    <TextBlock Text=" playing "
+                           FontSize="18"/>
+                    <TextBlock x:Name="TotalExerciseNumberTextblock"
+                                Text="x"
+                                FontSize="18"
+                               FontWeight="DemiBold"/>
+                    <TextBlock Text=" exercices"
+                           FontSize="18"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Text="and raised your total BPMs by "
+                           FontSize="18"/>
+                    <TextBlock x:Name="BPMIncreaseTextblock"
+                               Text="x"
+                           FontSize="18"
+                               FontWeight="DemiBold"/>
+                    <TextBlock Text="."
+                           FontSize="18"/>
+                </DockPanel>
+                <Button x:Name="AcceptCongtratulationsButton"
+                        Content="Cool!"
+                        Style="{StaticResource gridButtonsStyle}"
+                        Width="100"
+                        Margin="0,10"
+                        Click="AcceptCongtratulationsButton_Click"/>
             </StackPanel>
         </Grid>
 

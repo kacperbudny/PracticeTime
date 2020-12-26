@@ -34,15 +34,11 @@ namespace MetronomeApp
         readonly Metronome metronome = new Metronome();
         readonly TapTempo tapTempo = new TapTempo();
         readonly TimekeeperHelper timekeeperHelper = new TimekeeperHelper();
+        readonly TrainingSession session = new TrainingSession();
         List<Exercise> exercises = new List<Exercise>();
 
         readonly DispatcherTimer timekeeper = new DispatcherTimer();
         readonly Stopwatch sw = new Stopwatch();
-
-        bool isSessionModeEnabled = false;
-        int currentSessionExercise;
-        Stopwatch sessionTime = new Stopwatch();
-        int totalBPMIncrease;
 
         public MainWindow()
         {
@@ -67,17 +63,29 @@ namespace MetronomeApp
         {
             if (metronome.IsMetronomePlaying == false)
             {
+                await StartMetronome();
+            }
+            else
+            {
+                StopMetronome();
+            }
+        }
+
+        private async Task StartMetronome()
+        {
+            while(!metronome.IsMetronomePlaying)
+            {
                 if (sw.ElapsedMilliseconds > metronome.Sleep + 100)
                 {
                     sw.Reset();
                     StartButton.Content = "STOP";
 
                     await metronome.Run();
+
+                    return;
                 }
-            }
-            else
-            {
-                StopMetronome();
+
+                await Task.Delay(100);
             }
         }
 
@@ -185,10 +193,7 @@ namespace MetronomeApp
         {
             TempoBox.Text = tapTempo.FinalTempo.ToString();
             ResetAfterTapTempo();
-            StartButton.Content = "STOP";
-
-            await Task.Delay(500);
-            await metronome.Run();
+            await StartMetronome();
         }
 
         private void CancelTapTempoButton_Click(object sender, RoutedEventArgs e)
@@ -219,22 +224,28 @@ namespace MetronomeApp
             {
                 StopMetronomeAndTimer(true);
 
-                if (isSessionModeEnabled)
+                if (session.IsEnabled)
                 {
                     SaveCurrentTempoAndUpdateBPMCount();
-                    currentSessionExercise++;
+                    session.CurrentSessionExerciseId++;
 
-                    if (currentSessionExercise < ExercisesListView.Items.Count)
+                    if (session.CurrentSessionExerciseId < ExercisesListView.Items.Count)
                     {
+                        await Task.Delay(1000);
                         await ChangeCurrentExerciseInSessionMode();
                     }
                     else
                     {
                         ExitSessionMode();
 
-                        MessageBox.Show("Congratulations! You've finished your session.\n\n" +
-                            "You've spent " + sessionTime.Elapsed.ToString(@"hh\:mm\:ss") + " playing " 
-                            + ExercisesListView.Items.Count + " exercises and raised your total BPMs by " + totalBPMIncrease + ".");
+                        TotalSessionTimeTextblock.Text = session.SessionTime;
+                        TotalExerciseNumberTextblock.Text = session.CurrentSessionExerciseId.ToString();
+                        BPMIncreaseTextblock.Text = session.TotalBPMIncrease.ToString();
+
+                        OverlayRectangle.Visibility = Visibility.Visible;
+                        InformationGrid.Visibility = Visibility.Visible;
+
+                        session.PlayCompletedSound();
                     }
                 }
             }
@@ -374,7 +385,7 @@ namespace MetronomeApp
 
         private void ExercisesListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (!isSessionModeEnabled)
+            if (!session.IsEnabled)
             {
                 DependencyObject obj = (DependencyObject)e.OriginalSource;
 
@@ -412,7 +423,7 @@ namespace MetronomeApp
             }
             else
             {
-                if (!isSessionModeEnabled)
+                if (!session.IsEnabled)
                 {
                     EditExerciseButton.IsEnabled = true;
                     DeleteExerciseButton.IsEnabled = true;
@@ -581,32 +592,9 @@ namespace MetronomeApp
                 return;
             }
 
-            if (isSessionModeEnabled == false)
+            if (session.IsEnabled == false)
             {
-                isSessionModeEnabled = true;
-                ExercisesCategoriesComboBox.SelectedIndex = 1;
-                AddExerciseButton.IsEnabled = false;
-                EditExerciseButton.IsEnabled = false;
-                DeleteExerciseButton.IsEnabled = false;
-                RefreshButton.IsEnabled = false;
-                ApplyMetronomeSettingsButton.IsEnabled = false;
-                SaveMetronomeSettingsIntoItemButton.IsEnabled = false;
-                ExercisesCategoriesComboBox.IsEnabled = false;
-                SearchBox.IsEnabled = false;
-                PreviousSessionExerciseButton.IsEnabled = true;
-                NextSessionExerciseButton.IsEnabled = true;
-                SessionButtonLabel.Text = "Cancel session";
-                ButtonsColumn.Width = 0;
-                currentSessionExercise = 0;
-                SessionIndicator.Fill = Brushes.Lime;
-                ExercisesListView.ItemContainerStyle = (Style)FindResource("disableListViewSelectionStyle");
-                ExercisesListView.SelectedIndex = currentSessionExercise;
-                sessionTime.Restart();
-                totalBPMIncrease = 0;
-
-                ApplyMetronomeSettings((Exercise)ExercisesListView.Items[currentSessionExercise]);
-
-                await StartMetronomeAndTimerAsync();
+                await StartSessionMode();
             }
             else
             {
@@ -627,12 +615,36 @@ namespace MetronomeApp
 
         private async Task StartMetronomeAndTimerAsync()
         {
-            StartButton.Content = "STOP";
-
             StartTimer();
 
-            await Task.Delay(1000);
-            await metronome.Run();
+            await StartMetronome();
+        }
+
+        private async Task StartSessionMode()
+        {
+            session.Start();
+            ExercisesCategoriesComboBox.SelectedIndex = 1;
+            AddExerciseButton.IsEnabled = false;
+            EditExerciseButton.IsEnabled = false;
+            DeleteExerciseButton.IsEnabled = false;
+            RefreshButton.IsEnabled = false;
+            ApplyMetronomeSettingsButton.IsEnabled = false;
+            SaveMetronomeSettingsIntoItemButton.IsEnabled = false;
+            ExercisesCategoriesComboBox.IsEnabled = false;
+            SearchBox.IsEnabled = false;
+            PreviousSessionExerciseButton.IsEnabled = true;
+            NextSessionExerciseButton.IsEnabled = true;
+            SessionButtonLabel.Text = "Cancel session";
+            ButtonsColumn.Width = 0;
+            SessionIndicator.Fill = Brushes.Lime;
+            ExercisesListView.ItemContainerStyle = (Style)FindResource("disableListViewSelectionStyle");
+            ExercisesListView.SelectedIndex = session.CurrentSessionExerciseId;
+
+            ApplyMetronomeSettings((Exercise)ExercisesListView.Items[session.CurrentSessionExerciseId]);
+
+            await CountdownDuringSessionAsync();
+
+            await StartMetronomeAndTimerAsync();
         }
 
         private void ExitSessionMode()
@@ -641,7 +653,6 @@ namespace MetronomeApp
             ResetTimer();
 
             SessionIndicator.Fill = Brushes.DarkSlateGray;
-            isSessionModeEnabled = false;
             AddExerciseButton.IsEnabled = true;
             RefreshButton.IsEnabled = true;
             ExercisesCategoriesComboBox.IsEnabled = true;
@@ -650,31 +661,30 @@ namespace MetronomeApp
             NextSessionExerciseButton.IsEnabled = false;
             SessionButtonLabel.Text = "Start session";
             ButtonsColumn.Width = double.NaN;
-            currentSessionExercise = 0;
             ExercisesListView.ItemContainerStyle = (Style)FindResource("enableListViewSelectionStyle");
-            sessionTime.Stop();
+            session.Stop();
 
             ReadDatabase();
         }
 
         private async void PreviousSessionExerciseButton_Click(object sender, RoutedEventArgs e)
         {
-            if(currentSessionExercise != 0)
+            if(session.CurrentSessionExerciseId != 0)
             {
                 StopMetronomeAndTimer(false);
                 SaveCurrentTempoAndUpdateBPMCount();
-                currentSessionExercise--;
+                session.CurrentSessionExerciseId--;
                 await ChangeCurrentExerciseInSessionMode();
             }
         }
 
         private async void NextSessionExerciseButton_Click(object sender, RoutedEventArgs e)
         {
-            if (currentSessionExercise < ExercisesListView.Items.Count - 1)
+            if (session.CurrentSessionExerciseId < ExercisesListView.Items.Count - 1)
             {
                 StopMetronomeAndTimer(false);
                 SaveCurrentTempoAndUpdateBPMCount();
-                currentSessionExercise++;
+                session.CurrentSessionExerciseId++;
                 await ChangeCurrentExerciseInSessionMode();
             }
         }
@@ -704,16 +714,18 @@ namespace MetronomeApp
 
         private async Task ChangeCurrentExerciseInSessionMode()
         {
-            ApplyMetronomeSettings((Exercise)ExercisesListView.Items[currentSessionExercise]);
+            ApplyMetronomeSettings((Exercise)ExercisesListView.Items[session.CurrentSessionExerciseId]);
 
-            ExercisesListView.SelectedIndex = currentSessionExercise;
+            ExercisesListView.SelectedIndex = session.CurrentSessionExerciseId;
+
+            await CountdownDuringSessionAsync();
 
             await StartMetronomeAndTimerAsync();
         }
 
         private void SaveCurrentTempoAndUpdateBPMCount()
         {
-            Exercise exercise = (Exercise)ExercisesListView.Items[currentSessionExercise];
+            Exercise exercise = (Exercise)ExercisesListView.Items[session.CurrentSessionExerciseId];
             if(Int32.TryParse(TempoBox.Text, out int tempoFromTempoBox))
             {
                 if (exercise.CurrentTempo != tempoFromTempoBox)
@@ -725,16 +737,42 @@ namespace MetronomeApp
 
                     if (tempoFromTempoBox > exercise.TargetTempo && targetTempoBeforeUpdating == exercise.TargetTempo)
                     {
-                        totalBPMIncrease += exercise.TargetTempo - currentTempoBeforeUpdating;
+                        session.TotalBPMIncrease += exercise.TargetTempo - currentTempoBeforeUpdating;
                     }
                     else
                     {
-                        totalBPMIncrease += tempoFromTempoBox - currentTempoBeforeUpdating;
+                        session.TotalBPMIncrease += tempoFromTempoBox - currentTempoBeforeUpdating;
                     }
 
                     ReadDatabase();
                 }
             }
+        }
+
+        private void AcceptCongtratulationsButton_Click(object sender, RoutedEventArgs e)
+        {
+            OverlayRectangle.Visibility = Visibility.Hidden;
+            InformationGrid.Visibility = Visibility.Hidden;
+        }
+
+        private async Task CountdownDuringSessionAsync()
+        {
+            OverlayRectangle.Visibility = Visibility.Visible;
+            CountdownGrid.Visibility = Visibility.Visible;
+
+            ComingSongTextblock.Text = ((Exercise)ExercisesListView.SelectedItem).Name;
+
+            for (int i = 3; i > 0; i--)
+            {
+                CountdownTextblock.Text = i.ToString();
+                session.PlayClockLowSound();
+                await Task.Delay(1000);
+            }
+
+            OverlayRectangle.Visibility = Visibility.Hidden;
+            CountdownGrid.Visibility = Visibility.Hidden;
+
+            session.PlayClockHighSound();
         }
     }
 }
