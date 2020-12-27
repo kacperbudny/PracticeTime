@@ -78,11 +78,7 @@ namespace MetronomeApp
             exercise.TargetTempo = Int32.Parse(TargetTempoTextBox.Text);
             exercise.Notes = NotesTextBox.Text.Trim();
 
-            using (SQLiteConnection connection = new SQLiteConnection(App.databasePath))
-            {
-                connection.CreateTable<Exercise>();
-                connection.Update(exercise);
-            }
+            DatabaseUtilities.UpdateExercise(exercise);
 
             Close();
         }
