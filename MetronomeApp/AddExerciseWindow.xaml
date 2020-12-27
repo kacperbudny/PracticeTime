@@ -10,12 +10,12 @@
         Title="Add new exercise" 
         SizeToContent="Height"
         Width="250">
-    <StackPanel Margin="10,5,10,10">
-        <StackPanel>
+    <StackPanel Margin="20,15,20,20">
+        <StackPanel Margin="0,0,0,5">
             <Label Content="Name"/>
             <TextBox x:Name="NameTextBox"/>
         </StackPanel>
-        <Grid>
+        <Grid Margin="0,0,0,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -33,14 +33,14 @@
                          PreviewKeyDown="PreviewSpaceKeyDown"/>
             </StackPanel>
         </Grid>
-        
-        <StackPanel>
+
+        <StackPanel Margin="0,0,0,5">
             <Label Content="Practice time (in minutes)"/>
             <TextBox x:Name="PracticeTimeTextBox"
                      PreviewTextInput="PreviewNumericTextInput"
                      PreviewKeyDown="PreviewSpaceKeyDown"/>
         </StackPanel>
-        <StackPanel>
+        <StackPanel Margin="0,0,0,5">
             <Label Content="Notes (additional information)"/>
             <TextBox x:Name="NotesTextBox"/>
         </StackPanel>
@@ -49,10 +49,12 @@
             <Button x:Name="AddButton"
                     Content="Add exercise" 
                     Margin="0,0,10,0" 
-                    Padding="10,0" Click="AddButton_Click"/>
+                    Padding="10,0" Click="AddButton_Click"
+                    Style="{StaticResource additionalWindowsButtonsStyle}"/>
             <Button x:Name="CancelButton"
                     Content="Cancel"
-                    Padding="10,0" Click="CancelButton_Click"/>
+                    Padding="10,0" Click="CancelButton_Click"
+                    Style="{StaticResource additionalWindowsButtonsStyle}"/>
         </DockPanel>
     </StackPanel>
 </Window>

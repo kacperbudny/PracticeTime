@@ -14,7 +14,7 @@
                    Panel.ZIndex="1" 
                    Opacity="0.3"
                    Visibility="Hidden"/>
-        
+
         <Grid x:Name="CountdownGrid"
               HorizontalAlignment="Center"
               VerticalAlignment="Center"
@@ -136,7 +136,7 @@
                     />
 
                 <Grid Margin="0,5,0,5">
-                    <GroupBox Background="GhostWhite" 
+                    <GroupBox 
                         BorderBrush="Silver" 
                         BorderThickness="1" 
                         Padding="10,5">
@@ -164,7 +164,7 @@
                 </Grid>
 
                 <Grid>
-                    <GroupBox Background="GhostWhite" 
+                    <GroupBox
                         BorderBrush="Silver" 
                         BorderThickness="1" 
                         Padding="10,5"
@@ -309,6 +309,57 @@
                     </ComboBox>
                 </Grid>
 
+                <Grid  Margin="0,10,0,10"
+                              Grid.Row="2"
+                              Grid.ColumnSpan="7"
+                          Width="750"
+                       Panel.ZIndex="1">
+                    <Grid.Style>
+                        <Style TargetType="{x:Type Grid}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=ExercisesListView, Path=Items.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Rectangle
+                   Fill="Black" 
+                   Panel.ZIndex="1" 
+                   Opacity="0.2"/>
+                    <Rectangle Fill="White" 
+                       Height="50"
+                               Panel.ZIndex="1">
+                        <Rectangle.Style>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Setter Property="Width" Value="450" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=ExercisesCategoriesComboBox, Path=SelectedIndex}" Value="1">
+                                        <Setter Property="Width" Value="550" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                    <TextBlock x:Name="EmptyListTextblock"
+                               FontSize="18" 
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Panel.ZIndex="1">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Text" Value="List is empty. Please add some elements to the list." />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=ExercisesCategoriesComboBox, Path=SelectedIndex}" Value="1">
+                                        <Setter Property="Text" Value="Session list is empty. Please add some elements to the session." />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+
                 <ListView x:Name="ExercisesListView"
                     Margin="0,10,0,10"
                               Grid.Row="2"
@@ -316,11 +367,28 @@
                           Width="750"
                           MouseDoubleClick="ExercisesListView_MouseDoubleClick"
                           SelectionChanged="ExercisesListView_SelectionChanged"
-                          SelectionMode="Single">
+                          SelectionMode="Single"
+                          FontSize="14">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsCompleted}" Value="True">
+                                    <Setter Property="Background" Value="PaleGreen"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.Resources>
+                        <Style TargetType="GridViewColumnHeader">
+                            <Setter Property="Padding" Value="10,0" />
+                        </Style>
+                    </ListView.Resources>
                     <ListView.View>
                         <GridView x:Name="ExercisesGridView">
                             <GridViewColumn Width="0"
-                                            x:Name="ButtonsColumn">
+                                            x:Name="ButtonsColumn"
+                                            >
                                 <GridViewColumn.HeaderContainerStyle>
                                     <Style TargetType="{x:Type FrameworkElement}">
                                         <Setter Property="IsHitTestVisible" Value="False"/>
@@ -343,7 +411,9 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="Session" 
-                                            Width="Auto">
+                                            Width="Auto"
+                                            >
+
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <DockPanel HorizontalAlignment="Center">
@@ -352,7 +422,9 @@
                                                       HorizontalAlignment="Center"/>
                                         </DockPanel>
                                     </DataTemplate>
+
                                 </GridViewColumn.CellTemplate>
+
                             </GridViewColumn>
                             <GridViewColumn Header="Name" 
                                             Width="Auto"

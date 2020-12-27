@@ -24,5 +24,14 @@ namespace MetronomeApp.Classes
         [NotNull]
         public bool IsInSessionMode { get; set; }
         public int SessionModeOrder { get; set; }
+
+        [Ignore]
+        public bool IsCompleted
+        {
+            get
+            {
+                return CurrentTempo == TargetTempo ? true : false;
+            }
+        }
     }
 }
