@@ -106,6 +106,7 @@
     </Compile>
     <Compile Include="Classes\DatabaseUtilities.cs" />
     <Compile Include="Classes\Exercise.cs" />
+    <Compile Include="Classes\KeyboardCommands.cs" />
     <Compile Include="Classes\Metronome.cs" />
     <Compile Include="Classes\TapTempo.cs" />
     <Compile Include="Classes\TimekeeperHelper.cs" />

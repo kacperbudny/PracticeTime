@@ -32,6 +32,7 @@ namespace MetronomeApp
     public partial class MainWindow : Window
     {
         #region Variables
+
         readonly Metronome metronome = new Metronome();
         readonly TapTempo tapTempo = new TapTempo();
         readonly TimekeeperHelper timekeeperHelper = new TimekeeperHelper();
@@ -40,6 +41,8 @@ namespace MetronomeApp
 
         readonly DispatcherTimer timekeeper = new DispatcherTimer();
         readonly Stopwatch sw = new Stopwatch();
+        int changeTempoFactor = 1;
+
         #endregion
 
         #region Constructor
@@ -65,7 +68,22 @@ namespace MetronomeApp
         #endregion
 
         #region Metronome
+        private void ControlMetronomeCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !CountdownGrid.IsVisible;
+        }
+
+        private async void ControlMetronomeCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            await ControlMetronome();
+        }
+
         private async void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+            await ControlMetronome();
+        }
+
+        private async Task ControlMetronome()
         {
             if (metronome.IsMetronomePlaying == false)
             {
@@ -146,20 +164,39 @@ namespace MetronomeApp
 
         private void TempoDownButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Int32.TryParse(TempoBox.Text, out int tempo) && tempo > 40)
+            if (Int32.TryParse(TempoBox.Text, out int tempo) && (tempo - changeTempoFactor) >= 40)
             {
-                tempo--;
-                TempoBox.Text = tempo.ToString();
+                TempoBox.Text = (tempo - changeTempoFactor).ToString();
             }
         }
 
         private void TempoUpButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Int32.TryParse(TempoBox.Text, out int tempo) && tempo < 300)
+            if (Int32.TryParse(TempoBox.Text, out int tempo) && (tempo + changeTempoFactor) <= 300)
             {
-                tempo++;
-                TempoBox.Text = tempo.ToString();
+                TempoBox.Text = (tempo + changeTempoFactor).ToString();
             }
+        }
+
+        private void ChangeTempoByOneMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            changeTempoFactor = 1;
+            TempoUpButton.Content = "►";
+            TempoDownButton.Content = "◄";
+        }
+
+        private void ChangeTempoByFiveMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            changeTempoFactor = 5;
+            TempoUpButton.Content = "+5 ►";
+            TempoDownButton.Content = "◄ -5";
+        }
+
+        private void ChangeTempoByTenMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            changeTempoFactor = 10;
+            TempoUpButton.Content = "+10 ►";
+            TempoDownButton.Content = "◄ -10";
         }
         #endregion
 
@@ -736,5 +773,6 @@ namespace MetronomeApp
             await StartMetronome();
         }
         #endregion
+
     }
 }

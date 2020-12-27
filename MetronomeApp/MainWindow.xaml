@@ -4,10 +4,29 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MetronomeApp"
+        xmlns:classes="clr-namespace:MetronomeApp.Classes"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
         Title="MetronomeApp"
         SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <ContextMenu x:Key="metronomeTempoContextMenu">
+            <MenuItem x:Name="ChangeTempoByOneMenuItem"
+                      Header="Change tempo by 1" 
+                      Click="ChangeTempoByOneMenuItem_Click"/>
+            <MenuItem x:Name="ChangeTempoByFiveMenuItem"
+                      Header="Change tempo by 5" 
+                      Click="ChangeTempoByFiveMenuItem_Click"/>
+            <MenuItem x:Name="ChangeTempoByTenMenuItem"
+                      Header="Change tempo by 10" 
+                      Click="ChangeTempoByTenMenuItem_Click"/>
+        </ContextMenu>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="classes:KeyboardCommands.ControlMetronome" 
+                        CanExecute="ControlMetronomeCommand_CanExecute" 
+                        Executed="ControlMetronomeCommand_Executed" />
+    </Window.CommandBindings>
     <Grid>
         <Rectangle x:Name="OverlayRectangle"
                    Fill="Black" 
@@ -108,10 +127,11 @@
                         <Button x:Name="TempoDownButton"
                                 Content="◄"
                                 Style="{StaticResource changeTempoButtonsStyle}"
-                                Click="TempoDownButton_Click"/>
+                                Click="TempoDownButton_Click"
+                                ContextMenu="{StaticResource metronomeTempoContextMenu}"/>
                         <TextBox x:Name="TempoBox" 
                                 Text="120" 
-                                Margin="10,0"
+                                Margin="5,0"
                                 PreviewTextInput="TempoBox_PreviewTextInput"
                                 TextChanged="TempoBox_TextChanged"
                                 FontSize="20"
@@ -121,7 +141,8 @@
                         <Button x:Name="TempoUpButton"
                                 Content="►"
                                 Style="{StaticResource changeTempoButtonsStyle}"
-                                Click="TempoUpButton_Click"/>
+                                Click="TempoUpButton_Click"
+                                ContextMenu="{StaticResource metronomeTempoContextMenu}"/>
                     </StackPanel>
                 </Grid>
 
@@ -375,20 +396,8 @@
                           MouseDoubleClick="ExercisesListView_MouseDoubleClick"
                           SelectionChanged="ExercisesListView_SelectionChanged"
                           SelectionMode="Single"
-                          FontSize="14">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" 
-                                    Value="Stretch"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsCompleted}" 
-                                             Value="True">
-                                    <Setter Property="Background" 
-                                            Value="PaleGreen"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListView.ItemContainerStyle>
+                          FontSize="14"
+                          ItemContainerStyle="{StaticResource coloringListViewWhenCompleted}">
                     <ListView.Resources>
                         <Style TargetType="GridViewColumnHeader">
                             <Setter Property="Padding" 

@@ -5,10 +5,11 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <Style TargetType="Button" x:Key="changeTempoButtonsStyle">
-            <Setter Property="Width" Value="30"/>
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontSize" 
+                    Value="20"/>
+            <Setter Property="Padding" Value="10,0"/>
         </Style>
-        
+
         <Style TargetType="Button" x:Key="defaultButtonStyle">
             <Setter Property="Padding" Value="5"/>
             <Setter Property="FontSize" Value="20"/>
@@ -31,11 +32,23 @@
             <Setter Property="FontSize" Value="20"/>
         </Style>
 
-        <Style TargetType="ListViewItem" x:Key="disableListViewSelectionStyle">
+        <Style TargetType="ListViewItem" x:Key="coloringListViewWhenCompleted">
+            <Setter Property="HorizontalContentAlignment" 
+                    Value="Stretch"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsCompleted}" 
+                             Value="True">
+                    <Setter Property="Background" 
+                            Value="PaleGreen"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="ListViewItem" x:Key="disableListViewSelectionStyle" BasedOn="{StaticResource coloringListViewWhenCompleted}">
             <Setter Property="Focusable" Value="False"/>
         </Style>
 
-        <Style TargetType="ListViewItem" x:Key="enableListViewSelectionStyle">
+        <Style TargetType="ListViewItem" x:Key="enableListViewSelectionStyle" BasedOn="{StaticResource coloringListViewWhenCompleted}">
             <Setter Property="Focusable" Value="True"/>
         </Style>
 
@@ -48,5 +61,6 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Height" Value="36"/>
         </Style>
+
     </Application.Resources>
 </Application>
