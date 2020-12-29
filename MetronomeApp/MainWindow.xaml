@@ -24,8 +24,83 @@
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="classes:KeyboardCommands.ControlMetronome" 
-                        CanExecute="ControlMetronomeCommand_CanExecute" 
+                        CanExecute="StartButton_CanExecute" 
                         Executed="ControlMetronomeCommand_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.Plus1" 
+                        CanExecute="IfCountdownDisabled_CanExecute" 
+                        Executed="Plus1Command_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.Plus5" 
+                        CanExecute="IfCountdownDisabled_CanExecute" 
+                        Executed="Plus5Command_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.Plus10" 
+                        CanExecute="IfCountdownDisabled_CanExecute" 
+                        Executed="Plus10Command_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.Minus1" 
+                        CanExecute="IfCountdownDisabled_CanExecute" 
+                        Executed="Minus1Command_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.Minus5" 
+                        CanExecute="IfCountdownDisabled_CanExecute" 
+                        Executed="Minus5Command_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.Minus10" 
+                        CanExecute="IfCountdownDisabled_CanExecute" 
+                        Executed="Minus10Command_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.TapTempoStart" 
+                        CanExecute="IfCountdownDisabled_CanExecute" 
+                        Executed="TapTempoStart_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.TapTempoCancel" 
+                        CanExecute="TapTempoCancel_CanExecute" 
+                        Executed="TapTempoCancel_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.TapTempoAccept" 
+                        CanExecute="TapTempoAccept_CanExecute" 
+                        Executed="TapTempoAccept_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.PlusTimer" 
+                        CanExecute="IfCountdownDisabled_CanExecute" 
+                        Executed="PlusTimer_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.MinusTimer" 
+                        CanExecute="IfCountdownDisabled_CanExecute" 
+                        Executed="MinusTimer_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.ControlTimer" 
+                        CanExecute="IfCountdownDisabled_CanExecute" 
+                        Executed="ControlTimer_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.ResetTimer" 
+                        CanExecute="ResetTimer_CanExecute" 
+                        Executed="ResetTimer_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.AddExercise" 
+                        CanExecute="IfNotInSession_CanExecute" 
+                        Executed="AddExercise_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.EditExercise" 
+                        CanExecute="ExercisesActions_CanExecute" 
+                        Executed="EditExercise_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.DeleteExercise" 
+                        CanExecute="ExercisesActions_CanExecute" 
+                        Executed="DeleteExercise_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.RefreshList" 
+                        CanExecute="IfCountdownDisabled_CanExecute" 
+                        Executed="RefreshList_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.ChangeView" 
+                        CanExecute="IfNotInSession_CanExecute" 
+                        Executed="ChangeView_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.GoToListview" 
+                        CanExecute="GoToListview_CanExecute" 
+                        Executed="GoToListview_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.AddToSession" 
+                        CanExecute="ExercisesActions_CanExecute" 
+                        Executed="AddToSession_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.ControlSession" 
+                        CanExecute="IfCountdownDisabled_CanExecute" 
+                        Executed="ControlSession_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.PreviousExercise" 
+                        CanExecute="GoToSessionExercise_CanExecute" 
+                        Executed="PreviousExercise_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.NextExercise" 
+                        CanExecute="GoToSessionExercise_CanExecute" 
+                        Executed="NextExercise_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.SetUpMetronomeForSelected" 
+                        CanExecute="ExercisesActions_CanExecute" 
+                        Executed="SetUpMetronomeForSelected_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.SaveMetronomesTempo" 
+                        CanExecute="ExercisesActions_CanExecute" 
+                        Executed="SaveMetronomesTempo_Executed" />
     </Window.CommandBindings>
     <Grid>
         <Rectangle x:Name="OverlayRectangle"
@@ -163,8 +238,7 @@
                             <Button x:Name="CancelTapTempoButton"
                                     Content="Cancel"
                                     Style="{StaticResource defaultButtonStyle}"
-                                    Click="CancelTapTempoButton_Click"
-                                    IsEnabled="False"/>
+                                    Command="classes:KeyboardCommands.TapTempoCancel"/>
                             <Button x:Name="TapTempoButton"
                                     Content="Tap tempo"
                                     Style="{StaticResource defaultButtonStyle}"
@@ -174,8 +248,7 @@
                             <Button x:Name="AcceptTapTempoButton"
                                     Content="Accept"
                                     Style="{StaticResource defaultButtonStyle}"
-                                    Click="AcceptTapTempoButton_Click"
-                                    IsEnabled="False"/>
+                                    Command="classes:KeyboardCommands.TapTempoAccept"/>
                         </StackPanel>
                     </GroupBox>
                 </Grid>

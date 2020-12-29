@@ -45,8 +45,7 @@ namespace MetronomeApp.Classes
 
         public bool AreTapTimesNotEmpty()
         {
-            if (tapTimes.Count == 1) return true;
-            else return false;
+            return tapTimes.Count > 0;
         }
     }
 }

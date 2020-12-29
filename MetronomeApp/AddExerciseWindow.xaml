@@ -50,11 +50,13 @@
                     Content="Add exercise" 
                     Margin="0,0,10,0" 
                     Padding="10,0" Click="AddButton_Click"
-                    Style="{StaticResource additionalWindowsButtonsStyle}"/>
+                    Style="{StaticResource additionalWindowsButtonsStyle}"
+                    IsDefault="True"/>
             <Button x:Name="CancelButton"
                     Content="Cancel"
                     Padding="10,0" Click="CancelButton_Click"
-                    Style="{StaticResource additionalWindowsButtonsStyle}"/>
+                    Style="{StaticResource additionalWindowsButtonsStyle}"
+                    IsCancel="True"/>
         </DockPanel>
     </StackPanel>
 </Window>

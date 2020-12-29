@@ -10,11 +10,8 @@ namespace MetronomeApp.Classes
     class TimekeeperHelper
     {
         readonly SoundPlayer completedSound = new SoundPlayer(Properties.Resources.timekeeper);
-        private bool isEnabled;
         private int timeToReturn;
-
         private int _time;
-
         public int Time 
         {
             get => _time;
@@ -28,26 +25,27 @@ namespace MetronomeApp.Classes
                 else _time = value;
             } 
         }
+        public bool IsEnabled { get; private set; }
 
         public TimekeeperHelper()
         {
             Time = 300;
-            isEnabled = false;
+            IsEnabled = false;
         }
 
         public void SetTimeToReturn()
         {
-            if(!isEnabled)
+            if(!IsEnabled)
             {
                 timeToReturn = Time;
-                isEnabled = true;
+                IsEnabled = true;
             }
         }
 
         public void Reset()
         {
             Time = timeToReturn;
-            isEnabled = false;
+            IsEnabled = false;
         }
 
         public void Complete()

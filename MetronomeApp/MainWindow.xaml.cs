@@ -23,6 +23,7 @@ using MetronomeApp.Properties;
 using SQLite;
 using System.IO;
 using System.Data;
+using System.Windows.Automation.Peers;
 
 namespace MetronomeApp
 {
@@ -68,15 +69,6 @@ namespace MetronomeApp
         #endregion
 
         #region Metronome
-        private void ControlMetronomeCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = !CountdownGrid.IsVisible;
-        }
-
-        private async void ControlMetronomeCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            await ControlMetronome();
-        }
 
         private async void StartButton_Click(object sender, RoutedEventArgs e)
         {
@@ -120,6 +112,7 @@ namespace MetronomeApp
         #endregion
 
         #region Changing tempo
+        
         private void TempoBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = Utilities.AllowNumericInputOnly(e);
@@ -164,18 +157,12 @@ namespace MetronomeApp
 
         private void TempoDownButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Int32.TryParse(TempoBox.Text, out int tempo) && (tempo - changeTempoFactor) >= 40)
-            {
-                TempoBox.Text = (tempo - changeTempoFactor).ToString();
-            }
+            ReduceTempo(changeTempoFactor);
         }
 
         private void TempoUpButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Int32.TryParse(TempoBox.Text, out int tempo) && (tempo + changeTempoFactor) <= 300)
-            {
-                TempoBox.Text = (tempo + changeTempoFactor).ToString();
-            }
+            IncreaseTempo(changeTempoFactor);
         }
 
         private void ChangeTempoByOneMenuItem_Click(object sender, RoutedEventArgs e)
@@ -198,10 +185,32 @@ namespace MetronomeApp
             TempoUpButton.Content = "+10 ►";
             TempoDownButton.Content = "◄ -10";
         }
+
+        private void ReduceTempo(int factor)
+        {
+            if (Int32.TryParse(TempoBox.Text, out int tempo) && (tempo - factor) >= 40)
+            {
+                TempoBox.Text = (tempo - factor).ToString();
+            }
+        }
+
+        private void IncreaseTempo(int factor)
+        {
+            if (Int32.TryParse(TempoBox.Text, out int tempo) && (tempo + factor) <= 300)
+            {
+                TempoBox.Text = (tempo + factor).ToString();
+            }
+        }
         #endregion
 
         #region Tap tempo
+
         private void TapTempoButton_Click(object sender, RoutedEventArgs e)
+        {
+            ControlTapTempo();
+        }
+
+        private void ControlTapTempo()
         {
             if (metronome.IsMetronomePlaying == true)
             {
@@ -211,7 +220,6 @@ namespace MetronomeApp
             if (tapTempo.IsTapTempoModeEnabled == false)
             {
                 StartButton.IsEnabled = false;
-                CancelTapTempoButton.IsEnabled = true;
                 TapTempoButton.Content = "TAP HERE";
                 tapTempo.Start();
             }
@@ -219,33 +227,13 @@ namespace MetronomeApp
             {
                 tapTempo.NextTap();
                 TapTempoButton.Content = tapTempo.FinalTempo.ToString();
-
-                if (tapTempo.AreTapTimesNotEmpty())
-                {
-                    AcceptTapTempoButton.IsEnabled = true;
-                }
             }
-        }
-
-        private async void AcceptTapTempoButton_Click(object sender, RoutedEventArgs e)
-        {
-            TempoBox.Text = tapTempo.FinalTempo.ToString();
-            ResetAfterTapTempo();
-            await StartMetronome();
-        }
-
-        private void CancelTapTempoButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetAfterTapTempo();
         }
 
         private void ResetAfterTapTempo()
         {
             StartButton.IsEnabled = true;
-            AcceptTapTempoButton.IsEnabled = false;
-            CancelTapTempoButton.IsEnabled = false;
             TapTempoButton.Content = "Tap tempo";
-
             tapTempo.Reset();
         }
         #endregion
@@ -291,6 +279,26 @@ namespace MetronomeApp
 
         private void StartTimerButton_Click(object sender, RoutedEventArgs e)
         {
+            ControlTimer();
+        }
+
+        private void TimerDownButton_Click(object sender, RoutedEventArgs e)
+        {
+            ReduceTimerTime();
+        }
+
+        private void TimerUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            IncreaseTimerTime();
+        }
+
+        private void ResetTimerButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetTimer();
+        }
+
+        private void ControlTimer()
+        {
             if (!timekeeper.IsEnabled)
             {
                 StartTimer();
@@ -302,7 +310,7 @@ namespace MetronomeApp
             }
         }
 
-        private void TimerDownButton_Click(object sender, RoutedEventArgs e)
+        private void ReduceTimerTime()
         {
             if (timekeeperHelper.Time > 60)
             {
@@ -311,15 +319,10 @@ namespace MetronomeApp
             }
         }
 
-        private void TimerUpButton_Click(object sender, RoutedEventArgs e)
+        private void IncreaseTimerTime()
         {
             timekeeperHelper.Time += 60;
             UpdateTimerLabel();
-        }
-
-        private void ResetTimerButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetTimer();
         }
 
         private void StartTimer()
@@ -350,47 +353,17 @@ namespace MetronomeApp
         #region Exercises
         private void AddExerciseButton_Click(object sender, RoutedEventArgs e)
         {
-            OverlayRectangle.Visibility = Visibility.Visible;
-
-            AddExerciseWindow addExerciseWindow = new AddExerciseWindow(exercises);
-            addExerciseWindow.ShowDialog();
-
-            OverlayRectangle.Visibility = Visibility.Hidden;
-            ReadDatabase();
+            AddExercise();
         }
 
         private void EditExerciseButton_Click(object sender, RoutedEventArgs e)
         {
-            OverlayRectangle.Visibility = Visibility.Visible;
-
-            EditExerciseWindow editExerciseWindow = new EditExerciseWindow(exercises, (Exercise)ExercisesListView.SelectedItem);
-            editExerciseWindow.ShowDialog();
-
-            OverlayRectangle.Visibility = Visibility.Hidden;
-            ReadDatabase();
+            EditExercise();
         }
 
         private void DeleteExerciseButton_Click(object sender, RoutedEventArgs e)
         {
-            Exercise selectedExercise = (Exercise)ExercisesListView.SelectedItem;
-
-            var result = MessageBox.Show("Are you sure you want to delete this exercise? " + selectedExercise.Name,
-                "Deleting exercise", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-
-            switch (result)
-            {
-                case MessageBoxResult.Yes:
-                    using (SQLiteConnection conn = new SQLiteConnection(App.databasePath))
-                    {
-                        conn.CreateTable<Exercise>();
-                        conn.Delete((Exercise)ExercisesListView.SelectedItem);
-                    }
-                    ReadDatabase();
-                    break;
-
-                case MessageBoxResult.No:
-                    break;
-            }
+            DeleteExercise();
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
@@ -507,6 +480,7 @@ namespace MetronomeApp
         private void ExercisesCategoriesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ReadDatabase();
+
             if (ExercisesCategoriesComboBox.SelectedIndex == 1)
             {
                 ButtonsColumn.Width = Double.NaN;
@@ -546,6 +520,51 @@ namespace MetronomeApp
                 {
                     ExercisesListView.ItemsSource = exercises.Where(ex => ex.IsInSessionMode == true).ToList().OrderBy(ex => ex.SessionModeOrder);
                 }
+            }
+        }
+
+        private void AddExercise()
+        {
+            OverlayRectangle.Visibility = Visibility.Visible;
+
+            AddExerciseWindow addExerciseWindow = new AddExerciseWindow(exercises);
+            addExerciseWindow.ShowDialog();
+
+            OverlayRectangle.Visibility = Visibility.Hidden;
+            ReadDatabase();
+        }
+
+        private void EditExercise()
+        {
+            OverlayRectangle.Visibility = Visibility.Visible;
+
+            EditExerciseWindow editExerciseWindow = new EditExerciseWindow(exercises, (Exercise)ExercisesListView.SelectedItem);
+            editExerciseWindow.ShowDialog();
+
+            OverlayRectangle.Visibility = Visibility.Hidden;
+            ReadDatabase();
+        }
+
+        private void DeleteExercise()
+        {
+            Exercise selectedExercise = (Exercise)ExercisesListView.SelectedItem;
+
+            var result = MessageBox.Show("Are you sure you want to delete this exercise? " + selectedExercise.Name,
+                "Deleting exercise", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    using (SQLiteConnection conn = new SQLiteConnection(App.databasePath))
+                    {
+                        conn.CreateTable<Exercise>();
+                        conn.Delete((Exercise)ExercisesListView.SelectedItem);
+                    }
+                    ReadDatabase();
+                    break;
+
+                case MessageBoxResult.No:
+                    break;
             }
         }
 
@@ -589,9 +608,53 @@ namespace MetronomeApp
         #endregion
 
         #region Training session
+
         private async void StartSessionModeButton_Click(object sender, RoutedEventArgs e)
         {
-            if(exercises.Where(ex => ex.IsInSessionMode == true).ToList().Count == 0)
+            await ControlSessionMode();
+        }
+
+        private async void PreviousSessionExerciseButton_Click(object sender, RoutedEventArgs e)
+        {
+            await GoToPreviousExercise();
+        }
+
+        private async void NextSessionExerciseButton_Click(object sender, RoutedEventArgs e)
+        {
+            await GoToNextExercise();
+        }
+
+        private void AcceptCongtratulationsButton_Click(object sender, RoutedEventArgs e)
+        {
+            OverlayRectangle.Visibility = Visibility.Hidden;
+            InformationGrid.Visibility = Visibility.Hidden;
+        }
+
+        private async Task GoToPreviousExercise()
+        {
+            if (session.CurrentSessionExerciseId != 0)
+            {
+                StopMetronomeAndTimer(false);
+                SaveCurrentTempoAndUpdateBPMCount();
+                session.CurrentSessionExerciseId--;
+                await ChangeCurrentExerciseInSessionMode();
+            }
+        }
+
+        private async Task GoToNextExercise()
+        {
+            if (session.CurrentSessionExerciseId < ExercisesListView.Items.Count - 1)
+            {
+                StopMetronomeAndTimer(false);
+                SaveCurrentTempoAndUpdateBPMCount();
+                session.CurrentSessionExerciseId++;
+                await ChangeCurrentExerciseInSessionMode();
+            }
+        }
+
+        private async Task ControlSessionMode()
+        {
+            if (exercises.Where(ex => ex.IsInSessionMode == true).ToList().Count == 0)
             {
                 MessageBox.Show("To start a session, you must first add at least one exercise into session mode.",
                 "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -619,34 +682,6 @@ namespace MetronomeApp
             }
         }
 
-        private async void PreviousSessionExerciseButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (session.CurrentSessionExerciseId != 0)
-            {
-                StopMetronomeAndTimer(false);
-                SaveCurrentTempoAndUpdateBPMCount();
-                session.CurrentSessionExerciseId--;
-                await ChangeCurrentExerciseInSessionMode();
-            }
-        }
-
-        private async void NextSessionExerciseButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (session.CurrentSessionExerciseId < ExercisesListView.Items.Count - 1)
-            {
-                StopMetronomeAndTimer(false);
-                SaveCurrentTempoAndUpdateBPMCount();
-                session.CurrentSessionExerciseId++;
-                await ChangeCurrentExerciseInSessionMode();
-            }
-        }
-
-        private void AcceptCongtratulationsButton_Click(object sender, RoutedEventArgs e)
-        {
-            OverlayRectangle.Visibility = Visibility.Hidden;
-            InformationGrid.Visibility = Visibility.Hidden;
-        }
-
         private async Task StartSessionMode()
         {
             session.Start();
@@ -666,9 +701,12 @@ namespace MetronomeApp
             SessionIndicator.Fill = Brushes.Lime;
             ExercisesListView.ItemContainerStyle = (Style)FindResource("disableListViewSelectionStyle");
             ExercisesListView.SelectedIndex = session.CurrentSessionExerciseId;
+            if (timekeeperHelper.IsEnabled) ResetTimer();
+            if (tapTempo.IsTapTempoModeEnabled) ResetAfterTapTempo();
 
             ApplyMetronomeSettings((Exercise)ExercisesListView.Items[session.CurrentSessionExerciseId]);
             await CountdownDuringSessionAsync();
+
             await StartMetronomeAndTimerAsync();
         }
 
@@ -774,5 +812,213 @@ namespace MetronomeApp
         }
         #endregion
 
+        #region Keyboard shortcuts
+
+        private void StartButton_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !CountdownGrid.IsVisible && !tapTempo.IsTapTempoModeEnabled;
+        }
+
+        private void IfCountdownDisabled_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !CountdownGrid.IsVisible;
+        }
+
+        private void TapTempoAccept_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = tapTempo.AreTapTimesNotEmpty();
+        }
+
+        private void TapTempoCancel_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = tapTempo.IsTapTempoModeEnabled;
+        }
+
+        private void ResetTimer_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = timekeeperHelper.IsEnabled;
+        }
+
+        private void IfNotInSession_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !CountdownGrid.IsVisible && !session.IsEnabled;
+        }
+
+        private void ExercisesActions_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !CountdownGrid.IsVisible && !session.IsEnabled && ExercisesListView.SelectedIndex != -1;
+        }
+
+        private void GoToListview_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !CountdownGrid.IsVisible && !session.IsEnabled && ExercisesListView.Items.Count != 0;
+        }
+
+        private void GoToSessionExercise_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !CountdownGrid.IsVisible && session.IsEnabled;
+        }
+
+        private async void ControlMetronomeCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            await ControlMetronome();
+        }
+
+        private void Plus1Command_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IncreaseTempo(1);
+        }
+
+        private void Plus5Command_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IncreaseTempo(5);
+        }
+
+        private void Plus10Command_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IncreaseTempo(10);
+        }
+
+        private void Minus1Command_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ReduceTempo(1);
+        }
+
+        private void Minus5Command_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ReduceTempo(5);
+        }
+
+        private void Minus10Command_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ReduceTempo(10);
+        }
+
+        private void TapTempoStart_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ControlTapTempo();
+        }
+
+        private void TapTempoCancel_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ResetAfterTapTempo();
+        }
+
+        private async void TapTempoAccept_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            TempoBox.Text = tapTempo.FinalTempo.ToString();
+            ResetAfterTapTempo();
+            await StartMetronome();
+        }
+
+        private void PlusTimer_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IncreaseTimerTime();
+        }
+
+        private void MinusTimer_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ReduceTimerTime();
+        }
+
+        private void ControlTimer_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ControlTimer();
+        }
+
+        private void ResetTimer_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ResetTimer();
+        }
+
+        private void AddExercise_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            AddExercise();
+        }
+
+        private void EditExercise_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            EditExercise();
+        }
+
+        private void DeleteExercise_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            DeleteExercise();
+        }
+
+        private void RefreshList_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ReadDatabase();
+        }
+
+        private void ChangeView_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ExercisesCategoriesComboBox.SelectedIndex == 0) 
+                ExercisesCategoriesComboBox.SelectedIndex = 1;
+            else 
+                ExercisesCategoriesComboBox.SelectedIndex = 0;
+        }
+
+        private void GoToListview_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ExercisesListView.SelectedIndex == -1)
+                ExercisesListView.SelectedIndex = 0;
+        }
+
+        private void AddToSession_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Exercise exercise = (Exercise)ExercisesListView.SelectedItem;
+
+            if (exercise.IsInSessionMode == true)
+            {
+                exercise.IsInSessionMode = false;
+                exercise.SessionModeOrder = 0;
+            }
+            else
+            {
+                exercise.IsInSessionMode = true;
+                int highestSessionOrder = exercises.Max(ex => ex.SessionModeOrder);
+                exercise.SessionModeOrder = highestSessionOrder + 1;
+            }
+
+            DatabaseUtilities.UpdateExercise(exercise);
+
+            int selectedId = ExercisesListView.SelectedIndex;
+            ReadDatabase();
+            ExercisesListView.SelectedIndex = selectedId;
+        }
+
+        private async void ControlSession_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            await ControlSessionMode();
+        }
+
+        private async void PreviousExercise_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            await GoToPreviousExercise();
+        }
+
+        private async void NextExercise_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            await GoToNextExercise();
+        }
+
+        private void SetUpMetronomeForSelected_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            SaveTempoIntoItem((Exercise)ExercisesListView.SelectedItem);
+            ReadDatabase();
+        }
+
+        private void SaveMetronomesTempo_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ApplyMetronomeSettings((Exercise)ExercisesListView.SelectedItem);
+        }
+
+        private void GoToSearch_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            SearchBox.Focus();
+        }
+
+        #endregion
     }
 }
