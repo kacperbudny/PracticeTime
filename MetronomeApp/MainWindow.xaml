@@ -21,6 +21,38 @@
                       Header="Change tempo by 10" 
                       Click="ChangeTempoByTenMenuItem_Click"/>
         </ContextMenu>
+
+        <ContextMenu x:Key="listItemsContextMenu">
+            <MenuItem Command="classes:KeyboardCommands.EditExercise"/>
+            <MenuItem Command="classes:KeyboardCommands.DeleteExercise"/>
+            <MenuItem Command="classes:KeyboardCommands.AddToSession"/>
+            <MenuItem Command="classes:KeyboardCommands.SwapWithPrevious"/>
+            <MenuItem Command="classes:KeyboardCommands.SwapWithNext"/>
+            <MenuItem Command="classes:KeyboardCommands.SetUpMetronomeForSelected"/>
+            <MenuItem Command="classes:KeyboardCommands.SaveMetronomesTempo"/>
+            <MenuItem Command="classes:KeyboardCommands.RefreshList"/>
+        </ContextMenu>
+
+        <Style TargetType="ListViewItem" x:Key="coloringListViewWhenCompleted">
+            <Setter Property="ContextMenu" Value="{StaticResource listItemsContextMenu}" />
+            <Setter Property="HorizontalContentAlignment" 
+                    Value="Stretch"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsCompleted}" 
+                             Value="True">
+                    <Setter Property="Background" 
+                            Value="PaleGreen"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="ListViewItem" x:Key="disableListViewSelectionStyle" BasedOn="{StaticResource coloringListViewWhenCompleted}">
+            <Setter Property="Focusable" Value="False"/>
+        </Style>
+
+        <Style TargetType="ListViewItem" x:Key="enableListViewSelectionStyle" BasedOn="{StaticResource coloringListViewWhenCompleted}">
+            <Setter Property="Focusable" Value="True"/>
+        </Style>
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="classes:KeyboardCommands.ControlMetronome" 
@@ -101,6 +133,21 @@
         <CommandBinding Command="classes:KeyboardCommands.SaveMetronomesTempo" 
                         CanExecute="ExercisesActions_CanExecute" 
                         Executed="SaveMetronomesTempo_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.GoToSearch" 
+                        CanExecute="IfNotInSession_CanExecute" 
+                        Executed="GoToSearch_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.SwapWithPrevious" 
+                        CanExecute="SwappingExercises_CanExecute" 
+                        Executed="SwapWithPrevious_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.SwapWithNext" 
+                        CanExecute="SwappingExercises_CanExecute" 
+                        Executed="SwapWithNext_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.Unfocus" 
+                        CanExecute="IfNotInSession_CanExecute" 
+                        Executed="Unfocus_Executed" />
+        <CommandBinding Command="classes:KeyboardCommands.AcceptCongratulations" 
+                        CanExecute="AcceptCongratulations_CanExecute" 
+                        Executed="AcceptCongratulations_Executed" />
     </Window.CommandBindings>
     <Grid>
         <Rectangle x:Name="OverlayRectangle"
@@ -504,7 +551,8 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="Session" 
+                            <GridViewColumn x:Name="SessionColumn"
+                                            Header="Session" 
                                             Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>

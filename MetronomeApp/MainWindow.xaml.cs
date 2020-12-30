@@ -412,63 +412,46 @@ namespace MetronomeApp
 
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
-            var checkbox = (CheckBox)e.OriginalSource;
-            Exercise exercise = (Exercise)checkbox.DataContext;
-
-            if (checkbox.IsChecked == false)
+            if (!session.IsEnabled)
             {
-                exercise.IsInSessionMode = false;
-                exercise.SessionModeOrder = 0;
-            }
-            else
-            {
-                exercise.IsInSessionMode = true;
-                int highestSessionOrder = exercises.Max(ex => ex.SessionModeOrder);
-                exercise.SessionModeOrder = highestSessionOrder + 1;
-            }
+                var checkbox = (CheckBox)e.OriginalSource;
+                Exercise exercise = (Exercise)checkbox.DataContext;
 
-            DatabaseUtilities.UpdateExercise(exercise);
+                if (checkbox.IsChecked == false)
+                {
+                    exercise.IsInSessionMode = false;
+                    exercise.SessionModeOrder = 0;
+                }
+                else
+                {
+                    exercise.IsInSessionMode = true;
+                    int highestSessionOrder = exercises.Max(ex => ex.SessionModeOrder);
+                    exercise.SessionModeOrder = highestSessionOrder + 1;
+                }
 
-            if (ExercisesCategoriesComboBox.SelectedIndex == 1)
-            {
-                ReadDatabase();
+                DatabaseUtilities.UpdateExercise(exercise);
+
+                if (ExercisesCategoriesComboBox.SelectedIndex == 1)
+                {
+                    ReadDatabase();
+                }
             }
         }
 
         private void ListDownButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ExercisesCategoriesComboBox.SelectedIndex == 1)
-            {
-                var button = (Button)e.OriginalSource;
-                Exercise exercise = (Exercise)button.DataContext;
+            var button = (Button)e.OriginalSource;
+            Exercise exercise = (Exercise)button.DataContext;
 
-                int index = ExercisesListView.Items.IndexOf(exercise);
-
-                if (exercise.SessionModeOrder != exercises.Max(ex => ex.SessionModeOrder))
-                {
-                    Exercise nextExercise = (Exercise)ExercisesListView.Items.GetItemAt(index + 1);
-                    DatabaseUtilities.SwapExerciseSessionOrders(exercise, nextExercise);
-                    ReadDatabase();
-                }
-            }
+            SwapWithPrevious(exercise);
         }
 
         private void ListUpButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ExercisesCategoriesComboBox.SelectedIndex == 1)
-            {
-                var button = (Button)e.OriginalSource;
-                Exercise exercise = (Exercise)button.DataContext;
+            var button = (Button)e.OriginalSource;
+            Exercise exercise = (Exercise)button.DataContext;
 
-                int index = ExercisesListView.Items.IndexOf(exercise);
-
-                if (index != 0)
-                {
-                    Exercise previousExercise = (Exercise)ExercisesListView.Items.GetItemAt(index - 1);
-                    DatabaseUtilities.SwapExerciseSessionOrders(exercise, previousExercise);
-                    ReadDatabase();
-                }
-            }
+            SwapWithNext(exercise);
         }
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -502,7 +485,39 @@ namespace MetronomeApp
             ReadDatabase();
         }
 
-        void ReadDatabase()
+        private void SwapWithPrevious(Exercise exercise)
+        {
+            if (ExercisesCategoriesComboBox.SelectedIndex == 1)
+            {
+                int index = ExercisesListView.Items.IndexOf(exercise);
+
+                if (index != 0)
+                {
+                    Exercise previousExercise = (Exercise)ExercisesListView.Items.GetItemAt(index - 1);
+                    DatabaseUtilities.SwapExerciseSessionOrders(exercise, previousExercise);
+                    ReadDatabase();
+                    ExercisesListView.SelectedIndex = index - 1;
+                }
+            }
+        }
+
+        private void SwapWithNext(Exercise exercise)
+        {
+            if (ExercisesCategoriesComboBox.SelectedIndex == 1)
+            {
+                int index = ExercisesListView.Items.IndexOf(exercise);
+
+                if (exercise.SessionModeOrder != exercises.Max(ex => ex.SessionModeOrder))
+                {
+                    Exercise nextExercise = (Exercise)ExercisesListView.Items.GetItemAt(index + 1);
+                    DatabaseUtilities.SwapExerciseSessionOrders(exercise, nextExercise);
+                    ReadDatabase();
+                    ExercisesListView.SelectedIndex = index + 1;
+                }
+            }
+        }
+
+        private void ReadDatabase()
         {
             using (SQLiteConnection conn = new SQLiteConnection(App.databasePath))
             {
@@ -549,7 +564,7 @@ namespace MetronomeApp
         {
             Exercise selectedExercise = (Exercise)ExercisesListView.SelectedItem;
 
-            var result = MessageBox.Show("Are you sure you want to delete this exercise? " + selectedExercise.Name,
+            var result = MessageBox.Show("Are you sure you want to delete this exercise?\n\n" + selectedExercise.Name,
                 "Deleting exercise", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
 
             switch (result)
@@ -698,6 +713,7 @@ namespace MetronomeApp
             NextSessionExerciseButton.IsEnabled = true;
             SessionButtonLabel.Text = "Cancel session";
             ButtonsColumn.Width = 0;
+            SessionColumn.Width = 0;
             SessionIndicator.Fill = Brushes.Lime;
             ExercisesListView.ItemContainerStyle = (Style)FindResource("disableListViewSelectionStyle");
             ExercisesListView.SelectedIndex = session.CurrentSessionExerciseId;
@@ -724,6 +740,7 @@ namespace MetronomeApp
             NextSessionExerciseButton.IsEnabled = false;
             SessionButtonLabel.Text = "Start session";
             ButtonsColumn.Width = double.NaN;
+            SessionColumn.Width = double.NaN;
             ExercisesListView.ItemContainerStyle = (Style)FindResource("enableListViewSelectionStyle");
             session.Stop();
             ReadDatabase();
@@ -857,6 +874,16 @@ namespace MetronomeApp
         private void GoToSessionExercise_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = !CountdownGrid.IsVisible && session.IsEnabled;
+        }
+
+        private void SwappingExercises_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !CountdownGrid.IsVisible && !session.IsEnabled && ExercisesCategoriesComboBox.SelectedIndex == 1 && ExercisesListView.SelectedIndex != -1;
+        }
+
+        private void AcceptCongratulations_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = InformationGrid.IsVisible;
         }
 
         private async void ControlMetronomeCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1017,6 +1044,30 @@ namespace MetronomeApp
         private void GoToSearch_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             SearchBox.Focus();
+        }
+
+        private void SwapWithPrevious_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            SwapWithPrevious((Exercise)ExercisesListView.SelectedItem);
+        }
+
+        private void SwapWithNext_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            SwapWithNext((Exercise)ExercisesListView.SelectedItem);
+        }
+
+        private void Unfocus_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if(SearchBox.IsFocused)
+            {
+                Keyboard.ClearFocus();
+            }
+        }
+
+        private void AcceptCongratulations_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            OverlayRectangle.Visibility = Visibility.Hidden;
+            InformationGrid.Visibility = Visibility.Hidden;
         }
 
         #endregion

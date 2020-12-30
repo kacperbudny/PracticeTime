@@ -32,26 +32,6 @@
             <Setter Property="FontSize" Value="20"/>
         </Style>
 
-        <Style TargetType="ListViewItem" x:Key="coloringListViewWhenCompleted">
-            <Setter Property="HorizontalContentAlignment" 
-                    Value="Stretch"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsCompleted}" 
-                             Value="True">
-                    <Setter Property="Background" 
-                            Value="PaleGreen"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style TargetType="ListViewItem" x:Key="disableListViewSelectionStyle" BasedOn="{StaticResource coloringListViewWhenCompleted}">
-            <Setter Property="Focusable" Value="False"/>
-        </Style>
-
-        <Style TargetType="ListViewItem" x:Key="enableListViewSelectionStyle" BasedOn="{StaticResource coloringListViewWhenCompleted}">
-            <Setter Property="Focusable" Value="True"/>
-        </Style>
-
         <Style x:Key="HeaderStyle" TargetType="GridViewColumnHeader">
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
         </Style>

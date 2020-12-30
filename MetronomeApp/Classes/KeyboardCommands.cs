@@ -165,7 +165,7 @@ namespace MetronomeApp.Classes
 
 		public static readonly RoutedUICommand AddExercise = new RoutedUICommand
 			(
-				"AddExercise",
+				"Add exercise",
 				"AddExercise",
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
@@ -176,7 +176,7 @@ namespace MetronomeApp.Classes
 
 		public static readonly RoutedUICommand EditExercise = new RoutedUICommand
 			(
-				"EditExercise",
+				"Edit exercise",
 				"EditExercise",
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
@@ -187,7 +187,7 @@ namespace MetronomeApp.Classes
 
 		public static readonly RoutedUICommand DeleteExercise = new RoutedUICommand
 			(
-				"DeleteExercise",
+				"Delete exercise",
 				"DeleteExercise",
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
@@ -198,7 +198,7 @@ namespace MetronomeApp.Classes
 
 		public static readonly RoutedUICommand RefreshList = new RoutedUICommand
 			(
-				"RefreshList",
+				"Refresh list",
 				"RefreshList",
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
@@ -231,7 +231,7 @@ namespace MetronomeApp.Classes
 
 		public static readonly RoutedUICommand AddToSession = new RoutedUICommand
 			(
-				"AddToSession",
+				"Add to/delete from session",
 				"AddToSession",
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
@@ -275,7 +275,7 @@ namespace MetronomeApp.Classes
 
 		public static readonly RoutedUICommand SetUpMetronomeForSelected = new RoutedUICommand
 			(
-				"SetUpMetronomeForSelected",
+				"Set up metronome for the exercise",
 				"SetUpMetronomeForSelected",
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
@@ -286,12 +286,67 @@ namespace MetronomeApp.Classes
 
 		public static readonly RoutedUICommand SaveMetronomesTempo = new RoutedUICommand
 			(
-				"SaveMetronomesTempo",
+				"Save current metronome's tempo into the exercise",
 				"SaveMetronomesTempo",
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
 					new KeyGesture(Key.F5)
+				}
+			);
+
+		public static readonly RoutedUICommand GoToSearch = new RoutedUICommand
+			(
+				"GoToSearch",
+				"GoToSearch",
+				typeof(KeyboardCommands),
+				new InputGestureCollection()
+				{
+					new KeyGesture(Key.F11)
+				}
+			);
+
+		public static readonly RoutedUICommand SwapWithPrevious = new RoutedUICommand
+			(
+				"Swap exercise with previous one in session mode",
+				"SwapWithPrevious",
+				typeof(KeyboardCommands),
+				new InputGestureCollection()
+				{
+					new KeyGesture(Key.OemOpenBrackets, ModifierKeys.Control)
+				}
+			);
+
+		public static readonly RoutedUICommand SwapWithNext = new RoutedUICommand
+			(
+				"Swap exercise with next one in session mode",
+				"SwapWithNext",
+				typeof(KeyboardCommands),
+				new InputGestureCollection()
+				{
+					new KeyGesture(Key.OemCloseBrackets, ModifierKeys.Control)
+				}
+			);
+
+		public static readonly RoutedUICommand Unfocus = new RoutedUICommand
+			(
+				"Unfocus",
+				"Unfocus",
+				typeof(KeyboardCommands),
+				new InputGestureCollection()
+				{
+					new KeyGesture(Key.Escape)
+				}
+			);
+
+		public static readonly RoutedUICommand AcceptCongratulations = new RoutedUICommand
+			(
+				"AcceptCongratulations",
+				"AcceptCongratulations",
+				typeof(KeyboardCommands),
+				new InputGestureCollection()
+				{
+					new KeyGesture(Key.F12)
 				}
 			);
 	}
