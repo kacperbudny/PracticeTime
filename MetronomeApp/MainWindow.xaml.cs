@@ -1071,5 +1071,11 @@ namespace MetronomeApp
         }
 
         #endregion
+
+        private void DisplayShortcutsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ShortcutsListWindow shortcutsListWindow = new ShortcutsListWindow();
+            shortcutsListWindow.ShowDialog();
+        }
     }
 }

@@ -89,6 +89,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ShortcutsListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EditExerciseWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -108,6 +112,9 @@
     <Compile Include="Classes\Exercise.cs" />
     <Compile Include="Classes\KeyboardCommands.cs" />
     <Compile Include="Classes\Metronome.cs" />
+    <Compile Include="ShortcutsListWindow.xaml.cs">
+      <DependentUpon>ShortcutsListWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\TapTempo.cs" />
     <Compile Include="Classes\TimekeeperHelper.cs" />
     <Compile Include="Classes\TrainingSession.cs" />

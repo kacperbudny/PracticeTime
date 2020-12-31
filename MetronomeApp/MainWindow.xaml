@@ -33,6 +33,12 @@
             <MenuItem Command="classes:KeyboardCommands.RefreshList"/>
         </ContextMenu>
 
+        <ContextMenu x:Key="shortcutsListMenu">
+            <MenuItem x:Name="DisplayShortcutsMenuItem"
+                      Header="Display shortcuts" 
+                      Click="DisplayShortcutsMenuItem_Click"/>
+        </ContextMenu>
+
         <Style TargetType="ListViewItem" x:Key="coloringListViewWhenCompleted">
             <Setter Property="ContextMenu" Value="{StaticResource listItemsContextMenu}" />
             <Setter Property="HorizontalContentAlignment" 
@@ -273,7 +279,8 @@
                         FontSize="50" 
                         Click="StartButton_Click"
                         MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
-                        MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"/>
+                        MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                        ContextMenu="{StaticResource shortcutsListMenu}"/>
 
                 <Grid Margin="0,5,0,5">
                     <GroupBox BorderBrush="Silver" 

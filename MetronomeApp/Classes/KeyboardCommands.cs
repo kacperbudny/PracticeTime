@@ -16,7 +16,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.S, ModifierKeys.Control)
+					new KeyGesture(Key.S, ModifierKeys.Control, "Ctrl + S")
 				}
 			);
 
@@ -27,7 +27,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.D1, ModifierKeys.Control)
+					new KeyGesture(Key.D1, ModifierKeys.Control, "Ctrl + 1")
 				}
 			);
 
@@ -38,7 +38,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.D2, ModifierKeys.Control)
+					new KeyGesture(Key.D2, ModifierKeys.Control, "Ctrl + 2")
 				}
 			);
 
@@ -49,7 +49,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.D3, ModifierKeys.Control)
+					new KeyGesture(Key.D3, ModifierKeys.Control, "Ctrl + 3")
 				}
 			);
 
@@ -60,7 +60,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.D1, ModifierKeys.Alt)
+					new KeyGesture(Key.D1, ModifierKeys.Alt, "Alt + 1")
 				}
 			);
 
@@ -71,7 +71,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.D2, ModifierKeys.Alt)
+					new KeyGesture(Key.D2, ModifierKeys.Alt, "Alt + 2")
 				}
 			);
 
@@ -82,7 +82,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.D3, ModifierKeys.Alt)
+					new KeyGesture(Key.D3, ModifierKeys.Alt, "Alt + 3")
 				}
 			);
 
@@ -93,7 +93,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.T, ModifierKeys.Control)
+					new KeyGesture(Key.T, ModifierKeys.Control, "Ctrl + T")
 				}
 			);
 
@@ -104,7 +104,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.Y, ModifierKeys.Alt)
+					new KeyGesture(Key.Y, ModifierKeys.Alt, "Alt + Y")
 				}
 			);
 
@@ -115,7 +115,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.T, ModifierKeys.Alt)
+					new KeyGesture(Key.T, ModifierKeys.Alt, "Alt + T")
 				}
 			);
 
@@ -126,7 +126,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.Add, ModifierKeys.Control)
+					new KeyGesture(Key.Add, ModifierKeys.Control, "Ctrl + +")
 				}
 			);
 
@@ -137,7 +137,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.Subtract, ModifierKeys.Control)
+					new KeyGesture(Key.Subtract, ModifierKeys.Control, "Ctrl + -")
 				}
 			);
 
@@ -148,7 +148,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.S, ModifierKeys.Alt)
+					new KeyGesture(Key.S, ModifierKeys.Alt, "Alt + S")
 				}
 			);
 
@@ -159,7 +159,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.D, ModifierKeys.Alt)
+					new KeyGesture(Key.D, ModifierKeys.Alt, "Alt + D")
 				}
 			);
 
@@ -170,7 +170,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.A, ModifierKeys.Control)
+					new KeyGesture(Key.A, ModifierKeys.Control, "Ctrl + A")
 				}
 			);
 
@@ -181,7 +181,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.E, ModifierKeys.Control)
+					new KeyGesture(Key.E, ModifierKeys.Control, "Ctrl + E")
 				}
 			);
 
@@ -192,7 +192,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.Delete)
+					new KeyGesture(Key.Delete, ModifierKeys.None, "Del")
 				}
 			);
 
@@ -203,7 +203,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.R, ModifierKeys.Control)
+					new KeyGesture(Key.R, ModifierKeys.Control, "Ctrl + R")
 				}
 			);
 
@@ -214,7 +214,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.F1)
+					new KeyGesture(Key.F1, ModifierKeys.None, "F1")
 				}
 			);
 
@@ -225,7 +225,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.F2)
+					new KeyGesture(Key.F2, ModifierKeys.None, "F2")
 				}
 			);
 
@@ -236,7 +236,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.F3)
+					new KeyGesture(Key.F3, ModifierKeys.None, "F3")
 				}
 			);
 
@@ -247,7 +247,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.F6)
+					new KeyGesture(Key.F6, ModifierKeys.None, "F6")
 				}
 			);
 
@@ -258,7 +258,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.D9, ModifierKeys.Control)
+					new KeyGesture(Key.D9, ModifierKeys.Control, "Ctrl + 9")
 				}
 			);
 
@@ -269,7 +269,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.D0, ModifierKeys.Control)
+					new KeyGesture(Key.D0, ModifierKeys.Control, "Ctrl + 0")
 				}
 			);
 
@@ -280,7 +280,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.F4)
+					new KeyGesture(Key.F4, ModifierKeys.None, "F4")
 				}
 			);
 
@@ -291,7 +291,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.F5)
+					new KeyGesture(Key.F5, ModifierKeys.None, "F5")
 				}
 			);
 
@@ -302,7 +302,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.F11)
+					new KeyGesture(Key.F11, ModifierKeys.None, "F11")
 				}
 			);
 
@@ -313,7 +313,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.OemOpenBrackets, ModifierKeys.Control)
+					new KeyGesture(Key.OemOpenBrackets, ModifierKeys.Control, "Ctrl + [")
 				}
 			);
 
@@ -324,7 +324,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.OemCloseBrackets, ModifierKeys.Control)
+					new KeyGesture(Key.OemCloseBrackets, ModifierKeys.Control, "Ctrl + ]")
 				}
 			);
 
@@ -335,7 +335,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.Escape)
+					new KeyGesture(Key.Escape, ModifierKeys.None, "Esc")
 				}
 			);
 
@@ -346,7 +346,7 @@ namespace MetronomeApp.Classes
 				typeof(KeyboardCommands),
 				new InputGestureCollection()
 				{
-					new KeyGesture(Key.F12)
+					new KeyGesture(Key.F12, ModifierKeys.None, "F12")
 				}
 			);
 	}
