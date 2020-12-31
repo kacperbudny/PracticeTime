@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MetronomeApp.Classes"
         mc:Ignorable="d"
-        Title="ShortcutsListWindow" Height="450" Width="800">
+        Title="Shortcuts list" Height="450" SizeToContent="Width">
     <Grid Margin="10">
         <ListView x:Name="ShortcutsListView">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" 
-                                            Width="Auto"
+                                            Width="300"
                                             DisplayMemberBinding="{Binding Item1}"/>
                     <GridViewColumn Header="Command" 
-                                            Width="Auto"
+                                            Width="80"
                                             DisplayMemberBinding="{Binding Item2}"/>
                 </GridView>
             </ListView.View>

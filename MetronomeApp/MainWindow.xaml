@@ -7,7 +7,7 @@
         xmlns:classes="clr-namespace:MetronomeApp.Classes"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
-        Title="MetronomeApp"
+        Title="Practice Time!"
         SizeToContent="WidthAndHeight">
     <Window.Resources>
         <ContextMenu x:Key="metronomeTempoContextMenu">
@@ -20,6 +20,9 @@
             <MenuItem x:Name="ChangeTempoByTenMenuItem"
                       Header="Change tempo by 10" 
                       Click="ChangeTempoByTenMenuItem_Click"/>
+            <Separator/>
+            <MenuItem Header="Display list of shortcuts" 
+                      Click="DisplayShortcutsMenuItem_Click"/>
         </ContextMenu>
 
         <ContextMenu x:Key="listItemsContextMenu">
@@ -31,11 +34,13 @@
             <MenuItem Command="classes:KeyboardCommands.SetUpMetronomeForSelected"/>
             <MenuItem Command="classes:KeyboardCommands.SaveMetronomesTempo"/>
             <MenuItem Command="classes:KeyboardCommands.RefreshList"/>
+            <Separator/>
+            <MenuItem Header="Display list of shortcuts" 
+                      Click="DisplayShortcutsMenuItem_Click"/>
         </ContextMenu>
 
-        <ContextMenu x:Key="shortcutsListMenu">
-            <MenuItem x:Name="DisplayShortcutsMenuItem"
-                      Header="Display shortcuts" 
+        <ContextMenu x:Key="shortcutsListContextMenu">
+            <MenuItem Header="Display list of shortcuts" 
                       Click="DisplayShortcutsMenuItem_Click"/>
         </ContextMenu>
 
@@ -155,7 +160,8 @@
                         CanExecute="AcceptCongratulations_CanExecute" 
                         Executed="AcceptCongratulations_Executed" />
     </Window.CommandBindings>
-    <Grid>
+    <Grid Background="Transparent"
+          ContextMenu="{StaticResource shortcutsListContextMenu}">
         <Rectangle x:Name="OverlayRectangle"
                    Fill="Black" 
                    Panel.ZIndex="1" 
@@ -279,8 +285,7 @@
                         FontSize="50" 
                         Click="StartButton_Click"
                         MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
-                        MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
-                        ContextMenu="{StaticResource shortcutsListMenu}"/>
+                        MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"/>
 
                 <Grid Margin="0,5,0,5">
                     <GroupBox BorderBrush="Silver" 

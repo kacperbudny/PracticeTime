@@ -20,49 +20,26 @@ namespace MetronomeApp.Classes
     /// </summary>
     public partial class ShortcutsListWindow : Window
     {
-        public ObservableCollection<Tuple<string, string>> MyCollection { get; set; }
+        public ObservableCollection<Tuple<string, string>> KeyboardShortcuts { get; set; }
 
         public ShortcutsListWindow()
         {
             InitializeComponent();
 
-            MyCollection = new ObservableCollection<Tuple<string, string>>();
-
-            List<RoutedUICommand> commands = new List<RoutedUICommand>();
+            KeyboardShortcuts = new ObservableCollection<Tuple<string, string>>();
 
             var fieldValues = typeof(KeyboardCommands).GetFields();
 
             foreach (var field in fieldValues)
             {
-                object com = field.GetValue(typeof(RoutedUICommand));
-                commands.Add((RoutedUICommand)com);
-            }
-
-            List<KeyGesture> inputGestures = new List<KeyGesture>();
-
-            foreach (var com in commands)
-            {
+                RoutedUICommand command = (RoutedUICommand)field.GetValue(typeof(RoutedUICommand));
                 InputGesture[] inputs = new InputGesture[1];
-                com.InputGestures.CopyTo(inputs, 0);
-                inputGestures.Add((KeyGesture)inputs[0]);
-            }
-
-            List<string> commandStrings = new List<string>();
-
-            foreach (var input in inputGestures)
-            {
-                commandStrings.Add(input.DisplayString);
-            }
-
-            List<Tuple<string, string>> finalCommands = new List<Tuple<string, string>>();
-
-            for(int i=0;i<commands.Count();i++)
-            {
-                var temp = Tuple.Create(commands[i].Text, commandStrings[i]);
-                MyCollection.Add(temp);
+                command.InputGestures.CopyTo(inputs, 0);
+                KeyGesture keyGesture = (KeyGesture)inputs[0];
+                KeyboardShortcuts.Add(Tuple.Create(command.Text, keyGesture.DisplayString));
             }
             
-            ShortcutsListView.ItemsSource = MyCollection;
+            ShortcutsListView.ItemsSource = KeyboardShortcuts;
         }
     }
 }

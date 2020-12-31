@@ -42,5 +42,16 @@
             <Setter Property="Height" Value="36"/>
         </Style>
 
+        <ItemsPanelTemplate x:Key="MenuItemPanelTemplate">
+            <StackPanel Margin="-20,0,0,0" Background="White"/>
+        </ItemsPanelTemplate>
+
+        <Style TargetType="{x:Type MenuItem}">
+            <Setter Property="ItemsPanel" Value="{StaticResource MenuItemPanelTemplate}"/>
+        </Style>
+
+        <Style TargetType="{x:Type ContextMenu}">
+            <Setter Property="ItemsPanel" Value="{StaticResource MenuItemPanelTemplate}"/>
+        </Style>
     </Application.Resources>
 </Application>

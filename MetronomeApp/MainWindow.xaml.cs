@@ -42,6 +42,7 @@ namespace MetronomeApp
 
         readonly DispatcherTimer timekeeper = new DispatcherTimer();
         readonly Stopwatch sw = new Stopwatch();
+        private ShortcutsListWindow shortcutsListWindow;
         int changeTempoFactor = 1;
 
         #endregion
@@ -831,6 +832,20 @@ namespace MetronomeApp
 
         #region Keyboard shortcuts
 
+        private void DisplayShortcutsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (shortcutsListWindow == null)
+            {
+                shortcutsListWindow = new ShortcutsListWindow();
+                shortcutsListWindow.Closed += (a, b) => shortcutsListWindow = null;
+                shortcutsListWindow.Show();
+            }
+            else
+            {
+                shortcutsListWindow.Show();
+            }
+        }
+
         private void StartButton_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = !CountdownGrid.IsVisible && !tapTempo.IsTapTempoModeEnabled;
@@ -1071,11 +1086,5 @@ namespace MetronomeApp
         }
 
         #endregion
-
-        private void DisplayShortcutsMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ShortcutsListWindow shortcutsListWindow = new ShortcutsListWindow();
-            shortcutsListWindow.ShowDialog();
-        }
     }
 }
