@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Runtime.InteropServices;
@@ -10,17 +11,19 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using MetronomeApp.Properties;
+using NAudio.Wave;
 
 namespace MetronomeApp.Classes
 {
-    public class Metronome
+    public class Metronome : IDisposable
     {
         public bool IsMetronomePlaying { get; set; }
         public int Sleep { get; private set; }
 
         readonly List<DateTime> times = new List<DateTime>();
         readonly Stopwatch sw = new Stopwatch();
-        readonly SoundPlayer metronomeSound = new SoundPlayer(Resources.metronome);
+        readonly WaveOutEvent outputDevice = new WaveOutEvent();
+        readonly AudioFileReader audioFile;
 
         private int Tick;
 
@@ -28,7 +31,10 @@ namespace MetronomeApp.Classes
         {
             Tick = 500;
             IsMetronomePlaying = false;
-            metronomeSound.Play();
+            string fileName = "metronome.wav";
+            string path = Path.Combine(Environment.CurrentDirectory, "Resources", fileName);
+            audioFile = new AudioFileReader(path);
+            outputDevice.Init(audioFile);
         }
 
         public async Task Run()
@@ -45,7 +51,7 @@ namespace MetronomeApp.Classes
 
                 if (ElapsedMilliseconds != 0 && (mod == 0 || ElapsedMilliseconds > Tick))
                 {
-                    metronomeSound.Play();
+                    outputDevice.Play();
                     times.Add(DateTime.Now);
 
                     sw.Restart();
@@ -53,6 +59,8 @@ namespace MetronomeApp.Classes
                     if (!IsMetronomePlaying) break;
 
                     await Task.Delay(Sleep);
+                    outputDevice.Stop();
+                    audioFile.Position = 0;
                 }
             }
 
@@ -92,6 +100,12 @@ namespace MetronomeApp.Classes
                     file.WriteLine(time.ToString("ss.fff"));
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            outputDevice.Dispose(); 
+            audioFile.Dispose();
         }
     }
 }
