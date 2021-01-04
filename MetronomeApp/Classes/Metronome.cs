@@ -7,6 +7,7 @@ using System.Media;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
@@ -15,15 +16,14 @@ using NAudio.Wave;
 
 namespace MetronomeApp.Classes
 {
-    public class Metronome : IDisposable
+    public class Metronome
     {
         public bool IsMetronomePlaying { get; set; }
         public int Sleep { get; private set; }
 
         readonly List<DateTime> times = new List<DateTime>();
         readonly Stopwatch sw = new Stopwatch();
-        readonly WaveOutEvent outputDevice = new WaveOutEvent();
-        readonly AudioFileReader audioFile;
+        readonly AudioPlayer metronomeSound = new AudioPlayer(SoundType.Metronome);
 
         private int Tick;
 
@@ -31,10 +31,6 @@ namespace MetronomeApp.Classes
         {
             Tick = 500;
             IsMetronomePlaying = false;
-            string fileName = "metronome.wav";
-            string path = Path.Combine(Environment.CurrentDirectory, "Resources", fileName);
-            audioFile = new AudioFileReader(path);
-            outputDevice.Init(audioFile);
         }
 
         public async Task Run()
@@ -51,23 +47,15 @@ namespace MetronomeApp.Classes
 
                 if (ElapsedMilliseconds != 0 && (mod == 0 || ElapsedMilliseconds > Tick))
                 {
-                    outputDevice.Play();
-                    times.Add(DateTime.Now);
-
+                    metronomeSound.Play();
                     sw.Restart();
 
                     if (!IsMetronomePlaying) break;
 
                     await Task.Delay(Sleep);
-                    outputDevice.Stop();
-                    audioFile.Position = 0;
+                    metronomeSound.Reset();
                 }
             }
-
-            //if (!IsMetronomePlaying)
-            //{
-            //    SaveTempoList();
-            //}
         }
 
         public void Stop()
@@ -91,21 +79,9 @@ namespace MetronomeApp.Classes
             await Run();
         }
 
-        private void SaveTempoList()
+        public void SetVolume(float newVolume)
         {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\czasy zmiana tempa.txt"))
-            {
-                foreach (DateTime time in times)
-                {
-                    file.WriteLine(time.ToString("ss.fff"));
-                }
-            }
-        }
-
-        public void Dispose()
-        {
-            outputDevice.Dispose(); 
-            audioFile.Dispose();
+            metronomeSound.SetVolume(newVolume);
         }
     }
 }

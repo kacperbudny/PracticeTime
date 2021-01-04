@@ -36,6 +36,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="NAudio, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.1.10.0\lib\net35\NAudio.dll</HintPath>
@@ -112,10 +115,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\AudioPlayer.cs" />
     <Compile Include="Classes\DatabaseUtilities.cs" />
     <Compile Include="Classes\Exercise.cs" />
     <Compile Include="Classes\KeyboardCommands.cs" />
     <Compile Include="Classes\Metronome.cs" />
+    <Compile Include="Classes\SilencePlayer.cs" />
+    <Compile Include="Classes\SoundType.cs" />
     <Compile Include="ShortcutsListWindow.xaml.cs">
       <DependentUpon>ShortcutsListWindow.xaml</DependentUpon>
     </Compile>
@@ -169,6 +175,7 @@
     <Content Include="Resources\completed.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\icon.ico" />
     <Content Include="Resources\metronome.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

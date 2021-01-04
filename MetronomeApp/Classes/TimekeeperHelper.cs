@@ -9,7 +9,7 @@ namespace MetronomeApp.Classes
 {
     class TimekeeperHelper
     {
-        readonly SoundPlayer completedSound = new SoundPlayer(Properties.Resources.timekeeper);
+        private readonly AudioPlayer timekeeperSound;
         private int timeToReturn;
         private int _time;
         public int Time 
@@ -31,6 +31,7 @@ namespace MetronomeApp.Classes
         {
             Time = 300;
             IsEnabled = false;
+            timekeeperSound = new AudioPlayer(SoundType.Timekeeper);
         }
 
         public void SetTimeToReturn()
@@ -44,6 +45,7 @@ namespace MetronomeApp.Classes
 
         public void Reset()
         {
+            timekeeperSound.Reset();
             Time = timeToReturn;
             IsEnabled = false;
         }
@@ -51,7 +53,7 @@ namespace MetronomeApp.Classes
         public void Complete()
         {
             Reset();
-            completedSound.Play();
+            timekeeperSound.Play();
         }
 
         public string GetMinutes()
@@ -67,6 +69,11 @@ namespace MetronomeApp.Classes
         public string GetFullTime()
         {
             return string.Format("{0}:{1}", GetMinutes(), GetSeconds());
+        }
+
+        public void SetVolume(float newVolume)
+        {
+            timekeeperSound.SetVolume(newVolume);
         }
     }
 }

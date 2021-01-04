@@ -24,6 +24,7 @@ using SQLite;
 using System.IO;
 using System.Data;
 using System.Windows.Automation.Peers;
+using NAudio.Wave;
 
 namespace MetronomeApp
 {
@@ -65,6 +66,8 @@ namespace MetronomeApp
             ExercisesCategoriesComboBox.SelectedIndex = 0;
 
             sw.Start();
+
+            SilencePlayer.Play();
         }
 
         #endregion
@@ -110,10 +113,17 @@ namespace MetronomeApp
 
             StartButton.Content = "START";
         }
+
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            metronome.SetVolume((float)VolumeSlider.Value);
+            timekeeperHelper.SetVolume((float)VolumeSlider.Value);
+            session.SetVolume((float)VolumeSlider.Value);
+        }
         #endregion
 
         #region Changing tempo
-        
+
         private void TempoBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = Utilities.AllowNumericInputOnly(e);
@@ -263,6 +273,8 @@ namespace MetronomeApp
                     }
                     else
                     {
+                        session.ResetCompletedSound();
+
                         ExitSessionMode();
 
                         TotalSessionTimeTextblock.Text = session.SessionTime;
@@ -546,7 +558,7 @@ namespace MetronomeApp
             AddExerciseWindow addExerciseWindow = new AddExerciseWindow(exercises);
             addExerciseWindow.ShowDialog();
 
-            OverlayRectangle.Visibility = Visibility.Hidden;
+            OverlayRectangle.Visibility = Visibility.Collapsed;
             ReadDatabase();
         }
 
@@ -557,7 +569,7 @@ namespace MetronomeApp
             EditExerciseWindow editExerciseWindow = new EditExerciseWindow(exercises, (Exercise)ExercisesListView.SelectedItem);
             editExerciseWindow.ShowDialog();
 
-            OverlayRectangle.Visibility = Visibility.Hidden;
+            OverlayRectangle.Visibility = Visibility.Collapsed;
             ReadDatabase();
         }
 
@@ -642,8 +654,8 @@ namespace MetronomeApp
 
         private void AcceptCongtratulationsButton_Click(object sender, RoutedEventArgs e)
         {
-            OverlayRectangle.Visibility = Visibility.Hidden;
-            InformationGrid.Visibility = Visibility.Hidden;
+            OverlayRectangle.Visibility = Visibility.Collapsed;
+            InformationGrid.Visibility = Visibility.Collapsed;
         }
 
         private async Task GoToPreviousExercise()
@@ -805,6 +817,8 @@ namespace MetronomeApp
 
         private async Task CountdownDuringSessionAsync()
         {
+            session.ResetClockHighSound();
+
             OverlayRectangle.Visibility = Visibility.Visible;
             CountdownGrid.Visibility = Visibility.Visible;
 
@@ -815,10 +829,11 @@ namespace MetronomeApp
                 CountdownTextblock.Text = i.ToString();
                 session.PlayClockLowSound();
                 await Task.Delay(1000);
+                session.ResetClockLowSound();
             }
 
-            OverlayRectangle.Visibility = Visibility.Hidden;
-            CountdownGrid.Visibility = Visibility.Hidden;
+            OverlayRectangle.Visibility = Visibility.Collapsed;
+            CountdownGrid.Visibility = Visibility.Collapsed;
 
             session.PlayClockHighSound();
         }
@@ -1081,8 +1096,8 @@ namespace MetronomeApp
 
         private void AcceptCongratulations_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            OverlayRectangle.Visibility = Visibility.Hidden;
-            InformationGrid.Visibility = Visibility.Hidden;
+            OverlayRectangle.Visibility = Visibility.Collapsed;
+            InformationGrid.Visibility = Visibility.Collapsed;
         }
 
         #endregion

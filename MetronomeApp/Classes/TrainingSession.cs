@@ -14,9 +14,9 @@ namespace MetronomeApp.Classes
     public class TrainingSession
     {
         private readonly Stopwatch sessionTimer;
-        private readonly SoundPlayer clockHighSound;
-        private readonly SoundPlayer clockLowSound;
-        private readonly SoundPlayer completedSound;
+        private readonly AudioPlayer clockHighSound;
+        private readonly AudioPlayer clockLowSound;
+        private readonly AudioPlayer completedSound;
         public string SessionTime 
         { 
             get
@@ -32,11 +32,11 @@ namespace MetronomeApp.Classes
         {
             CurrentSessionExerciseId = 0;
             TotalBPMIncrease = 0;
-            sessionTimer = new Stopwatch();
             IsEnabled = false;
-            clockHighSound = new SoundPlayer(Resources.clock_high);
-            clockLowSound = new SoundPlayer(Resources.clock_low);
-            completedSound = new SoundPlayer(Resources.completed);
+            sessionTimer = new Stopwatch();
+            clockHighSound = new AudioPlayer(SoundType.ClockHigh);
+            clockLowSound = new AudioPlayer(SoundType.ClockLow);
+            completedSound = new AudioPlayer(SoundType.Completed);
         }
 
         public void Stop()
@@ -66,6 +66,28 @@ namespace MetronomeApp.Classes
         public void PlayCompletedSound()
         {
             completedSound.Play();
+        }
+
+        public void ResetClockHighSound()
+        {
+            clockHighSound.Reset();
+        }
+
+        public void ResetClockLowSound()
+        {
+            clockLowSound.Reset();
+        }
+
+        public void ResetCompletedSound()
+        {
+            completedSound.Reset();
+        }
+
+        public void SetVolume(float newVolume)
+        {
+            clockHighSound.SetVolume(newVolume);
+            clockLowSound.SetVolume(newVolume);
+            completedSound.SetVolume(newVolume);
         }
     }
 }
