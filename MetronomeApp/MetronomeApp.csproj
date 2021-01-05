@@ -176,6 +176,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\icon.ico" />
+    <Resource Include="Resources\logo-small-100px.png" />
     <Content Include="Resources\metronome.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

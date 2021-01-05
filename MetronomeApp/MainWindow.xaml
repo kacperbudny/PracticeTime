@@ -7,9 +7,10 @@
         xmlns:classes="clr-namespace:MetronomeApp.Classes"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
-        Title="Practice Time!"
+        Title="PracticeTime!"
         SizeToContent="WidthAndHeight"
-        Icon="Resources/icon.ico">
+        Icon="Resources/icon.ico"
+        Style="{StaticResource DefaultStyles}">
     <Window.Resources>
         <ContextMenu x:Key="metronomeTempoContextMenu">
             <MenuItem x:Name="ChangeTempoByOneMenuItem"
@@ -244,7 +245,6 @@
                 </DockPanel>
                 <Button x:Name="AcceptCongtratulationsButton"
                         Content="Cool!"
-                        Style="{StaticResource gridButtonsStyle}"
                         Width="100"
                         Margin="0,10"
                         Click="AcceptCongtratulationsButton_Click"/>
@@ -253,38 +253,37 @@
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="100"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
-            <Grid Margin="10,10,10,0">
+            <Grid Background="{StaticResource HeadersBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" 
-                           FontSize="25"
-                           FontWeight="DemiBold"
-                           VerticalAlignment="Center"
-                           Padding="20,0">Practice Time!</TextBlock>
-                <DockPanel VerticalAlignment="Center" 
-                           Margin="10"
-                           Grid.Column="2">
-                    <TextBlock Margin="10,0">Volume</TextBlock>
-                    <TextBlock Text="{Binding ElementName=VolumeSlider, Path=Value, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" 
-                               DockPanel.Dock="Right" 
-                               TextAlignment="Center" 
-                               Width="40" />
-                    <Slider Maximum="100" 
-                            Name="VolumeSlider"
-                            Width="150"
-                            Value="100"
-                            ValueChanged="VolumeSlider_ValueChanged"/>
-                </DockPanel>
+                <StackPanel Orientation="Horizontal"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Margin="50,0">
+                    <Image Source="Resources/logo-small-100px.png"
+                           Height="50"/>
+                    <TextBlock FontSize="35"
+                               VerticalAlignment="Center"
+                               Padding="20,0">PracticeTime!</TextBlock>
+                </StackPanel>
+                <Slider Maximum="100" 
+                        Name="VolumeSlider"
+                        Width="250"
+                        Value="100"
+                        ValueChanged="VolumeSlider_ValueChanged"
+                        VerticalAlignment="Center" 
+                        Margin="50,0"
+                        Grid.Column="2"/>
             </Grid>
             <StackPanel Orientation="Horizontal" 
-                    Margin="10"
+                    Margin="34,40"
                         Grid.Row="1">
                 <StackPanel x:Name="MetronomeStackPanel" 
                         Grid.Column="1">
@@ -294,7 +293,6 @@
                                 Margin="0,5">
                             <Button x:Name="TempoDownButton"
                                 Content="◄"
-                                Style="{StaticResource changeTempoButtonsStyle}"
                                 Click="TempoDownButton_Click"
                                 ContextMenu="{StaticResource metronomeTempoContextMenu}"/>
                             <TextBox x:Name="TempoBox" 
@@ -308,7 +306,6 @@
                                 PreviewKeyDown="TempoBox_PreviewKeyDown"/>
                             <Button x:Name="TempoUpButton"
                                 Content="►"
-                                Style="{StaticResource changeTempoButtonsStyle}"
                                 Click="TempoUpButton_Click"
                                 ContextMenu="{StaticResource metronomeTempoContextMenu}"/>
                         </StackPanel>
@@ -330,17 +327,14 @@
                                     Orientation="Horizontal">
                                 <Button x:Name="CancelTapTempoButton"
                                     Content="Cancel"
-                                    Style="{StaticResource defaultButtonStyle}"
                                     Command="classes:KeyboardCommands.TapTempoCancel"/>
                                 <Button x:Name="TapTempoButton"
                                     Content="Tap tempo"
-                                    Style="{StaticResource defaultButtonStyle}"
                                     Click="TapTempoButton_Click"
                                     Margin="5"
                                     Width="120"/>
                                 <Button x:Name="AcceptTapTempoButton"
                                     Content="Accept"
-                                    Style="{StaticResource defaultButtonStyle}"
                                     Command="classes:KeyboardCommands.TapTempoAccept"/>
                             </StackPanel>
                         </GroupBox>
@@ -358,7 +352,6 @@
                                         x:Name="TimerStackPanel">
                                     <Button x:Name="TimerDownButton"
                                         Content="-"
-                                        Style="{StaticResource defaultButtonStyle}"
                                         Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
                                         Click="TimerDownButton_Click"/>
                                     <Label x:Name="TimerLabel" 
@@ -368,7 +361,6 @@
                                        Margin="5,0"/>
                                     <Button x:Name="TimerUpButton"
                                         Content="+"
-                                        Style="{StaticResource defaultButtonStyle}"
                                         Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
                                         Click="TimerUpButton_Click"/>
                                 </StackPanel>
@@ -378,12 +370,10 @@
                                     <Button x:Name="StartTimerButton"
                                         Content="Start timer"
                                         Margin="0,5,5,0"
-                                        Style="{StaticResource defaultButtonStyle}"
                                         Click="StartTimerButton_Click" />
                                     <Button x:Name="ResetTimerButton"
                                         Content="Reset timer"
                                         Margin="0,5,0,0"
-                                        Style="{StaticResource defaultButtonStyle}"
                                         Click="ResetTimerButton_Click"
                                         IsEnabled="False"/>
                                 </StackPanel>
@@ -413,27 +403,23 @@
                     <Button x:Name="AddExerciseButton"
                         Content="Add exercise" 
                         Click="AddExerciseButton_Click"
-                        Style="{StaticResource gridButtonsStyle}"
                         Grid.Column="0"
                         Grid.Row="0"/>
                     <Button x:Name="EditExerciseButton"
                         Content="Edit exercise" 
                         Click="EditExerciseButton_Click"
-                        Style="{StaticResource gridButtonsStyle}"
                         Grid.Column="2"
                         Grid.Row="0"
                         IsEnabled="False"/>
                     <Button x:Name="DeleteExerciseButton"
                         Content="Delete exercise" 
                         Click="DeleteExerciseButton_Click"
-                        Style="{StaticResource gridButtonsStyle}"
                         Grid.Column="4"
                         Grid.Row="0"
                         IsEnabled="False"/>
                     <Button x:Name="RefreshButton"
                         Content="Refresh list" 
                         Click="RefreshButton_Click"
-                        Style="{StaticResource gridButtonsStyle}"
                         Grid.Column="6"
                         Grid.Row="0"/>
 
@@ -659,13 +645,11 @@
                         <Button x:Name="ApplyMetronomeSettingsButton"
                             Content="Set up metronome for selected exercise" 
                             Click="ApplyMetronomeSettingsButton_Click"
-                            Style="{StaticResource gridButtonsStyle}"
                             Grid.Column="0"
                             IsEnabled="False"/>
                         <Button x:Name="SaveMetronomeSettingsIntoItemButton"
                             Content="Save current tempo into selected exercise" 
                             Click="SaveMetronomeSettingsIntoItemButton_Click"
-                            Style="{StaticResource gridButtonsStyle}"
                             Grid.Column="2"
                             IsEnabled="False"/>
                     </Grid>
@@ -680,7 +664,6 @@
                         </Grid.ColumnDefinitions>
                         <Button x:Name="PreviousSessionExerciseButton"
                             Click="PreviousSessionExerciseButton_Click"
-                            Style="{StaticResource gridButtonsStyle}"
                             Content="◄ Previous exercise"
                             Width="160"
                             Grid.Column="0"
@@ -688,7 +671,6 @@
                         <Button x:Name="StartSessionModeButton"
                             FontWeight="Bold"
                             Click="StartSessionModeButton_Click"
-                            Style="{StaticResource gridButtonsStyle}"
                             Margin="10,0,10,0"
                             Grid.Column="1">
                             <DockPanel>
@@ -706,7 +688,6 @@
                         </Button>
                         <Button x:Name="NextSessionExerciseButton"
                             Click="NextSessionExerciseButton_Click"
-                            Style="{StaticResource gridButtonsStyle}"
                             Content="Next exercise ►"
                             Width="160"
                             Grid.Column="2"

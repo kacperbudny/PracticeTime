@@ -4,28 +4,58 @@
              xmlns:local="clr-namespace:MetronomeApp"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style TargetType="Button" x:Key="changeTempoButtonsStyle">
-            <Setter Property="FontSize" 
-                    Value="20"/>
-            <Setter Property="Padding" Value="10,0"/>
-        </Style>
+        <Color x:Key="BackgroundColor">#4F4F59</Color>
+        <Color x:Key="HeadersColor">#393940</Color>
+        <Color x:Key="ButtonsColor">#27262C</Color>
+        <Color x:Key="BasicOrangeColor">#D99C2B</Color>
+        <Color x:Key="DarkOrangeColor">#D98B2B</Color>
+        <Color x:Key="DisplayOrangeColor">#FFD992</Color>
+        <Color x:Key="SliderBorderColor">#727272</Color>
 
-        <Style TargetType="Button" x:Key="defaultButtonStyle">
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Height" Value="40"/>
-        </Style>
+        <SolidColorBrush 
+        x:Key="BackgroundBrush" 
+        Color="{DynamicResource BackgroundColor}" />
+        <SolidColorBrush 
+        x:Key="HeadersBrush" 
+        Color="{DynamicResource HeadersColor}" />
+        <SolidColorBrush 
+        x:Key="ButtonsBrush" 
+        Color="{DynamicResource ButtonsColor}" />
+        <SolidColorBrush 
+        x:Key="BasicOrangeBrush" 
+        Color="{DynamicResource BasicOrangeColor}" />
+        <SolidColorBrush 
+        x:Key="DarkOrangeBrush" 
+        Color="{DynamicResource DarkOrangeColor}" />
+        <SolidColorBrush 
+        x:Key="DisplayOrangeBrush" 
+        Color="{DynamicResource DisplayOrangeColor}" />
 
-        <Style TargetType="Button" x:Key="gridButtonsStyle" BasedOn="{StaticResource defaultButtonStyle}">
+        <Style x:Key="DefaultStyles" TargetType="{x:Type Window}">
+            <Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
+            <Setter Property="FontFamily" Value="Nirmala UI"/>
             <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Padding" Value="10,0"/>
-            <Setter Property="Height" Value="36" />
+            <Setter Property="Foreground" Value="White"/>
         </Style>
 
-        <Style TargetType="Button" x:Key="additionalWindowsButtonsStyle">
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Padding" Value="10,0"/>
-            <Setter Property="Height" Value="36" />
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="{DynamicResource ButtonsBrush}">
+                            <ContentPresenter x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style TargetType="Label" x:Key="labelStyle">
@@ -53,5 +83,157 @@
         <Style TargetType="{x:Type ContextMenu}">
             <Setter Property="ItemsPanel" Value="{StaticResource MenuItemPanelTemplate}"/>
         </Style>
+
+        <!-- SLIDER -->
+
+        <Style x:Key="SliderButtonStyle"
+       TargetType="{x:Type RepeatButton}">
+            <Setter Property="SnapsToDevicePixels"
+          Value="true" />
+            <Setter Property="OverridesDefaultStyle"
+          Value="true" />
+            <Setter Property="IsTabStop"
+          Value="false" />
+            <Setter Property="Focusable"
+          Value="false" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border Background="Transparent" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SliderThumbStyle"
+       TargetType="{x:Type Thumb}">
+            <Setter Property="SnapsToDevicePixels"
+          Value="true" />
+            <Setter Property="OverridesDefaultStyle"
+          Value="true" />
+            <Setter Property="Height"
+          Value="16" />
+            <Setter Property="Width"
+          Value="40" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border>
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="4"
+                                                  Direction="270"
+                                                  Color="Black"
+                                                  Opacity="0.3"
+                                                 BlurRadius="4"/>
+                            </Border.Effect>
+                            <Rectangle x:Name="Rectangle"
+                                   RadiusX="5"
+                                   RadiusY="5">
+                                <Rectangle.Fill>
+                                    <SolidColorBrush x:Name="ThumbColor" Color="{StaticResource BasicOrangeColor}"/>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Template when the orientation of the Slider is Horizontal.-->
+        <ControlTemplate x:Key="HorizontalSlider"
+                 TargetType="{x:Type Slider}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"
+                     MinHeight="{TemplateBinding MinHeight}" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TickBar x:Name="TopTick"
+             SnapsToDevicePixels="True"
+             Placement="Top"
+             Height="4"
+             Visibility="Collapsed">
+                    <TickBar.Fill>
+                        <SolidColorBrush Color="{DynamicResource GlyphColor}" />
+                    </TickBar.Fill>
+                </TickBar>
+                <Border x:Name="TrackBackground"
+            Margin="0"
+            Height="5"
+            Grid.Row="1"
+            BorderThickness="1">
+                    <Border.BorderBrush>
+                        <SolidColorBrush Color="{DynamicResource SliderBorderColor}" />
+                    </Border.BorderBrush>
+                    <Border.Background>
+                        <SolidColorBrush Color="{DynamicResource ButtonsColor}" />
+                    </Border.Background>
+                </Border>
+                <Track Grid.Row="1"
+           x:Name="PART_Track">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource SliderButtonStyle}"
+                      Command="Slider.DecreaseLarge" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource SliderThumbStyle}" />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource SliderButtonStyle}"
+                      Command="Slider.IncreaseLarge" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+                <TickBar x:Name="BottomTick"
+             SnapsToDevicePixels="True"
+             Grid.Row="2"
+             Fill="{TemplateBinding Foreground}"
+             Placement="Bottom"
+             Height="4"
+             Visibility="Collapsed" />
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="TickPlacement"
+             Value="TopLeft">
+                    <Setter TargetName="TopTick"
+              Property="Visibility"
+              Value="Visible" />
+                </Trigger>
+                <Trigger Property="TickPlacement"
+             Value="BottomRight">
+                    <Setter TargetName="BottomTick"
+              Property="Visibility"
+              Value="Visible" />
+                </Trigger>
+                <Trigger Property="TickPlacement"
+             Value="Both">
+                    <Setter TargetName="TopTick"
+              Property="Visibility"
+              Value="Visible" />
+                    <Setter TargetName="BottomTick"
+              Property="Visibility"
+              Value="Visible" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style TargetType="{x:Type Slider}">
+            <Setter Property="SnapsToDevicePixels"
+          Value="true" />
+            <Setter Property="OverridesDefaultStyle"
+          Value="true" />
+            <Style.Triggers>
+                <Trigger Property="Orientation"
+             Value="Horizontal">
+                    <Setter Property="MinWidth"
+              Value="104" />
+                    <Setter Property="MinHeight"
+              Value="21" />
+                    <Setter Property="Template"
+              Value="{StaticResource HorizontalSlider}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
     </Application.Resources>
 </Application>
