@@ -7,6 +7,7 @@
         <Color x:Key="BackgroundColor">#4F4F59</Color>
         <Color x:Key="HeadersColor">#393940</Color>
         <Color x:Key="ButtonsColor">#27262C</Color>
+        <Color x:Key="PressedButtonsColor">#201F24</Color>
         <Color x:Key="BasicOrangeColor">#D99C2B</Color>
         <Color x:Key="DarkOrangeColor">#D98B2B</Color>
         <Color x:Key="DisplayOrangeColor">#FFD992</Color>
@@ -30,6 +31,18 @@
         <SolidColorBrush 
         x:Key="DisplayOrangeBrush" 
         Color="{DynamicResource DisplayOrangeColor}" />
+        <SolidColorBrush
+            x:Key="PressedButtonsBrush"
+            Color="{DynamicResource PressedButtonsColor}"/>
+
+        <DropShadowEffect x:Key="BasicShadow" 
+                          Color="Black" Direction="270" 
+                          ShadowDepth="3" 
+                          BlurRadius="4" 
+                          Opacity="0.4" />
+        
+        <DropShadowEffect x:Key="NoShadow" 
+                          Opacity="0" />
 
         <Style x:Key="DefaultStyles" TargetType="{x:Type Window}">
             <Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
@@ -45,7 +58,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10" Background="{DynamicResource ButtonsBrush}">
+                        <Border Name="border" CornerRadius="10" Background="{DynamicResource ButtonsBrush}">
                             <ContentPresenter x:Name="contentPresenter" 
                                               ContentTemplate="{TemplateBinding ContentTemplate}" 
                                               Content="{TemplateBinding Content}" 
@@ -53,9 +66,20 @@
                                               Margin="{TemplateBinding Padding}" 
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource PressedButtonsBrush}" />
+                                <Setter Property="Effect" Value="{StaticResource NoShadow}"/>
+                            </Trigger>
+                            <Trigger Property="Button.IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Setter Property="Button.Effect"
+                    Value="{StaticResource BasicShadow}"/>
         </Style>
 
         <Style TargetType="Label" x:Key="labelStyle">
@@ -118,14 +142,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Border>
-                            <Border.Effect>
-                                <DropShadowEffect ShadowDepth="4"
-                                                  Direction="270"
-                                                  Color="Black"
-                                                  Opacity="0.3"
-                                                 BlurRadius="4"/>
-                            </Border.Effect>
+                        <Border Effect="{StaticResource BasicShadow}">
                             <Rectangle x:Name="Rectangle"
                                    RadiusX="5"
                                    RadiusY="5">
@@ -234,6 +251,26 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <DrawingImage x:Key="TriangleLeftImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V122.88 H63.9 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F0 M63.9,122.88z M0,0z M0,61.44L0,61.44 63.9,122.88 63.9,0 0,61.44z" />
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        
+        <DrawingImage x:Key="TriangleRightImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V122.88 H63.9 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F0 M63.9,122.88z M0,0z M63.9,61.44L63.9,61.44 0,122.88 0,0 63.9,61.44z" />
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
         
     </Application.Resources>
 </Application>

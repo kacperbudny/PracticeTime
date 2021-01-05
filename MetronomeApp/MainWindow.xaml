@@ -289,15 +289,47 @@
                         Grid.Column="1">
                     <Grid Margin="0,0,0,5">
                         <StackPanel HorizontalAlignment="Center" 
-                                Orientation="Horizontal"  
-                                Margin="0,5">
+                                Orientation="Horizontal">
                             <Button x:Name="TempoDownButton"
-                                Content="◄"
                                 Click="TempoDownButton_Click"
-                                ContextMenu="{StaticResource metronomeTempoContextMenu}"/>
+                                ContextMenu="{StaticResource metronomeTempoContextMenu}"
+                                    MinWidth="45">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                                        <Setter Property="Padding" 
+                                        Value="20,0"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text, ElementName=TempoDownTextBlock}" 
+                                                 Value="">
+                                                <Setter Property="Padding" 
+                                                Value="0"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <DockPanel>
+                                    <Image Source="{StaticResource TriangleLeftImage}"
+                                           Height="20"/>
+                                    <TextBlock x:Name="TempoDownTextBlock">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Margin" 
+                                        Value="10,0,0,0"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Text, ElementName=TempoDownTextBlock}" 
+                                                 Value="">
+                                                        <Setter Property="Margin" 
+                                                Value="0"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DockPanel>
+                            </Button>
                             <TextBox x:Name="TempoBox" 
                                 Text="120" 
-                                Margin="5,0"
+                                Margin="10,0"
                                 PreviewTextInput="TempoBox_PreviewTextInput"
                                 TextChanged="TempoBox_TextChanged"
                                 FontSize="20"
@@ -305,9 +337,42 @@
                                 TextAlignment="Center"
                                 PreviewKeyDown="TempoBox_PreviewKeyDown"/>
                             <Button x:Name="TempoUpButton"
-                                Content="►"
                                 Click="TempoUpButton_Click"
-                                ContextMenu="{StaticResource metronomeTempoContextMenu}"/>
+                                ContextMenu="{StaticResource metronomeTempoContextMenu}"
+                                MinWidth="45">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                                        <Setter Property="Padding" 
+                                        Value="20,0"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text, ElementName=TempoUpTextBlock}" 
+                                                 Value="">
+                                                <Setter Property="Padding" 
+                                                Value="0"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <DockPanel>
+                                    <TextBlock x:Name="TempoUpTextBlock">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Margin" 
+                                        Value="0,0,10,0"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Text, ElementName=TempoUpTextBlock}" 
+                                                 Value="">
+                                                        <Setter Property="Margin" 
+                                                Value="0"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <Image Source="{StaticResource TriangleRightImage}"
+                                           Height="20"/>
+                                </DockPanel>
+                            </Button>
                         </StackPanel>
                     </Grid>
 

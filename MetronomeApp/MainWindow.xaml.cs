@@ -179,22 +179,22 @@ namespace MetronomeApp
         private void ChangeTempoByOneMenuItem_Click(object sender, RoutedEventArgs e)
         {
             changeTempoFactor = 1;
-            TempoUpButton.Content = "►";
-            TempoDownButton.Content = "◄";
+            TempoUpTextBlock.Text = "";
+            TempoDownTextBlock.Text = "";
         }
 
         private void ChangeTempoByFiveMenuItem_Click(object sender, RoutedEventArgs e)
         {
             changeTempoFactor = 5;
-            TempoUpButton.Content = "+5 ►";
-            TempoDownButton.Content = "◄ -5";
+            TempoUpTextBlock.Text = "+5";
+            TempoDownTextBlock.Text = "-5";
         }
 
         private void ChangeTempoByTenMenuItem_Click(object sender, RoutedEventArgs e)
         {
             changeTempoFactor = 10;
-            TempoUpButton.Content = "+10 ►";
-            TempoDownButton.Content = "◄ -10";
+            TempoUpTextBlock.Text = "+10";
+            TempoDownTextBlock.Text = "-10";
         }
 
         private void ReduceTempo(int factor)
