@@ -282,12 +282,12 @@
                         Margin="50,0"
                         Grid.Column="2"/>
             </Grid>
+            
             <StackPanel Orientation="Horizontal" 
-                    Margin="34,40"
+                        Margin="34,40"
                         Grid.Row="1">
-                <StackPanel x:Name="MetronomeStackPanel" 
-                        Grid.Column="1">
-                    <Grid Margin="0,0,0,5">
+                <StackPanel x:Name="MetronomeStackPanel">
+                    <Grid>
                         <StackPanel HorizontalAlignment="Center" 
                                 Orientation="Horizontal">
                             <Button x:Name="TempoDownButton"
@@ -329,13 +329,14 @@
                             </Button>
                             <TextBox x:Name="TempoBox" 
                                 Text="120" 
-                                Margin="10,0"
                                 PreviewTextInput="TempoBox_PreviewTextInput"
                                 TextChanged="TempoBox_TextChanged"
-                                FontSize="20"
-                                Width="100"
+                                Width="84"
+                                Margin="10,0"
                                 TextAlignment="Center"
-                                PreviewKeyDown="TempoBox_PreviewKeyDown"/>
+                                PreviewKeyDown="TempoBox_PreviewKeyDown"
+                                Style="{StaticResource TempoBoxStyle}"
+                                     Padding="5,5,0,0"/>
                             <Button x:Name="TempoUpButton"
                                 Click="TempoUpButton_Click"
                                 ContextMenu="{StaticResource metronomeTempoContextMenu}"
@@ -377,11 +378,24 @@
                     </Grid>
 
                     <Button x:Name="StartButton" 
-                        Content="START"
-                        FontSize="50" 
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
                         Click="StartButton_Click"
-                        MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
-                        MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"/>
+                        Margin="0,25"
+                        Width="200" 
+                        MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                        Style="{StaticResource CircleButton}">
+                        <StackPanel>
+                        <Image x:Name="PlayImage"
+                               Source="{StaticResource PlayImage}"
+                               Height="80"
+                               Margin="20,0,0,0"/>
+                        <Image x:Name="PauseImage"
+                               Source="{StaticResource PauseImage}"
+                               Height="80"
+                               Visibility="Collapsed"/>
+                        </StackPanel>
+                    </Button>
 
                     <Grid Margin="0,5,0,5">
                         <GroupBox BorderBrush="Silver" 
@@ -397,7 +411,8 @@
                                     Content="Tap tempo"
                                     Click="TapTempoButton_Click"
                                     Margin="5"
-                                    Width="120"/>
+                                    Width="120"
+                                    Style="{StaticResource OrangeButton}"/>
                                 <Button x:Name="AcceptTapTempoButton"
                                     Content="Accept"
                                     Command="classes:KeyboardCommands.TapTempoAccept"/>
@@ -409,7 +424,7 @@
                         <GroupBox BorderBrush="Silver" 
                               BorderThickness="1" 
                               Padding="10,5"
-                              Width="{Binding ActualWidth, ElementName=MetronomeStackPanel}">
+                              Width="300">
                             <GroupBox.Header>Timer</GroupBox.Header>
                             <StackPanel>
                                 <StackPanel HorizontalAlignment="Center" 
@@ -435,7 +450,8 @@
                                     <Button x:Name="StartTimerButton"
                                         Content="Start timer"
                                         Margin="0,5,5,0"
-                                        Click="StartTimerButton_Click" />
+                                        Click="StartTimerButton_Click"
+                                        Style="{StaticResource OrangeButton}"/>
                                     <Button x:Name="ResetTimerButton"
                                         Content="Reset timer"
                                         Margin="0,5,0,0"
@@ -469,7 +485,8 @@
                         Content="Add exercise" 
                         Click="AddExerciseButton_Click"
                         Grid.Column="0"
-                        Grid.Row="0"/>
+                        Grid.Row="0"
+                        Style="{StaticResource OrangeButton}"/>
                     <Button x:Name="EditExerciseButton"
                         Content="Edit exercise" 
                         Click="EditExerciseButton_Click"
@@ -737,7 +754,8 @@
                             FontWeight="Bold"
                             Click="StartSessionModeButton_Click"
                             Margin="10,0,10,0"
-                            Grid.Column="1">
+                            Grid.Column="1"
+                            Style="{StaticResource OrangeButton}">
                             <DockPanel>
                                 <Ellipse Margin="0,0,10,0"
                                      Width="15"

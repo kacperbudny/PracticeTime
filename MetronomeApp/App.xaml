@@ -4,13 +4,17 @@
              xmlns:local="clr-namespace:MetronomeApp"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <FontFamily x:Key="Digital">pack://application:,,,/Resources/#DISPLAY FREE TFB</FontFamily>
+        
         <Color x:Key="BackgroundColor">#4F4F59</Color>
         <Color x:Key="HeadersColor">#393940</Color>
         <Color x:Key="ButtonsColor">#27262C</Color>
         <Color x:Key="PressedButtonsColor">#201F24</Color>
         <Color x:Key="BasicOrangeColor">#D99C2B</Color>
         <Color x:Key="DarkOrangeColor">#D98B2B</Color>
-        <Color x:Key="DisplayOrangeColor">#FFD992</Color>
+        <Color x:Key="DisplayOrangeColor">#CCB186</Color>
+        <Color x:Key="DarkenDisplayOrangeColor">#BCA47C</Color>
+        <Color x:Key="DisplayFontColor">#F0EAE1</Color>
         <Color x:Key="SliderBorderColor">#727272</Color>
 
         <SolidColorBrush 
@@ -34,13 +38,23 @@
         <SolidColorBrush
             x:Key="PressedButtonsBrush"
             Color="{DynamicResource PressedButtonsColor}"/>
+        <SolidColorBrush
+            x:Key="DarkenDisplayOrangeBrush"
+            Color="{DynamicResource DarkenDisplayOrangeColor}"/>
+        <SolidColorBrush
+            x:Key="DisplayFontBrush"
+            Color="{DynamicResource DisplayFontColor}"/>
 
         <DropShadowEffect x:Key="BasicShadow" 
                           Color="Black" Direction="270" 
                           ShadowDepth="3" 
-                          BlurRadius="4" 
-                          Opacity="0.4" />
-        
+                          BlurRadius="9" 
+                          Opacity="0.3" />
+        <DropShadowEffect x:Key="DisplayGlow" 
+                          Color="{DynamicResource DisplayOrangeColor}" Direction="270" 
+                          ShadowDepth="1" 
+                          BlurRadius="9" 
+                          Opacity="0.4"  />
         <DropShadowEffect x:Key="NoShadow" 
                           Opacity="0" />
 
@@ -70,9 +84,11 @@
                             <Trigger Property="Button.IsPressed" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource PressedButtonsBrush}" />
                                 <Setter Property="Effect" Value="{StaticResource NoShadow}"/>
+                                <Setter TargetName="contentPresenter" Property="Opacity" Value="0.8"/>
                             </Trigger>
                             <Trigger Property="Button.IsEnabled" Value="False">
                                 <Setter Property="Opacity" Value="0.3"/>
+                                <Setter Property="Effect" Value="{StaticResource NoShadow}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -82,18 +98,108 @@
                     Value="{StaticResource BasicShadow}"/>
         </Style>
 
+        <Style x:Key="OrangeButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" CornerRadius="10" Background="{DynamicResource BasicOrangeBrush}">
+                            <ContentPresenter x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource DarkOrangeBrush}" />
+                                <Setter Property="Effect" Value="{StaticResource NoShadow}"/>
+                                <Setter TargetName="contentPresenter" Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                            <Trigger Property="Button.IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.3"/>
+                                <Setter Property="Effect" Value="{StaticResource NoShadow}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CircleButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse x:Name="circle">
+                                <Ellipse.Fill>
+                                    <LinearGradientBrush>
+                                        <GradientStop Offset="0"
+                                          Color="#D8A342" />
+                                        <GradientStop Offset="0.5"
+                                          Color="#D99C2B" />
+                                        <GradientStop Offset="1"
+                                          Color="#D98B2B" />
+                                    </LinearGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <ContentPresenter x:Name="content" HorizontalAlignment="Center" VerticalAlignment="Center" Effect="{StaticResource BasicShadow}"/>
+                            <Ellipse x:Name="darkOverlay" Fill="Black" Opacity="0.1" Visibility="Hidden"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="darkOverlay" Property="Visibility" Value="Visible"/>
+                                <Setter Property="Effect" Value="{StaticResource NoShadow}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="5,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Height" Value="45"/>
+        </Style>
+
+        <Style x:Key="TempoBoxStyle" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="{StaticResource Digital}"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="{DynamicResource DarkenDisplayOrangeBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Effect" Value="{StaticResource DisplayGlow}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                        <Border Background="{TemplateBinding Background}" 
+                                x:Name="border" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource DisplayOrangeBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style TargetType="Label" x:Key="labelStyle">
             <Setter Property="FontSize" Value="20"/>
         </Style>
 
         <Style x:Key="HeaderStyle" TargetType="GridViewColumnHeader">
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        </Style>
-
-        <Style TargetType="TextBox">
-            <Setter Property="Padding" Value="5,0"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Height" Value="36"/>
         </Style>
 
         <ItemsPanelTemplate x:Key="MenuItemPanelTemplate">
@@ -156,7 +262,6 @@
             </Setter>
         </Style>
 
-        <!--Template when the orientation of the Slider is Horizontal.-->
         <ControlTemplate x:Key="HorizontalSlider"
                  TargetType="{x:Type Slider}">
             <Grid>
@@ -271,6 +376,66 @@
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
-        
+
+        <DrawingImage x:Key="PlayImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V122.88 H92.2 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F0 M92.2,122.88z M0,0z M92.2,60.97L92.2,60.97 0,122.88 0,0 92.2,60.97z" />
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="PauseImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V122.88 H87.72 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F0 M87.72,122.88z M0,0z M0,0L35.54,0 35.54,122.88 0,122.88 0,0 0,0z M52.18,0L87.72,0 87.72,122.88 52.18,122.88 52.18,0 52.18,0z" />
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="AddImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V122.88 H122.88 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F0 M122.88,122.88z M0,0z M4.52,48.12L48.12,48.12 48.12,4.52C48.12,2.04,50.16,0,52.64,0L70.23,0C72.72,0,74.75,2.04,74.75,4.52L74.75,48.12 118.35,48.12C120.84,48.12,122.87,50.16,122.87,52.64L122.87,70.23C122.87,72.71,120.83,74.75,118.35,74.75L74.75,74.75 74.75,118.35C74.75,120.84,72.71,122.87,70.23,122.87L52.65,122.87C50.17,122.87,48.13,120.83,48.13,118.35L48.13,74.75 4.52,74.75C2.04,74.76,0,72.72,0,70.23L0,52.65C0,50.16,2.04,48.12,4.52,48.12L4.52,48.12z" />
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="EditImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V121.96 H122.88 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F0 M122.88,121.96z M0,0z M107.73,1.31C106.77,0.42 105.67,-0.0600000000000001 104.44,0.01 103.21,0.01 102.11,0.49 101.22,1.45L93.95,8.99 114.31,28.66 121.64,20.98C122.53,20.09 122.87,18.92 122.87,17.69 122.87,16.46 122.39,15.29 121.5,14.47L107.73,1.31 107.73,1.31 107.73,1.31z M8.35,5.09L58.55,5.09 58.55,18.13 14.58,18.13C14.16,18.13 13.77,18.31 13.49,18.59 13.21,18.87 13.03,19.26 13.03,19.68L13.03,107.39C13.03,107.81 13.21,108.2 13.49,108.48 13.77,108.76 14.16,108.94 14.58,108.94L102.29,108.94C102.71,108.94 103.1,108.76 103.38,108.48 103.66,108.2 103.84,107.81 103.84,107.39L103.84,65.1 116.88,65.1 116.88,113.61C116.88,115.92 115.93,117.99 114.42,119.5 112.91,121.01 110.81,121.96 108.53,121.96L8.35,121.96C6.03,121.96 3.97,121.01 2.46,119.5 0.95,118 0,115.89 0,113.61L0,13.44C0,11.12 0.95,9.06 2.46,7.55 3.96,6.04 6.07,5.09 8.35,5.09L8.35,5.09z M69.62,75.07C66.95,75.96 64.2,76.78 61.53,77.68 58.86,78.57 56.18,79.46 53.44,80.35 47.06,82.41 43.57,83.57 42.81,83.78 42.06,83.99 42.54,81.04 44.11,74.87L49.18,55.47 49.6,55.04 69.62,75.06 69.62,75.07 69.62,75.07 69.62,75.07z M57.01,47.34L88.44,14.7 108.8,34.3 77.02,67.35 57.01,47.34 57.01,47.34z" />
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="RefreshImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V122.88 H122.04 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F0 M122.04,122.88z M0,0z M117.31,9.3L117.31,48.58 78.03,48.58 73.4,48.58 76.67,45.3 88.12,33.85C87.37,33.12 86.58,32.41 85.76,31.74 84.68,30.86 83.54,30.02 82.38,29.26L82.38,29.26C76.36,25.33,69.17,23.05,61.44,23.05L61.43,23.05 61.43,23.04C50.84,23.04 41.25,27.34 34.31,34.28 27.37,41.22 23.07,50.81 23.07,61.39L23.08,61.39 23.08,61.44 23.07,61.44C23.07,72.03 27.37,81.63 34.31,88.56 41.25,95.5 50.84,99.8 61.42,99.8L61.42,99.79 61.5,99.79 61.5,99.8C65.2,99.8,68.89,99.26,72.43,98.21L72.43,98.21C74.38,97.63 76.3,96.88 78.14,95.99 87.53,91.45 94.79,83.19 98.01,73.12L98.44,71.79 122.05,71.79 121.58,74.09 121.57,74.15 121.57,74.16C120.76,78,119.56,81.78,118.03,85.4L118.03,85.41C116.53,88.96 114.66,92.39 112.51,95.6 101.49,112.03 82.73,122.86 61.46,122.86L61.44,122.86 61.44,122.85C44.48,122.85,29.11,115.97,18.01,104.86L18.01,104.85C6.89,93.77,0.02,78.42,0.01,61.47L0,61.47 0,61.42 0.01,61.42C0.01,44.46,6.89,29.1,18.01,17.99L18.01,17.99C29.11,6.89,44.46,0.02,61.41,0.01L61.41,0 61.47,0 61.47,0.01C70.18,0.01 78.48,1.84 85.98,5.11 87.19,5.64 88.41,6.21 89.58,6.82 95.06,9.65 100.05,13.28 104.41,17.56L114.02,7.95 117.29,4.68 117.29,9.3 117.31,9.3 117.31,9.3z" />
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="DeleteImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V122.88 H109.484 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F0 M109.484,122.88z M0,0z M2.347,9.633L40.644,9.633 40.644,3.76C40.644,1.692,42.333,0,44.404,0L65.548,0C67.618,0,69.308,1.691,69.308,3.76L69.308,9.634 107.138,9.634C108.431,9.634,109.485,10.691,109.485,11.983L109.485,23.497 0,23.497 0,11.982C0,10.69,1.055,9.633,2.347,9.633L2.347,9.633z M8.69,29.605L101.611,29.605C103.548,29.605,105.307,31.204,105.132,33.129L97.268,119.358C97.094,121.284,95.678,122.879,93.745,122.879L16.445,122.879C14.511,122.879,13.093,121.287,12.921,119.358L5.166,33.129C4.994,31.197,6.751,29.605,8.69,29.605L8.69,29.605z M69.077,42.998L78.943,42.998 78.943,108.312 69.077,108.312 69.077,42.998 69.077,42.998z M30.072,42.998L39.939,42.998 39.939,108.312 30.072,108.312 30.072,42.998 30.072,42.998z M49.572,42.998L59.441,42.998 59.441,108.312 49.572,108.312 49.572,42.998 49.572,42.998z" />
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
     </Application.Resources>
 </Application>

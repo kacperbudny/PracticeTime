@@ -98,7 +98,8 @@ namespace MetronomeApp
                 if (sw.ElapsedMilliseconds > metronome.Sleep + 100)
                 {
                     sw.Reset();
-                    StartButton.Content = "STOP";
+                    PlayImage.Visibility = Visibility.Collapsed;
+                    PauseImage.Visibility = Visibility.Visible;
                     await metronome.Run();
                     return;
                 }
@@ -111,7 +112,8 @@ namespace MetronomeApp
             sw.Start();
             metronome.Stop();
 
-            StartButton.Content = "START";
+            PlayImage.Visibility = Visibility.Visible;
+            PauseImage.Visibility = Visibility.Collapsed;
         }
 
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
