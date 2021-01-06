@@ -255,7 +255,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <Grid Background="{StaticResource HeadersBrush}">
                 <Grid.ColumnDefinitions>
@@ -282,9 +281,9 @@
                         Margin="50,0"
                         Grid.Column="2"/>
             </Grid>
-            
+
             <StackPanel Orientation="Horizontal" 
-                        Margin="34,40"
+                        Margin="34,30"
                         Grid.Row="1">
                 <StackPanel x:Name="MetronomeStackPanel">
                     <Grid>
@@ -292,8 +291,7 @@
                                 Orientation="Horizontal">
                             <Button x:Name="TempoDownButton"
                                 Click="TempoDownButton_Click"
-                                ContextMenu="{StaticResource metronomeTempoContextMenu}"
-                                    MinWidth="45">
+                                ContextMenu="{StaticResource metronomeTempoContextMenu}">
                                 <Button.Style>
                                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
                                         <Setter Property="Padding" 
@@ -339,8 +337,7 @@
                                      Padding="5,5,0,0"/>
                             <Button x:Name="TempoUpButton"
                                 Click="TempoUpButton_Click"
-                                ContextMenu="{StaticResource metronomeTempoContextMenu}"
-                                MinWidth="45">
+                                ContextMenu="{StaticResource metronomeTempoContextMenu}">
                                 <Button.Style>
                                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
                                         <Setter Property="Padding" 
@@ -386,146 +383,106 @@
                         MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
                         Style="{StaticResource CircleButton}">
                         <StackPanel>
-                        <Image x:Name="PlayImage"
+                            <Image x:Name="PlayImage"
                                Source="{StaticResource PlayImage}"
                                Height="80"
                                Margin="20,0,0,0"/>
-                        <Image x:Name="PauseImage"
+                            <Image x:Name="PauseImage"
                                Source="{StaticResource PauseImage}"
                                Height="80"
                                Visibility="Collapsed"/>
                         </StackPanel>
                     </Button>
 
-                    <Grid Margin="0,5,0,5">
-                        <GroupBox BorderBrush="Silver" 
-                              BorderThickness="1" 
-                              Padding="10,5">
-                            <GroupBox.Header>Tap Tempo</GroupBox.Header>
-                            <StackPanel HorizontalAlignment="Center" 
-                                    Orientation="Horizontal">
-                                <Button x:Name="CancelTapTempoButton"
+                    <Border Style="{StaticResource DarkerBorder}"
+                            Margin="0,0,0,20">
+                        <StackPanel HorizontalAlignment="Center" 
+                                    Orientation="Horizontal"
+                                    Margin="20">
+                            <Button x:Name="CancelTapTempoButton"
                                     Content="Cancel"
-                                    Command="classes:KeyboardCommands.TapTempoCancel"/>
-                                <Button x:Name="TapTempoButton"
+                                    Command="classes:KeyboardCommands.TapTempoCancel"
+                                    Padding="12,0"/>
+                            <Button x:Name="TapTempoButton"
                                     Content="Tap tempo"
                                     Click="TapTempoButton_Click"
-                                    Margin="5"
-                                    Width="120"
+                                    Margin="5,0"
+                                    Width="100"
                                     Style="{StaticResource OrangeButton}"/>
-                                <Button x:Name="AcceptTapTempoButton"
+                            <Button x:Name="AcceptTapTempoButton"
                                     Content="Accept"
-                                    Command="classes:KeyboardCommands.TapTempoAccept"/>
-                            </StackPanel>
-                        </GroupBox>
-                    </Grid>
+                                    Command="classes:KeyboardCommands.TapTempoAccept"
+                                    Padding="12,0"/>
+                        </StackPanel>
+                    </Border>
 
-                    <Grid>
-                        <GroupBox BorderBrush="Silver" 
-                              BorderThickness="1" 
-                              Padding="10,5"
-                              Width="300">
-                            <GroupBox.Header>Timer</GroupBox.Header>
-                            <StackPanel>
-                                <StackPanel HorizontalAlignment="Center" 
+                    <Border Style="{StaticResource DarkerBorder}"
+                            Padding="20">
+                        <StackPanel>
+                            <StackPanel HorizontalAlignment="Center" 
                                         Orientation="Horizontal"
                                         x:Name="TimerStackPanel">
-                                    <Button x:Name="TimerDownButton"
+                                <Button x:Name="TimerDownButton"
                                         Content="-"
                                         Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
                                         Click="TimerDownButton_Click"/>
-                                    <Label x:Name="TimerLabel" 
+                                <Label x:Name="TimerLabel" 
                                        x:FieldModifier="public"
                                        Content="01:00"
-                                       Style="{StaticResource labelStyle}"
-                                       Margin="5,0"/>
-                                    <Button x:Name="TimerUpButton"
+                                       Style="{StaticResource DisplayLabel}"
+                                       Margin="10,0"
+                                       Width="85"/>
+                                <Button x:Name="TimerUpButton"
                                         Content="+"
                                         Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
                                         Click="TimerUpButton_Click"/>
-                                </StackPanel>
-                                <StackPanel x:Name="TimerButtonsStackPanel"
-                                        HorizontalAlignment="Center" 
-                                        Orientation="Horizontal">
-                                    <Button x:Name="StartTimerButton"
-                                        Content="Start timer"
-                                        Margin="0,5,5,0"
-                                        Click="StartTimerButton_Click"
-                                        Style="{StaticResource OrangeButton}"/>
-                                    <Button x:Name="ResetTimerButton"
-                                        Content="Reset timer"
-                                        Margin="0,5,0,0"
-                                        Click="ResetTimerButton_Click"
-                                        IsEnabled="False"/>
-                                </StackPanel>
                             </StackPanel>
-                        </GroupBox>
-                    </Grid>
+                            <StackPanel x:Name="TimerButtonsStackPanel"
+                                        HorizontalAlignment="Center" 
+                                        Orientation="Horizontal"
+                                        Margin="0,10,0,0">
+                                <Button x:Name="StartTimerButton"
+                                        Content="Start timer"
+                                        Margin="0,0,5,0"
+                                        Click="StartTimerButton_Click"
+                                        Style="{StaticResource OrangeButton}"
+                                        Padding="12,0"/>
+                                <Button x:Name="ResetTimerButton"
+                                        Content="Reset timer"
+                                        Click="ResetTimerButton_Click"
+                                        IsEnabled="False"
+                                        Padding="12,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
 
-                <Grid Margin="10,0,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="0" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="0" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="0" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                <Grid Margin="20,0,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Button x:Name="AddExerciseButton"
-                        Content="Add exercise" 
-                        Click="AddExerciseButton_Click"
-                        Grid.Column="0"
-                        Grid.Row="0"
-                        Style="{StaticResource OrangeButton}"/>
-                    <Button x:Name="EditExerciseButton"
-                        Content="Edit exercise" 
-                        Click="EditExerciseButton_Click"
-                        Grid.Column="2"
-                        Grid.Row="0"
-                        IsEnabled="False"/>
-                    <Button x:Name="DeleteExerciseButton"
-                        Content="Delete exercise" 
-                        Click="DeleteExerciseButton_Click"
-                        Grid.Column="4"
-                        Grid.Row="0"
-                        IsEnabled="False"/>
-                    <Button x:Name="RefreshButton"
-                        Content="Refresh list" 
-                        Click="RefreshButton_Click"
-                        Grid.Column="6"
-                        Grid.Row="0"/>
-
-                    <Grid Grid.Column="0"
-                      Grid.ColumnSpan="7"
-                      Grid.Row="1" 
-                      Margin="0,10,0,0">
+                    <Grid Grid.Row="0" 
+                          Margin="0,0,0,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBox x:Name="SearchBox" 
-                             Padding="5,0"
+                             Padding="20,0"
                              VerticalContentAlignment="Center"
-                             Height="36"
-                             TextChanged="SearchBox_TextChanged">
-                        </TextBox>
+                             TextChanged="SearchBox_TextChanged"
+                             Style="{StaticResource SearchBoxStyle}"/>
                         <TextBlock IsHitTestVisible="False" 
                                Text="Search..." 
                                VerticalAlignment="Center" 
                                HorizontalAlignment="Left" 
-                               Margin="10,0,0,0" 
-                               Foreground="DarkGray">
+                               Margin="20,0,0,0" 
+                               Foreground="LightGray">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Setter Property="Visibility" 
@@ -545,11 +502,10 @@
                               Margin="10,0,0,0"
                               Name="ExercisesCategoriesComboBox"
                               Text="All exercices"
-                              FontSize="16"
                               VerticalContentAlignment="Center"
                               HorizontalContentAlignment="Center"
                               Padding="10,0"
-                              Width="250"
+                              Width="300"
                               SelectionChanged="ExercisesCategoriesComboBox_SelectionChanged">
                             <ComboBoxItem>
                                 <TextBlock Text="All exercices"/>
@@ -560,165 +516,201 @@
                         </ComboBox>
                     </Grid>
 
-                    <Grid Margin="0,10,0,10"
-                      Grid.Row="2"
-                      Grid.ColumnSpan="7"
-                      Width="750"
-                      Panel.ZIndex="1">
-                        <Grid.Style>
-                            <Style TargetType="{x:Type Grid}">
-                                <Setter Property="Visibility" 
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0"
+                              Width="750"
+                              Panel.ZIndex="1">
+                            <Grid.Style>
+                                <Style TargetType="{x:Type Grid}">
+                                    <Setter Property="Visibility" 
                                     Value="Collapsed" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=ExercisesListView, Path=Items.Count}" 
-                                             Value="0">
-                                        <Setter Property="Visibility" 
-                                            Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Style>
-
-                        <Rectangle Fill="Black" 
-                               Panel.ZIndex="1" 
-                               Opacity="0.2"/>
-
-                        <Rectangle Fill="White" 
-                               Height="50"
-                               Panel.ZIndex="1">
-                            <Rectangle.Style>
-                                <Style TargetType="{x:Type Rectangle}">
-                                    <Setter Property="Width" 
-                                        Value="450" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=ExercisesCategoriesComboBox, Path=SelectedIndex}" 
-                                                 Value="1">
-                                            <Setter Property="Width" 
-                                                Value="550" />
+                                        <DataTrigger Binding="{Binding ElementName=ExercisesListView, Path=Items.Count}" 
+                                             Value="0">
+                                            <Setter Property="Visibility" 
+                                            Value="Visible" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </Rectangle.Style>
-                        </Rectangle>
+                            </Grid.Style>
 
-                        <TextBlock x:Name="EmptyListTextblock"
+                            <Border Background="Black" 
+                                    CornerRadius="8"
+                               Panel.ZIndex="1" 
+                               Opacity="0.5"/>
+
+                            <Border Background="{StaticResource HeadersBrush}" 
+                               Height="50"
+                               Panel.ZIndex="1"
+                                    CornerRadius="8"
+                                    Effect="{StaticResource BasicShadow}">
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="Width" 
+                                        Value="450" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=ExercisesCategoriesComboBox, Path=SelectedIndex}" 
+                                                 Value="1">
+                                                <Setter Property="Width" 
+                                                Value="550" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
+                                <TextBlock x:Name="EmptyListTextblock"
                                FontSize="18" 
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Panel.ZIndex="1">
-                            <TextBlock.Style>
-                                <Style TargetType="{x:Type TextBlock}">
-                                    <Setter Property="Text" 
-                                        Value="List is empty. Please add some elements to the list." />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=ExercisesCategoriesComboBox, Path=SelectedIndex}" 
-                                                 Value="1">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
                                             <Setter Property="Text" 
+                                        Value="List is empty. Please add some elements to the list." />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=ExercisesCategoriesComboBox, Path=SelectedIndex}" 
+                                                 Value="1">
+                                                    <Setter Property="Text" 
                                                 Value="Session list is empty. Please add some elements to the session." />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Grid>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Border>
+                        </Grid>
 
-                    <ListView x:Name="ExercisesListView"
-                          Margin="0,10,0,10"
-                          Grid.Row="2"
-                          Grid.ColumnSpan="7"
+                        <ListView x:Name="ExercisesListView"
+                          Grid.Column="0"
                           Width="750"
                           MouseDoubleClick="ExercisesListView_MouseDoubleClick"
                           SelectionChanged="ExercisesListView_SelectionChanged"
                           SelectionMode="Single"
                           FontSize="14"
                           ItemContainerStyle="{StaticResource coloringListViewWhenCompleted}">
-                        <ListView.Resources>
-                            <Style TargetType="GridViewColumnHeader">
-                                <Setter Property="Padding" 
+                            <ListView.Resources>
+                                <Style TargetType="GridViewColumnHeader">
+                                    <Setter Property="Padding" 
                                     Value="10,0" />
-                            </Style>
-                        </ListView.Resources>
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Width="0"
+                                </Style>
+                            </ListView.Resources>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="0"
                                             x:Name="ButtonsColumn">
-                                    <GridViewColumn.HeaderContainerStyle>
-                                        <Style TargetType="{x:Type FrameworkElement}">
-                                            <Setter Property="IsHitTestVisible" 
+                                        <GridViewColumn.HeaderContainerStyle>
+                                            <Style TargetType="{x:Type FrameworkElement}">
+                                                <Setter Property="IsHitTestVisible" 
                                                 Value="False"/>
-                                        </Style>
-                                    </GridViewColumn.HeaderContainerStyle>
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate x:Name="ButtonsDataTemplate">
-                                            <DockPanel>
-                                                <Button x:Name="ListDownButton"
+                                            </Style>
+                                        </GridViewColumn.HeaderContainerStyle>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate x:Name="ButtonsDataTemplate">
+                                                <DockPanel>
+                                                    <Button x:Name="ListDownButton"
                                                     Content="▼"
                                                     Padding="2,0"
                                                     Margin="0,0,5,0"
                                                     Click="ListDownButton_Click"/>
-                                                <Button x:Name="ListUpButton"
+                                                    <Button x:Name="ListUpButton"
                                                     Content="▲"
                                                     Padding="2,0"
                                                     Click="ListUpButton_Click"/>
-                                            </DockPanel>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                                </DockPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
 
-                                <GridViewColumn x:Name="SessionColumn"
+                                    <GridViewColumn x:Name="SessionColumn"
                                             Header="Session" 
                                             Width="Auto">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <DockPanel HorizontalAlignment="Center">
-                                                <CheckBox Click="CheckBox_Click"
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <DockPanel HorizontalAlignment="Center">
+                                                    <CheckBox Click="CheckBox_Click"
                                                       IsChecked="{Binding IsInSessionMode}" 
                                                       HorizontalAlignment="Center"/>
-                                            </DockPanel>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                                </DockPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
 
-                                <GridViewColumn Header="Name" 
+                                    <GridViewColumn Header="Name" 
                                             Width="Auto"
                                             DisplayMemberBinding="{Binding Name}"/>
 
-                                <GridViewColumn Header="Tempo" 
+                                    <GridViewColumn Header="Tempo" 
                                             Width="Auto">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <DockPanel>
-                                                <TextBlock Text="{Binding CurrentTempo}"/>
-                                                <TextBlock Text="/"/>
-                                                <TextBlock Text="{Binding TargetTempo}"
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <DockPanel>
+                                                    <TextBlock Text="{Binding CurrentTempo}"/>
+                                                    <TextBlock Text="/"/>
+                                                    <TextBlock Text="{Binding TargetTempo}"
                                                        FontWeight="Bold"/>
-                                                <TextBlock Text=" BPM"/>
-                                            </DockPanel>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                                    <TextBlock Text=" BPM"/>
+                                                </DockPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
 
-                                <GridViewColumn Header="Practice time" 
+                                    <GridViewColumn Header="Practice time" 
                                             Width="Auto">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <DockPanel>
-                                                <TextBlock Text="{Binding PracticeTime}"/>
-                                                <TextBlock Text=" minutes"/>
-                                            </DockPanel>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <DockPanel>
+                                                    <TextBlock Text="{Binding PracticeTime}"/>
+                                                    <TextBlock Text=" minutes"/>
+                                                </DockPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
 
-                                <GridViewColumn Header="Notes" 
+                                    <GridViewColumn Header="Notes" 
                                             Width="Auto"
                                             DisplayMemberBinding="{Binding Notes}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
 
-                    <Grid Grid.ColumnSpan="7"
-                      Grid.Row="3">
+                        <StackPanel Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Margin="10,0,0,0">
+                            <Button x:Name="AddExerciseButton"
+                            Click="AddExerciseButton_Click"
+                            Style="{StaticResource OrangeButton}">
+                                <Image Source="{StaticResource AddImage}"
+                                       Height="20"/>
+                            </Button>
+                            <Button x:Name="EditExerciseButton"
+                            Click="EditExerciseButton_Click"
+                            IsEnabled="False"
+                                    Margin="0,10">
+                                <Image Source="{StaticResource EditImage}"
+                                       Height="20"/>
+                            </Button>
+                            <Button x:Name="DeleteExerciseButton"
+                            Click="DeleteExerciseButton_Click"
+                            IsEnabled="False"
+                                    Margin="0,0,0,10">
+                                <Image Source="{StaticResource DeleteImage}"
+                                       Height="20"/>
+                            </Button>
+                            <Button x:Name="RefreshButton"
+                            Click="RefreshButton_Click">
+                                <Image Source="{StaticResource RefreshImage}"
+                                       Height="20"/>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="2"
+                          Margin="0,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="10" />
@@ -736,9 +728,7 @@
                             IsEnabled="False"/>
                     </Grid>
 
-                    <Grid Grid.ColumnSpan="7"
-                      Grid.Row="4"
-                      Margin="0,10,0,0">
+                    <Grid Grid.Row="3">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
@@ -747,7 +737,7 @@
                         <Button x:Name="PreviousSessionExerciseButton"
                             Click="PreviousSessionExerciseButton_Click"
                             Content="◄ Previous exercise"
-                            Width="160"
+                            Width="200"
                             Grid.Column="0"
                             IsEnabled="False"/>
                         <Button x:Name="StartSessionModeButton"
@@ -772,7 +762,7 @@
                         <Button x:Name="NextSessionExerciseButton"
                             Click="NextSessionExerciseButton_Click"
                             Content="Next exercise ►"
-                            Width="160"
+                            Width="200"
                             Grid.Column="2"
                             IsEnabled="False"/>
                     </Grid>
