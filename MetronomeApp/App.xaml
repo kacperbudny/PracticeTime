@@ -206,6 +206,27 @@
             <Setter Property="Padding" Value="5,0"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Height" Value="45"/>
+            <Setter Property="Background" Value="{StaticResource ButtonsBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                        <Border Background="{TemplateBinding Background}" 
+                                x:Name="border" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="8"
+                                Padding="10,0">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style x:Key="TempoBoxStyle" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
@@ -267,6 +288,10 @@
             <Setter Property="Effect" Value="{StaticResource BasicShadow}"/>
         </Style>
 
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
         <Style TargetType="Label" x:Key="DisplayLabel">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="25"/>
@@ -306,6 +331,13 @@
             <Setter Property="Effect" Value="{StaticResource LightbulbGlow}"/>
         </Style>
 
+        <Style TargetType="Border" x:Key="InformationBorder">
+            <Setter Property="Background" Value="{StaticResource HeadersBrush}"/>
+            <Setter Property="Effect" Value="{StaticResource BasicShadow}"/>
+            <Setter Property="Panel.ZIndex" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+        </Style>
+
         <ItemsPanelTemplate x:Key="MenuItemPanelTemplate">
             <StackPanel Margin="-20,0,0,0" Background="White"/>
         </ItemsPanelTemplate>
@@ -317,7 +349,7 @@
         <Style TargetType="{x:Type ContextMenu}">
             <Setter Property="ItemsPanel" Value="{StaticResource MenuItemPanelTemplate}"/>
         </Style>
-
+        
         <!-- CHECKBOX -->
         <Style x:Key="{x:Type CheckBox}"
        TargetType="{x:Type CheckBox}">

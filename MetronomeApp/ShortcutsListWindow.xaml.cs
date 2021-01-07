@@ -26,6 +26,9 @@ namespace MetronomeApp.Classes
         {
             InitializeComponent();
 
+            this.Owner = Application.Current.MainWindow;
+            WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
             KeyboardShortcuts = new ObservableCollection<Tuple<string, string>>();
 
             var fieldValues = typeof(KeyboardCommands).GetFields();

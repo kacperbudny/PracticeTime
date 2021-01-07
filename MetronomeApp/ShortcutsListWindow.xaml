@@ -5,16 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MetronomeApp.Classes"
         mc:Ignorable="d"
-        Title="Shortcuts list" Height="450" SizeToContent="Width">
-    <Grid Margin="10">
-        <ListView x:Name="ShortcutsListView">
+        Title="Shortcuts list" Height="450" SizeToContent="Width"
+        Style="{StaticResource DefaultStyles}"
+        Effect="{StaticResource BasicShadow}">
+    <Grid Margin="20">
+        <ListView x:Name="ShortcutsListView"
+                  Width="430">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" 
                                             Width="300"
-                                            DisplayMemberBinding="{Binding Item1}"/>
+                                            DisplayMemberBinding="{Binding Item1}">
+                        <GridViewColumn.HeaderContainerStyle>
+                            <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                                <Setter Property="Template" Value="{StaticResource RoundedLeftWithThumb}"/>
+                            </Style>
+                        </GridViewColumn.HeaderContainerStyle>
+                    </GridViewColumn>
                     <GridViewColumn Header="Command" 
-                                            Width="80"
+                                            Width="120"
                                             DisplayMemberBinding="{Binding Item2}"/>
                 </GridView>
             </ListView.View>

@@ -8,8 +8,10 @@
         ResizeMode="NoResize"
         WindowStyle="None"
         Title="Edit exercise" SizeToContent="Height"
-        Width="250">
-    <StackPanel Margin="20,15,20,20">
+        Width="320"
+        Style="{StaticResource DefaultStyles}"
+        Background="{StaticResource HeadersBrush}">
+    <StackPanel Margin="30,20,30,30">
         <StackPanel Margin="0,0,0,5">
             <Label Content="Name"/>
             <TextBox x:Name="NameTextBox"/>
@@ -49,12 +51,11 @@
                     Content="Update" 
                     Margin="0,0,10,0" 
                     Padding="10,0" Click="UpdateButton_Click"
-                    Style="{StaticResource additionalWindowsButtonsStyle}"
+                    Style="{StaticResource OrangeButton}"
                     IsDefault="True"/>
             <Button x:Name="CancelButton"
                     Content="Cancel"
                     Padding="10,0" Click="CancelButton_Click"
-                    Style="{StaticResource additionalWindowsButtonsStyle}"
                     IsCancel="True"/>
         </DockPanel>
     </StackPanel>

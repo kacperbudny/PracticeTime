@@ -729,7 +729,7 @@ namespace MetronomeApp
             SessionButtonLabel.Text = "CANCEL SESSION";
             ButtonsColumn.Width = 0;
             SessionColumn.Width = 0;
-            SessionIndicator.Fill = Brushes.Lime;
+            SessionIndicator.Style = (Style)FindResource("LightbulbOn");
             ExercisesListView.ItemContainerStyle = (Style)FindResource("disableListViewSelectionStyle");
             ExercisesListView.SelectedIndex = session.CurrentSessionExerciseId;
             if (timekeeperHelper.IsEnabled) ResetTimer();
@@ -746,7 +746,7 @@ namespace MetronomeApp
             StopMetronome();
             ResetTimer();
 
-            SessionIndicator.Fill = Brushes.DarkSlateGray;
+            SessionIndicator.Style = (Style)FindResource("LightbulbOff");
             AddExerciseButton.IsEnabled = true;
             RefreshButton.IsEnabled = true;
             ExercisesCategoriesComboBox.IsEnabled = true;
