@@ -458,7 +458,7 @@ namespace MetronomeApp
             var button = (Button)e.OriginalSource;
             Exercise exercise = (Exercise)button.DataContext;
 
-            SwapWithPrevious(exercise);
+            SwapWithNext(exercise);
         }
 
         private void ListUpButton_Click(object sender, RoutedEventArgs e)
@@ -466,7 +466,7 @@ namespace MetronomeApp
             var button = (Button)e.OriginalSource;
             Exercise exercise = (Exercise)button.DataContext;
 
-            SwapWithNext(exercise);
+            SwapWithPrevious(exercise);
         }
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -726,7 +726,7 @@ namespace MetronomeApp
             SearchBox.IsEnabled = false;
             PreviousSessionExerciseButton.IsEnabled = true;
             NextSessionExerciseButton.IsEnabled = true;
-            SessionButtonLabel.Text = "Cancel session";
+            SessionButtonLabel.Text = "CANCEL SESSION";
             ButtonsColumn.Width = 0;
             SessionColumn.Width = 0;
             SessionIndicator.Fill = Brushes.Lime;
@@ -753,7 +753,7 @@ namespace MetronomeApp
             SearchBox.IsEnabled = true;
             PreviousSessionExerciseButton.IsEnabled = false;
             NextSessionExerciseButton.IsEnabled = false;
-            SessionButtonLabel.Text = "Start session";
+            SessionButtonLabel.Text = "START SESSION";
             ButtonsColumn.Width = double.NaN;
             SessionColumn.Width = double.NaN;
             ExercisesListView.ItemContainerStyle = (Style)FindResource("enableListViewSelectionStyle");
