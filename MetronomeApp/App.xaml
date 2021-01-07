@@ -81,10 +81,11 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="MinWidth" Value="45"/>
+            <Setter Property="Background" Value="{DynamicResource ButtonsBrush}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Name="border" CornerRadius="10" Background="{DynamicResource ButtonsBrush}">
+                        <Border Name="border" CornerRadius="10" Background="{TemplateBinding Background}">
                             <ContentPresenter x:Name="contentPresenter" 
                                               ContentTemplate="{TemplateBinding ContentTemplate}" 
                                               Content="{TemplateBinding Content}" 

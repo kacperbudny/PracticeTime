@@ -45,6 +45,7 @@ namespace MetronomeApp
         readonly Stopwatch sw = new Stopwatch();
         private ShortcutsListWindow shortcutsListWindow;
         int changeTempoFactor = 1;
+        bool isInFullView = false;
 
         #endregion
 
@@ -734,6 +735,7 @@ namespace MetronomeApp
             ExercisesListView.SelectedIndex = session.CurrentSessionExerciseId;
             if (timekeeperHelper.IsEnabled) ResetTimer();
             if (tapTempo.IsTapTempoModeEnabled) ResetAfterTapTempo();
+            this.Title = "PracticeTime! - SESSION ON";
 
             ApplyMetronomeSettings((Exercise)ExercisesListView.Items[session.CurrentSessionExerciseId]);
             await CountdownDuringSessionAsync();
@@ -757,6 +759,7 @@ namespace MetronomeApp
             ButtonsColumn.Width = double.NaN;
             SessionColumn.Width = double.NaN;
             ExercisesListView.ItemContainerStyle = (Style)FindResource("enableListViewSelectionStyle");
+            this.Title = "PracticeTime!";
             session.Stop();
             ReadDatabase();
         }
@@ -888,34 +891,39 @@ namespace MetronomeApp
             e.CanExecute = timekeeperHelper.IsEnabled;
         }
 
+        private void IfCountdownDisabledAndInFullView_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !CountdownGrid.IsVisible && isInFullView;
+        }
+
         private void IfNotInSession_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = !CountdownGrid.IsVisible && !session.IsEnabled;
+            e.CanExecute = !CountdownGrid.IsVisible && !session.IsEnabled && isInFullView;
         }
 
         private void ExercisesActions_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = !CountdownGrid.IsVisible && !session.IsEnabled && ExercisesListView.SelectedIndex != -1;
+            e.CanExecute = !CountdownGrid.IsVisible && !session.IsEnabled && ExercisesListView.SelectedIndex != -1 && isInFullView;
         }
 
         private void GoToListview_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = !CountdownGrid.IsVisible && !session.IsEnabled && ExercisesListView.Items.Count != 0;
+            e.CanExecute = !CountdownGrid.IsVisible && !session.IsEnabled && ExercisesListView.Items.Count != 0 && isInFullView;
         }
 
         private void GoToSessionExercise_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = !CountdownGrid.IsVisible && session.IsEnabled;
+            e.CanExecute = !CountdownGrid.IsVisible && session.IsEnabled && isInFullView;
         }
 
         private void SwappingExercises_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = !CountdownGrid.IsVisible && !session.IsEnabled && ExercisesCategoriesComboBox.SelectedIndex == 1 && ExercisesListView.SelectedIndex != -1;
+            e.CanExecute = !CountdownGrid.IsVisible && !session.IsEnabled && ExercisesCategoriesComboBox.SelectedIndex == 1 && ExercisesListView.SelectedIndex != -1 && isInFullView;
         }
 
         private void AcceptCongratulations_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = InformationGrid.IsVisible;
+            e.CanExecute = InformationGrid.IsVisible && isInFullView;
         }
 
         private async void ControlMetronomeCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -967,6 +975,7 @@ namespace MetronomeApp
         {
             TempoBox.Text = tapTempo.FinalTempo.ToString();
             ResetAfterTapTempo();
+            await Task.Delay(100);
             await StartMetronome();
         }
 
@@ -1100,6 +1109,42 @@ namespace MetronomeApp
         {
             OverlayRectangle.Visibility = Visibility.Collapsed;
             InformationGrid.Visibility = Visibility.Collapsed;
+        }
+
+        #endregion
+
+        #region UI/UX
+
+        private void ExpandButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(!isInFullView)
+            {
+                ExpandTextBlock.Text = "Go back to simple view";
+                ExpandArrowTextBlock.Text = "<";
+                isInFullView = true;
+                VolumeSlider.Visibility = Visibility.Visible;
+                FullViewGrid.Visibility = Visibility.Visible;
+            }
+            else if (!session.IsEnabled)
+            {
+                ExpandTextBlock.Text = "Expand to full view";
+                ExpandArrowTextBlock.Text = ">";
+                isInFullView = false;
+                VolumeSlider.Visibility = Visibility.Collapsed;
+                FullViewGrid.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (session.IsEnabled)
+            {
+                MessageBoxResult result = MessageBox.Show("The session is still running. Are you sure you want to close the app?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
         }
 
         #endregion
