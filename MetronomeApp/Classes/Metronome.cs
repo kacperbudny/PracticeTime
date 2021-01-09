@@ -18,41 +18,39 @@ namespace MetronomeApp.Classes
 {
     public class Metronome
     {
-        public bool IsMetronomePlaying { get; set; }
-        public int Sleep { get; private set; }
+        public bool IsEnabled { get; set; }
+        public int SleepTime { get; private set; }
 
-        readonly List<DateTime> times = new List<DateTime>();
-        readonly Stopwatch sw = new Stopwatch();
+        readonly Stopwatch stopwatch = new Stopwatch();
         readonly AudioPlayer metronomeSound = new AudioPlayer(SoundType.Metronome);
-
-        private int Tick;
+        private int tickTime;
 
         public Metronome()
         {
-            Tick = 500;
-            IsMetronomePlaying = false;
+            tickTime = 500;
+            IsEnabled = false;
         }
 
-        public async Task Run()
+        public async Task Start()
         {
-            Sleep = Tick - 20;
-            IsMetronomePlaying = true;
+            SleepTime = tickTime - 20;
+            IsEnabled = true;
 
-            sw.Start();
+            stopwatch.Start();
 
-            while (sw.IsRunning && IsMetronomePlaying)
+            while (stopwatch.IsRunning && IsEnabled)
             {
-                long ElapsedMilliseconds = sw.ElapsedMilliseconds;
-                long mod = (ElapsedMilliseconds % Tick);
+                long ElapsedMilliseconds = stopwatch.ElapsedMilliseconds;
+                long mod = (ElapsedMilliseconds % tickTime);
 
-                if (ElapsedMilliseconds != 0 && (mod == 0 || ElapsedMilliseconds > Tick))
+                if (ElapsedMilliseconds != 0 && (mod == 0 || ElapsedMilliseconds > tickTime))
                 {
                     metronomeSound.Play();
-                    sw.Restart();
+                    stopwatch.Restart();
 
-                    if (!IsMetronomePlaying) break;
+                    if (!IsEnabled) break;
 
-                    await Task.Delay(Sleep);
+                    await Task.Delay(SleepTime);
                     metronomeSound.Reset();
                 }
             }
@@ -60,23 +58,15 @@ namespace MetronomeApp.Classes
 
         public void Stop()
         {
-            IsMetronomePlaying = false;
-            sw.Reset();
+            IsEnabled = false;
+            stopwatch.Reset();
         }
 
         public void SetTempo(int tempo)
         {
             tempo = 60000 / tempo;
-            Tick = tempo;
-            Sleep = Tick - 20;
-        }
-
-        public async Task SetTempoAndRun(int tempo)
-        {
-            Stop();
-            await Task.Delay(Sleep + 100);
-            SetTempo(tempo);
-            await Run();
+            tickTime = tempo;
+            SleepTime = tickTime - 20;
         }
 
         public void SetVolume(float newVolume)

@@ -42,10 +42,11 @@ namespace MetronomeApp
         List<Exercise> exercises = new List<Exercise>();
 
         readonly DispatcherTimer timekeeper = new DispatcherTimer();
-        readonly Stopwatch sw = new Stopwatch();
+        readonly Stopwatch stopwatch = new Stopwatch();
         private ShortcutsListWindow shortcutsListWindow;
         int changeTempoFactor = 1;
         bool isInFullView = false;
+        bool isTempoSetByUser = true;
 
         #endregion
 
@@ -66,7 +67,7 @@ namespace MetronomeApp
 
             ExercisesCategoriesComboBox.SelectedIndex = 0;
 
-            sw.Start();
+            stopwatch.Start();
 
             SilencePlayer.Play();
         }
@@ -82,7 +83,7 @@ namespace MetronomeApp
 
         private async Task ControlMetronome()
         {
-            if (metronome.IsMetronomePlaying == false)
+            if (metronome.IsEnabled == false)
             {
                 await StartMetronome();
             }
@@ -94,14 +95,14 @@ namespace MetronomeApp
 
         private async Task StartMetronome()
         {
-            while(!metronome.IsMetronomePlaying)
+            while(!metronome.IsEnabled)
             {
-                if (sw.ElapsedMilliseconds > metronome.Sleep + 100)
+                if (stopwatch.ElapsedMilliseconds > metronome.SleepTime + 100)
                 {
-                    sw.Reset();
+                    stopwatch.Reset();
                     PlayImage.Visibility = Visibility.Collapsed;
                     PauseImage.Visibility = Visibility.Visible;
-                    await metronome.Run();
+                    await metronome.Start();
                     return;
                 }
                 await Task.Delay(100);
@@ -110,7 +111,7 @@ namespace MetronomeApp
 
         private void StopMetronome()
         {
-            sw.Start();
+            stopwatch.Start();
             metronome.Stop();
 
             PlayImage.Visibility = Visibility.Visible;
@@ -139,33 +140,32 @@ namespace MetronomeApp
 
         private async void TempoBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            async Task<bool> UserKeepsTyping()
+            if (isTempoSetByUser)
             {
-                string txt = TempoBox.Text;
-                await Task.Delay(500);
-                return txt != TempoBox.Text;
-            }
-
-            if (await UserKeepsTyping()) return;
-
-            if (Int32.TryParse(TempoBox.Text, out int tempo))
-            {
-                if (tempo < 40)
+                async Task<bool> UserKeepsTyping()
                 {
-                    TempoBox.Text = "40";
-                    tempo = 40;
-                }
-                else if (tempo > 300)
-                {
-                    TempoBox.Text = "300";
-                    tempo = 300;
+                    string txt = TempoBox.Text;
+                    await Task.Delay(500);
+                    return txt != TempoBox.Text;
                 }
 
-                if (metronome.IsMetronomePlaying)
+                if (await UserKeepsTyping()) return;
+
+                if (Int32.TryParse(TempoBox.Text, out int tempo))
                 {
-                    await metronome.SetTempoAndRun(tempo);
+                    if (tempo < 40)
+                    {
+                        TempoBox.Text = "40";
+                        tempo = 40;
+                    }
+                    else if (tempo > 300)
+                    {
+                        TempoBox.Text = "300";
+                        tempo = 300;
+                    }
+
+                    metronome.SetTempo(tempo);
                 }
-                else metronome.SetTempo(tempo);
             }
         }
 
@@ -226,7 +226,7 @@ namespace MetronomeApp
 
         private void ControlTapTempo()
         {
-            if (metronome.IsMetronomePlaying == true)
+            if (metronome.IsEnabled == true)
             {
                 StopMetronome();
             }
@@ -250,6 +250,17 @@ namespace MetronomeApp
             TapTempoButton.Content = "Tap tempo";
             tapTempo.Reset();
         }
+
+        private async Task AcceptTapTempoAsync()
+        {
+            isTempoSetByUser = false;
+            metronome.SetTempo(tapTempo.FinalTempo);
+            TempoBox.Text = tapTempo.FinalTempo.ToString();
+            ResetAfterTapTempo();
+            isTempoSetByUser = true;
+            await StartMetronome();
+        }
+
         #endregion
 
         #region Timer
@@ -601,9 +612,12 @@ namespace MetronomeApp
 
         private void ApplyMetronomeSettings(Exercise exercise)
         {
+            isTempoSetByUser = false;
+            metronome.SetTempo(exercise.CurrentTempo);
             TempoBox.Text = exercise.CurrentTempo.ToString();
             timekeeperHelper.Time = 60 * exercise.PracticeTime;
             UpdateTimerLabel();
+            isTempoSetByUser = true;
         }
 
         private void SaveTempoIntoItem(Exercise exercise)
@@ -766,7 +780,7 @@ namespace MetronomeApp
 
         private void StopMetronomeAndTimer(bool isCompleteSoundNeeded)
         {
-            if (metronome.IsMetronomePlaying)
+            if (metronome.IsEnabled)
             {
                 StopMetronome();
             }
@@ -973,10 +987,7 @@ namespace MetronomeApp
 
         private async void TapTempoAccept_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            TempoBox.Text = tapTempo.FinalTempo.ToString();
-            ResetAfterTapTempo();
-            await Task.Delay(100);
-            await StartMetronome();
+            await AcceptTapTempoAsync();
         }
 
         private void PlusTimer_Executed(object sender, ExecutedRoutedEventArgs e)
