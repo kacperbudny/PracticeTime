@@ -15,23 +15,34 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="500"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Image x:Name="IconImage"
-                   Grid.Column="0"/>
+                   Grid.Column="0"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Source="{StaticResource ExclamationImage}"
+                   Width="80"
+                   Margin="0,0,20,0"/>
             <TextBlock x:Name="MessageText"
-                       Grid.Column="1">Message</TextBlock>
+                       Grid.Column="1"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Center">Message</TextBlock>
         </Grid>
         <DockPanel HorizontalAlignment="Center"
-                   Margin="0,10,0,0">
+                   Margin="0,20,0,0">
             <Button x:Name="ConfirmationButton"
                     Content="Okay"
                     Style="{StaticResource OrangeButton}"
                     Margin="0,0,10,0"
-                    Width="100"/>
+                    Width="100"
+                    Click="ConfirmationButton_Click"
+                    IsDefault="True"/>
             <Button x:Name="CancelButton"
                     Content="Cancel"
-                    Width="100"/>
+                    Width="100"
+                    Click="CancelButton_Click"
+                    IsCancel="True"/>
         </DockPanel>
     </StackPanel>
 </Window>

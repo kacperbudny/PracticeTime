@@ -1094,5 +1094,15 @@
             </DrawingImage.Drawing>
         </DrawingImage>
 
+        <DrawingImage x:Key="ExclamationImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V97.311 H122.879 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F0 M122.879,97.311z M0,0z M65.45,1.972L121.044,89.295C122.717,91.925,124.161,97.311,121.044,97.311L1.837,97.311C-1.281,97.311,0.161,91.925,1.837,89.295L57.431,1.972C59.106,-0.658,63.774,-0.656,65.45,1.972L65.45,1.972z M56.578,74.146L66.26,74.146 66.26,82.707 56.578,82.707 56.578,74.146 56.578,74.146z M66.254,68.217L56.58,68.217C55.616,56.461 53.598,49.001 53.598,37.262 53.598,32.931 57.108,29.42 61.439,29.42 65.771,29.42 69.281,32.931 69.281,37.262 69.282,48.996 67.236,56.471 66.254,68.217L66.254,68.217z" />
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
     </Application.Resources>
 </Application>

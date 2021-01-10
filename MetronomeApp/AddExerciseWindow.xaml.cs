@@ -3,6 +3,7 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -35,29 +36,29 @@ namespace MetronomeApp
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if(exercises.Any(ex => ex.Name == NameTextBox.Text.Trim()))
+            if (NameTextBox.Text.Trim() == "" || StartingTempoTextBox.Text.Trim() == "" || TargetTempoTextBox.Text.Trim() == "" || PracticeTimeTextBox.Text.Trim() == "")
             {
-                MessageBox.Show("Exercise with that name already exists. Please choose a different name.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ShowErrorMessage("You have to enter data into all fields except for the notes.");
                 return;
             }
-            if(NameTextBox.Text.Trim() == "" || StartingTempoTextBox.Text.Trim() == "" || TargetTempoTextBox.Text.Trim() == "" || PracticeTimeTextBox.Text.Trim() == "")
+            if (exercises.Any(ex => ex.Name == NameTextBox.Text.Trim()))
             {
-                MessageBox.Show("You have to enter data into all fields except for the notes.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ShowErrorMessage("Exercise with that name already exists.");
                 return;
             }
             if(Int32.Parse(StartingTempoTextBox.Text) > 300 || Int32.Parse(StartingTempoTextBox.Text) < 40 || Int32.Parse(TargetTempoTextBox.Text) > 300 || Int32.Parse(TargetTempoTextBox.Text) < 40)
             {
-                MessageBox.Show("The tempo must be between 40 and 300.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ShowErrorMessage("The tempo must be between 40 and 300.");
                 return;
             }
             if (Int32.Parse(PracticeTimeTextBox.Text) > 60 || Int32.Parse(PracticeTimeTextBox.Text) < 1)
             {
-                MessageBox.Show("The practice time must be between 1 and 60.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ShowErrorMessage("The practice time must be between 1 and 60.");
                 return;
             }
             if (Int32.Parse(StartingTempoTextBox.Text) > Int32.Parse(TargetTempoTextBox.Text))
             {
-                MessageBox.Show("Starting tempo cannot be higher than the target tempo.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ShowErrorMessage("Starting tempo cannot be higher than the target tempo.");
                 return;
             }
 
@@ -80,6 +81,13 @@ namespace MetronomeApp
             }
 
             Close();
+        }
+
+        private void ShowErrorMessage(string message)
+        {
+            WarningTextBlock.Text = message;
+            WarningTextBlock.Visibility = Visibility.Visible;
+            SystemSounds.Asterisk.Play();
         }
 
         private void PreviewNumericTextInput(object sender, TextCompositionEventArgs e)

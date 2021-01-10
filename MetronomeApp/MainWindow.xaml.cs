@@ -591,12 +591,12 @@ namespace MetronomeApp
         {
             Exercise selectedExercise = (Exercise)ExercisesListView.SelectedItem;
 
-            var result = MessageBox.Show("Are you sure you want to delete this exercise?\n\n" + selectedExercise.Name,
-                "Deleting exercise", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            CustomMessageBox customMessageBox = new CustomMessageBox("Are you sure you want to delete this exercise?\n\n" + selectedExercise.Name, "Deleting exercise", true);
+            var result = customMessageBox.ShowDialog();
 
             switch (result)
             {
-                case MessageBoxResult.Yes:
+                case true:
                     using (SQLiteConnection conn = new SQLiteConnection(App.databasePath))
                     {
                         conn.CreateTable<Exercise>();
@@ -605,7 +605,7 @@ namespace MetronomeApp
                     ReadDatabase();
                     break;
 
-                case MessageBoxResult.No:
+                case false:
                     break;
             }
         }
@@ -626,17 +626,18 @@ namespace MetronomeApp
 
             if (Int32.Parse(TempoBox.Text) > exercise.TargetTempo)
             {
-                var result = MessageBox.Show("The current tempo of the metronome is higher than the selected exercise's target tempo.\n\n" +
+                CustomMessageBox customMessageBox = new CustomMessageBox("The current tempo of the metronome is higher than the selected exercise's target tempo.\n\n" +
                     "Do you want to update the target tempo of the selected exercise to match the metronome's tempo?",
-                    "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+                    "Warning", true);
+                var result = customMessageBox.ShowDialog();
 
                 switch (result)
                 {
-                    case MessageBoxResult.Yes:
+                    case true:
                         exercise.TargetTempo = Int32.Parse(TempoBox.Text);
                         break;
 
-                    case MessageBoxResult.No:
+                    case false:
                         exercise.CurrentTempo = exercise.TargetTempo;
                         matchCurrentAndTargetTempo = true;
                         break;
@@ -701,8 +702,9 @@ namespace MetronomeApp
         {
             if (exercises.Where(ex => ex.IsInSessionMode == true).ToList().Count == 0)
             {
-                MessageBox.Show("To start a session, you must first add at least one exercise into session mode.",
-                "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox customMessageBox = new CustomMessageBox("To start a session, you must first add at least one exercise into session mode.",
+                "Warning", false);
+                customMessageBox.ShowDialog();
                 return;
             }
 
@@ -712,16 +714,17 @@ namespace MetronomeApp
             }
             else
             {
-                var result = MessageBox.Show("Are you sure you want to cancel your sesssion?",
-                    "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+                CustomMessageBox customMessageBox = new CustomMessageBox("Are you sure you want to cancel your sesssion?",
+                    "Warning", true);
+                var result = customMessageBox.ShowDialog();
 
                 switch (result)
                 {
-                    case MessageBoxResult.Yes:
+                    case true:
                         ExitSessionMode();
                         break;
 
-                    case MessageBoxResult.No:
+                    case false:
                         return;
                 }
             }
@@ -1150,8 +1153,9 @@ namespace MetronomeApp
         {
             if (session.IsEnabled)
             {
-                MessageBoxResult result = MessageBox.Show("The session is still running. Are you sure you want to close the app?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.No)
+                CustomMessageBox customMessageBox = new CustomMessageBox("The session is still running. Are you sure you want to close the app?", "Warning", true);
+                var result = customMessageBox.ShowDialog();
+                if (result == false)
                 {
                     e.Cancel = true;
                 }
