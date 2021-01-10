@@ -1,19 +1,9 @@
 ﻿using MetronomeApp.Classes;
-using SQLite;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MetronomeApp
 {
@@ -22,14 +12,14 @@ namespace MetronomeApp
     /// </summary>
     public partial class EditExerciseWindow : Window
     {
-        List<Exercise> exercises;
-        Exercise exercise;
+        private readonly List<Exercise> exercises;
+        private readonly Exercise exercise;
 
         public EditExerciseWindow(List<Exercise> exercises, Exercise exercise)
         {
             InitializeComponent();
 
-            this.Owner = Application.Current.MainWindow;
+            Owner = Application.Current.MainWindow;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
             NameTextBox.Text = exercise.Name;
@@ -56,27 +46,27 @@ namespace MetronomeApp
                 ShowErrorMessage("Exercise with that name already exists.");
                 return;
             }
-            if (Int32.Parse(CurrentTempoTextBox.Text) > 300 || Int32.Parse(CurrentTempoTextBox.Text) < 40 || Int32.Parse(TargetTempoTextBox.Text) > 300 || Int32.Parse(TargetTempoTextBox.Text) < 40)
+            if (int.Parse(CurrentTempoTextBox.Text) > 300 || int.Parse(CurrentTempoTextBox.Text) < 40 || int.Parse(TargetTempoTextBox.Text) > 300 || int.Parse(TargetTempoTextBox.Text) < 40)
             {
                 ShowErrorMessage("The tempo must be between 40 and 300.");
                 return;
             }
-            if (Int32.Parse(PracticeTimeTextBox.Text) > 60 || Int32.Parse(PracticeTimeTextBox.Text) < 1)
+            if (int.Parse(PracticeTimeTextBox.Text) > 60 || int.Parse(PracticeTimeTextBox.Text) < 1)
             {
                 ShowErrorMessage("The practice time must be between 1 and 60.");
                 return;
             }
-            if (Int32.Parse(CurrentTempoTextBox.Text) > Int32.Parse(TargetTempoTextBox.Text))
+            if (int.Parse(CurrentTempoTextBox.Text) > int.Parse(TargetTempoTextBox.Text))
             {
                 ShowErrorMessage("Starting tempo cannot be higher than the target tempo.");
                 return;
             }
 
             exercise.Name = NameTextBox.Text.Trim();
-            exercise.PracticeTime = Int32.Parse(PracticeTimeTextBox.Text);
-            exercise.StartingTempo = Int32.Parse(CurrentTempoTextBox.Text);
-            exercise.CurrentTempo = Int32.Parse(CurrentTempoTextBox.Text);
-            exercise.TargetTempo = Int32.Parse(TargetTempoTextBox.Text);
+            exercise.PracticeTime = int.Parse(PracticeTimeTextBox.Text);
+            exercise.StartingTempo = int.Parse(CurrentTempoTextBox.Text);
+            exercise.CurrentTempo = int.Parse(CurrentTempoTextBox.Text);
+            exercise.TargetTempo = int.Parse(TargetTempoTextBox.Text);
             exercise.Notes = NotesTextBox.Text.Trim();
 
             DatabaseUtilities.UpdateExercise(exercise);

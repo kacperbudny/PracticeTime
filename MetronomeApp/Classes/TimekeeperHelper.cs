@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MetronomeApp.Classes
+﻿namespace MetronomeApp.Classes
 {
-    class TimekeeperHelper
+    internal class TimekeeperHelper
     {
         private readonly AudioPlayer timekeeperSound;
         private int timeToReturn;
         private int _time;
-        public int Time 
+        public int Time
         {
             get => _time;
 
@@ -22,8 +15,11 @@ namespace MetronomeApp.Classes
                 {
                     _time = 3600;
                 }
-                else _time = value;
-            } 
+                else
+                {
+                    _time = value;
+                }
+            }
         }
         public bool IsEnabled { get; private set; }
 
@@ -36,7 +32,7 @@ namespace MetronomeApp.Classes
 
         public void SetTimeToReturn()
         {
-            if(!IsEnabled)
+            if (!IsEnabled)
             {
                 timeToReturn = Time;
                 IsEnabled = true;

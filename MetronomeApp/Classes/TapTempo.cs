@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MetronomeApp.Classes
 {
-    class TapTempo
+    internal class TapTempo
     {
         public int FinalTempo { get; private set; }
         public bool IsTapTempoModeEnabled { get; private set; }
 
-        readonly Stopwatch timer = new Stopwatch();
-        readonly List<long> tapTimes = new List<long>();
-        
+        private readonly Stopwatch timer = new Stopwatch();
+        private readonly List<long> tapTimes = new List<long>();
+
         public TapTempo()
         {
             FinalTempo = 0;
@@ -27,7 +25,7 @@ namespace MetronomeApp.Classes
             timer.Start();
         }
 
-        public void NextTap()
+        public void RecordNextTap()
         {
             tapTimes.Add(timer.ElapsedMilliseconds);
             long averageTime = (long)Math.Round(tapTimes.Average());

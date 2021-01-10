@@ -1,18 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Media;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using MetronomeApp.Properties;
-using NAudio.Wave;
 
 namespace MetronomeApp.Classes
 {
@@ -21,8 +8,8 @@ namespace MetronomeApp.Classes
         public bool IsEnabled { get; set; }
         public int SleepTime { get; private set; }
 
-        readonly Stopwatch stopwatch = new Stopwatch();
-        readonly AudioPlayer metronomeSound = new AudioPlayer(SoundType.Metronome);
+        private readonly Stopwatch stopwatch = new Stopwatch();
+        private readonly AudioPlayer metronomeSound = new AudioPlayer(SoundType.Metronome);
         private int tickTime;
 
         public Metronome()
@@ -48,7 +35,10 @@ namespace MetronomeApp.Classes
                     metronomeSound.Play();
                     stopwatch.Restart();
 
-                    if (!IsEnabled) break;
+                    if (!IsEnabled)
+                    {
+                        break;
+                    }
 
                     await Task.Delay(SleepTime);
                     metronomeSound.Reset();

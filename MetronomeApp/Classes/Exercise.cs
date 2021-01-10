@@ -1,9 +1,4 @@
 ﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MetronomeApp.Classes
 {
@@ -26,12 +21,6 @@ namespace MetronomeApp.Classes
         public int SessionModeOrder { get; set; }
 
         [Ignore]
-        public bool IsCompleted
-        {
-            get
-            {
-                return CurrentTempo == TargetTempo ? true : false;
-            }
-        }
+        public bool IsCompleted => CurrentTempo == TargetTempo ? true : false;
     }
 }

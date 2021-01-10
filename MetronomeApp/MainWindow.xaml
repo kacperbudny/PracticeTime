@@ -16,161 +16,164 @@
     <Window.Resources>
         <ContextMenu x:Key="metronomeTempoContextMenu">
             <MenuItem x:Name="ChangeTempoByOneMenuItem"
-                      Header="Change tempo by 1" 
-                      Click="ChangeTempoByOneMenuItem_Click"/>
+                      Header="Change tempo by 1"
+                      Click="ChangeTempoByOneMenuItem_Click" />
             <MenuItem x:Name="ChangeTempoByFiveMenuItem"
-                      Header="Change tempo by 5" 
-                      Click="ChangeTempoByFiveMenuItem_Click"/>
+                      Header="Change tempo by 5"
+                      Click="ChangeTempoByFiveMenuItem_Click" />
             <MenuItem x:Name="ChangeTempoByTenMenuItem"
-                      Header="Change tempo by 10" 
-                      Click="ChangeTempoByTenMenuItem_Click"/>
-            <Separator/>
-            <MenuItem Header="Display list of shortcuts" 
-                      Click="DisplayShortcutsMenuItem_Click"/>
+                      Header="Change tempo by 10"
+                      Click="ChangeTempoByTenMenuItem_Click" />
+            <Separator />
+            <MenuItem Header="Display list of shortcuts"
+                      Click="DisplayShortcutsMenuItem_Click" />
         </ContextMenu>
-
         <ContextMenu x:Key="listItemsContextMenu">
-            <MenuItem Command="classes:KeyboardCommands.EditExercise"/>
-            <MenuItem Command="classes:KeyboardCommands.DeleteExercise"/>
-            <MenuItem Command="classes:KeyboardCommands.AddToSession"/>
-            <MenuItem Command="classes:KeyboardCommands.SwapWithPrevious"/>
-            <MenuItem Command="classes:KeyboardCommands.SwapWithNext"/>
-            <MenuItem Command="classes:KeyboardCommands.SetUpMetronomeForSelected"/>
-            <MenuItem Command="classes:KeyboardCommands.SaveMetronomesTempo"/>
-            <MenuItem Command="classes:KeyboardCommands.RefreshList"/>
-            <Separator/>
-            <MenuItem Header="Display list of shortcuts" 
-                      Click="DisplayShortcutsMenuItem_Click"/>
+            <MenuItem Command="classes:KeyboardCommands.EditExercise" />
+            <MenuItem Command="classes:KeyboardCommands.DeleteExercise" />
+            <MenuItem Command="classes:KeyboardCommands.AddToSession" />
+            <MenuItem Command="classes:KeyboardCommands.SwapWithPrevious" />
+            <MenuItem Command="classes:KeyboardCommands.SwapWithNext" />
+            <MenuItem Command="classes:KeyboardCommands.SetUpMetronomeForSelected" />
+            <MenuItem Command="classes:KeyboardCommands.SaveMetronomesTempo" />
+            <MenuItem Command="classes:KeyboardCommands.RefreshList" />
+            <Separator />
+            <MenuItem Header="Display list of shortcuts"
+                      Click="DisplayShortcutsMenuItem_Click" />
         </ContextMenu>
-
         <ContextMenu x:Key="shortcutsListContextMenu">
-            <MenuItem Header="Display list of shortcuts" 
-                      Click="DisplayShortcutsMenuItem_Click"/>
+            <MenuItem Header="Display list of shortcuts"
+                      Click="DisplayShortcutsMenuItem_Click" />
         </ContextMenu>
-
-        <Style x:Key="contextMenu" TargetType="ListViewItem" BasedOn="{StaticResource {x:Type ListViewItem}}">
-            <Setter Property="ContextMenu" Value="{StaticResource listItemsContextMenu}" />
+        <Style x:Key="contextMenu"
+               TargetType="ListViewItem"
+               BasedOn="{StaticResource {x:Type ListViewItem}}">
+            <Setter Property="ContextMenu"
+                    Value="{StaticResource listItemsContextMenu}" />
         </Style>
-
-        <Style TargetType="ListViewItem" x:Key="disableListViewSelectionStyle" BasedOn="{StaticResource contextMenu}">
-            <Setter Property="Focusable" Value="False"/>
+        <Style TargetType="ListViewItem"
+               x:Key="disableListViewSelectionStyle"
+               BasedOn="{StaticResource contextMenu}">
+            <Setter Property="Focusable"
+                    Value="False" />
         </Style>
-
-        <Style TargetType="ListViewItem" x:Key="enableListViewSelectionStyle" BasedOn="{StaticResource contextMenu}">
-            <Setter Property="Focusable" Value="True"/>
+        <Style TargetType="ListViewItem"
+               x:Key="enableListViewSelectionStyle"
+               BasedOn="{StaticResource contextMenu}">
+            <Setter Property="Focusable"
+                    Value="True" />
         </Style>
     </Window.Resources>
     <Window.CommandBindings>
-        <CommandBinding Command="classes:KeyboardCommands.ControlMetronome" 
-                        CanExecute="StartButton_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.ControlMetronome"
+                        CanExecute="StartButton_CanExecute"
                         Executed="ControlMetronomeCommand_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.Plus1" 
-                        CanExecute="IfCountdownDisabled_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.Plus1"
+                        CanExecute="IfCountdownDisabled_CanExecute"
                         Executed="Plus1Command_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.Plus5" 
-                        CanExecute="IfCountdownDisabled_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.Plus5"
+                        CanExecute="IfCountdownDisabled_CanExecute"
                         Executed="Plus5Command_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.Plus10" 
-                        CanExecute="IfCountdownDisabled_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.Plus10"
+                        CanExecute="IfCountdownDisabled_CanExecute"
                         Executed="Plus10Command_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.Minus1" 
-                        CanExecute="IfCountdownDisabled_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.Minus1"
+                        CanExecute="IfCountdownDisabled_CanExecute"
                         Executed="Minus1Command_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.Minus5" 
-                        CanExecute="IfCountdownDisabled_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.Minus5"
+                        CanExecute="IfCountdownDisabled_CanExecute"
                         Executed="Minus5Command_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.Minus10" 
-                        CanExecute="IfCountdownDisabled_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.Minus10"
+                        CanExecute="IfCountdownDisabled_CanExecute"
                         Executed="Minus10Command_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.TapTempoStart" 
-                        CanExecute="IfCountdownDisabled_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.TapTempoStart"
+                        CanExecute="IfCountdownDisabled_CanExecute"
                         Executed="TapTempoStart_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.TapTempoCancel" 
-                        CanExecute="TapTempoCancel_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.TapTempoCancel"
+                        CanExecute="TapTempoCancel_CanExecute"
                         Executed="TapTempoCancel_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.TapTempoAccept" 
-                        CanExecute="TapTempoAccept_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.TapTempoAccept"
+                        CanExecute="TapTempoAccept_CanExecute"
                         Executed="TapTempoAccept_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.PlusTimer" 
-                        CanExecute="IfCountdownDisabled_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.PlusTimer"
+                        CanExecute="IfCountdownDisabled_CanExecute"
                         Executed="PlusTimer_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.MinusTimer" 
-                        CanExecute="IfCountdownDisabled_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.MinusTimer"
+                        CanExecute="IfCountdownDisabled_CanExecute"
                         Executed="MinusTimer_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.ControlTimer" 
-                        CanExecute="IfCountdownDisabled_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.ControlTimer"
+                        CanExecute="IfCountdownDisabled_CanExecute"
                         Executed="ControlTimer_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.ResetTimer" 
-                        CanExecute="ResetTimer_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.ResetTimer"
+                        CanExecute="ResetTimer_CanExecute"
                         Executed="ResetTimer_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.AddExercise" 
-                        CanExecute="IfNotInSession_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.AddExercise"
+                        CanExecute="IfNotInSession_CanExecute"
                         Executed="AddExercise_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.EditExercise" 
-                        CanExecute="ExercisesActions_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.EditExercise"
+                        CanExecute="ExercisesActions_CanExecute"
                         Executed="EditExercise_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.DeleteExercise" 
-                        CanExecute="ExercisesActions_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.DeleteExercise"
+                        CanExecute="ExercisesActions_CanExecute"
                         Executed="DeleteExercise_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.RefreshList" 
-                        CanExecute="IfCountdownDisabledAndInFullView_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.RefreshList"
+                        CanExecute="IfCountdownDisabledAndInFullView_CanExecute"
                         Executed="RefreshList_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.ChangeView" 
-                        CanExecute="IfNotInSession_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.ChangeView"
+                        CanExecute="IfNotInSession_CanExecute"
                         Executed="ChangeView_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.GoToListview" 
-                        CanExecute="GoToListview_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.GoToListview"
+                        CanExecute="GoToListview_CanExecute"
                         Executed="GoToListview_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.AddToSession" 
-                        CanExecute="ExercisesActions_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.AddToSession"
+                        CanExecute="ExercisesActions_CanExecute"
                         Executed="AddToSession_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.ControlSession" 
-                        CanExecute="IfCountdownDisabledAndInFullView_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.ControlSession"
+                        CanExecute="IfCountdownDisabledAndInFullView_CanExecute"
                         Executed="ControlSession_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.PreviousExercise" 
-                        CanExecute="GoToSessionExercise_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.PreviousExercise"
+                        CanExecute="GoToSessionExercise_CanExecute"
                         Executed="PreviousExercise_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.NextExercise" 
-                        CanExecute="GoToSessionExercise_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.NextExercise"
+                        CanExecute="GoToSessionExercise_CanExecute"
                         Executed="NextExercise_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.SetUpMetronomeForSelected" 
-                        CanExecute="ExercisesActions_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.SetUpMetronomeForSelected"
+                        CanExecute="ExercisesActions_CanExecute"
                         Executed="SetUpMetronomeForSelected_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.SaveMetronomesTempo" 
-                        CanExecute="ExercisesActions_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.SaveMetronomesTempo"
+                        CanExecute="ExercisesActions_CanExecute"
                         Executed="SaveMetronomesTempo_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.GoToSearch" 
-                        CanExecute="IfNotInSession_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.GoToSearch"
+                        CanExecute="IfNotInSession_CanExecute"
                         Executed="GoToSearch_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.SwapWithPrevious" 
-                        CanExecute="SwappingExercises_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.SwapWithPrevious"
+                        CanExecute="SwappingExercises_CanExecute"
                         Executed="SwapWithPrevious_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.SwapWithNext" 
-                        CanExecute="SwappingExercises_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.SwapWithNext"
+                        CanExecute="SwappingExercises_CanExecute"
                         Executed="SwapWithNext_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.Unfocus" 
-                        CanExecute="IfNotInSession_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.Unfocus"
+                        CanExecute="IfNotInSession_CanExecute"
                         Executed="Unfocus_Executed" />
-        <CommandBinding Command="classes:KeyboardCommands.AcceptCongratulations" 
-                        CanExecute="AcceptCongratulations_CanExecute" 
+        <CommandBinding Command="classes:KeyboardCommands.AcceptCongratulations"
+                        CanExecute="AcceptCongratulations_CanExecute"
                         Executed="AcceptCongratulations_Executed" />
     </Window.CommandBindings>
     <Grid Background="Transparent"
           ContextMenu="{StaticResource shortcutsListContextMenu}">
         <Rectangle x:Name="OverlayRectangle"
-                   Fill="Black" 
-                   Panel.ZIndex="1" 
+                   Fill="Black"
+                   Panel.ZIndex="1"
                    Opacity="0.3"
-                   Visibility="Hidden"/>
-
+                   Visibility="Hidden" />
         <Grid x:Name="CountdownGrid"
               HorizontalAlignment="Center"
               VerticalAlignment="Center"
               Panel.ZIndex="1"
               Visibility="Collapsed">
-            <Border Style="{StaticResource InformationBorder}" 
-                       Width="300"
-                       Height="150"/>
+            <Border Style="{StaticResource InformationBorder}"
+                    Width="300"
+                    Height="150" />
             <StackPanel VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         Width="300"
@@ -180,168 +183,166 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontSize="50"
-                           FontWeight="DemiBold"/>
+                           FontWeight="DemiBold" />
                 <TextBlock Text="Coming next:"
                            HorizontalAlignment="Center"
-                           FontSize="18"/>
+                           FontSize="18" />
                 <TextBlock x:Name="ComingSongTextblock"
                            Text="Song name"
                            HorizontalAlignment="Center"
                            FontSize="18"
                            FontWeight="DemiBold"
-                           MaxWidth="300"/>
+                           MaxWidth="300" />
             </StackPanel>
         </Grid>
-
         <Grid x:Name="InformationGrid"
               HorizontalAlignment="Center"
               VerticalAlignment="Center"
               Panel.ZIndex="1"
               Visibility="Collapsed">
-            <Border Style="{StaticResource InformationBorder}" 
-                       Width="380"
-                       Height="220"/>
+            <Border Style="{StaticResource InformationBorder}"
+                    Width="380"
+                    Height="220" />
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Panel.ZIndex="2">
                 <TextBlock Text="Congratulations!"
                            FontWeight="DemiBold"
                            FontSize="20"
-                           Margin="0,10"/>
+                           Margin="0,10" />
                 <TextBlock Text="You've finished your session."
-                           FontSize="18"/>
+                           FontSize="18" />
                 <DockPanel>
                     <TextBlock Text="You've spent "
-                               FontSize="18"/>
+                               FontSize="18" />
                     <TextBlock x:Name="TotalSessionTimeTextblock"
                                Text="x"
                                FontSize="18"
-                               FontWeight="DemiBold"/>
+                               FontWeight="DemiBold" />
                     <TextBlock Text=" playing "
-                               FontSize="18"/>
+                               FontSize="18" />
                     <TextBlock x:Name="TotalExerciseNumberTextblock"
                                Text="x"
                                FontSize="18"
-                               FontWeight="DemiBold"/>
+                               FontWeight="DemiBold" />
                     <TextBlock Text=" exercices"
-                               FontSize="18"/>
+                               FontSize="18" />
                 </DockPanel>
                 <DockPanel>
                     <TextBlock Text="and raised your total BPMs by "
-                               FontSize="18"/>
+                               FontSize="18" />
                     <TextBlock x:Name="BPMIncreaseTextblock"
                                Text="x"
                                FontSize="18"
-                               FontWeight="DemiBold"/>
+                               FontWeight="DemiBold" />
                     <TextBlock Text="."
-                               FontSize="18"/>
+                               FontSize="18" />
                 </DockPanel>
                 <Button x:Name="AcceptCongtratulationsButton"
                         Content="Cool!"
                         Width="100"
                         Margin="0,10"
-                        Click="AcceptCongtratulationsButton_Click"/>
+                        Click="AcceptCongtratulationsButton_Click" />
             </StackPanel>
         </Grid>
-
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="100" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid Background="{StaticResource HeadersBrush}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal"
                             Grid.Column="0"
                             VerticalAlignment="Center"
                             Margin="50,0,0,0">
                     <Image Source="Resources/logo-small-100px.png"
-                           Height="50"/>
+                           Height="50" />
                     <TextBlock FontSize="35"
                                VerticalAlignment="Center"
                                Padding="20,0">PracticeTime!</TextBlock>
                 </StackPanel>
-                <Slider Maximum="100" 
+                <Slider Maximum="100"
                         Name="VolumeSlider"
                         Width="250"
                         Value="100"
                         ValueChanged="VolumeSlider_ValueChanged"
-                        VerticalAlignment="Center" 
+                        VerticalAlignment="Center"
                         Margin="50,0"
                         Grid.Column="2"
-                        Visibility="Collapsed"/>
+                        Visibility="Collapsed" />
             </Grid>
-
-            <StackPanel Orientation="Horizontal" 
+            <StackPanel Orientation="Horizontal"
                         Margin="34,30"
                         Grid.Row="1">
                 <StackPanel x:Name="MetronomeStackPanel">
                     <Grid>
-                        <StackPanel HorizontalAlignment="Center" 
-                                Orientation="Horizontal">
+                        <StackPanel HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
                             <Button x:Name="TempoDownButton"
-                                Click="TempoDownButton_Click"
-                                ContextMenu="{StaticResource metronomeTempoContextMenu}">
+                                    Click="TempoDownButton_Click"
+                                    ContextMenu="{StaticResource metronomeTempoContextMenu}">
                                 <Button.Style>
-                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-                                        <Setter Property="Padding" 
-                                        Value="20,0"/>
+                                    <Style TargetType="{x:Type Button}"
+                                           BasedOn="{StaticResource {x:Type Button}}">
+                                        <Setter Property="Padding"
+                                                Value="20,0" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Text, ElementName=TempoDownTextBlock}" 
-                                                 Value="">
-                                                <Setter Property="Padding" 
-                                                Value="0"/>
+                                            <DataTrigger Binding="{Binding Text, ElementName=TempoDownTextBlock}"
+                                                         Value="">
+                                                <Setter Property="Padding"
+                                                        Value="0" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
                                 <DockPanel>
                                     <Image Source="{StaticResource TriangleLeftImage}"
-                                           Height="20"/>
+                                           Height="20" />
                                     <TextBlock x:Name="TempoDownTextBlock">
                                         <TextBlock.Style>
                                             <Style TargetType="{x:Type TextBlock}">
-                                                <Setter Property="Margin" 
-                                        Value="10,0,0,0"/>
+                                                <Setter Property="Margin"
+                                                        Value="10,0,0,0" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Text, ElementName=TempoDownTextBlock}" 
-                                                 Value="">
-                                                        <Setter Property="Margin" 
-                                                Value="0"/>
+                                                    <DataTrigger Binding="{Binding Text, ElementName=TempoDownTextBlock}"
+                                                                 Value="">
+                                                        <Setter Property="Margin"
+                                                                Value="0" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
+                                        </TextBlock.Style></TextBlock>
                                 </DockPanel>
                             </Button>
-                            <TextBox x:Name="TempoBox" 
-                                Text="120" 
-                                PreviewTextInput="TempoBox_PreviewTextInput"
-                                TextChanged="TempoBox_TextChanged"
-                                Width="84"
-                                Margin="10,0"
-                                TextAlignment="Center"
-                                PreviewKeyDown="TempoBox_PreviewKeyDown"
-                                Style="{StaticResource TempoBoxStyle}"
-                                     Padding="5,5,0,0"/>
+                            <TextBox x:Name="TempoBox"
+                                     Text="120"
+                                     PreviewTextInput="TempoBox_PreviewTextInput"
+                                     TextChanged="TempoBox_TextChanged"
+                                     Width="84"
+                                     Margin="10,0"
+                                     TextAlignment="Center"
+                                     PreviewKeyDown="TempoBox_PreviewKeyDown"
+                                     Style="{StaticResource TempoBoxStyle}"
+                                     Padding="5,5,0,0" />
                             <Button x:Name="TempoUpButton"
-                                Click="TempoUpButton_Click"
-                                ContextMenu="{StaticResource metronomeTempoContextMenu}">
+                                    Click="TempoUpButton_Click"
+                                    ContextMenu="{StaticResource metronomeTempoContextMenu}">
                                 <Button.Style>
-                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-                                        <Setter Property="Padding" 
-                                        Value="20,0"/>
+                                    <Style TargetType="{x:Type Button}"
+                                           BasedOn="{StaticResource {x:Type Button}}">
+                                        <Setter Property="Padding"
+                                                Value="20,0" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Text, ElementName=TempoUpTextBlock}" 
-                                                 Value="">
-                                                <Setter Property="Padding" 
-                                                Value="0"/>
+                                            <DataTrigger Binding="{Binding Text, ElementName=TempoUpTextBlock}"
+                                                         Value="">
+                                                <Setter Property="Padding"
+                                                        Value="0" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -350,90 +351,86 @@
                                     <TextBlock x:Name="TempoUpTextBlock">
                                         <TextBlock.Style>
                                             <Style TargetType="{x:Type TextBlock}">
-                                                <Setter Property="Margin" 
-                                        Value="0,0,10,0"/>
+                                                <Setter Property="Margin"
+                                                        Value="0,0,10,0" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Text, ElementName=TempoUpTextBlock}" 
-                                                 Value="">
-                                                        <Setter Property="Margin" 
-                                                Value="0"/>
+                                                    <DataTrigger Binding="{Binding Text, ElementName=TempoUpTextBlock}"
+                                                                 Value="">
+                                                        <Setter Property="Margin"
+                                                                Value="0" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
+                                        </TextBlock.Style></TextBlock>
                                     <Image Source="{StaticResource TriangleRightImage}"
-                                           Height="20"/>
+                                           Height="20" />
                                 </DockPanel>
                             </Button>
                         </StackPanel>
                     </Grid>
-
-                    <Button x:Name="StartButton" 
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        Click="StartButton_Click"
-                        Margin="0,25"
-                        Width="200" 
-                        MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
-                        Style="{StaticResource CircleButton}">
+                    <Button x:Name="StartButton"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Click="StartButton_Click"
+                            Margin="0,25"
+                            Width="200"
+                            MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                            Style="{StaticResource CircleButton}">
                         <StackPanel>
                             <Image x:Name="PlayImage"
-                               Source="{StaticResource PlayImage}"
-                               Height="80"
-                               Margin="20,0,0,0"/>
+                                   Source="{StaticResource PlayImage}"
+                                   Height="80"
+                                   Margin="20,0,0,0" />
                             <Image x:Name="PauseImage"
-                               Source="{StaticResource PauseImage}"
-                               Height="80"
-                               Visibility="Collapsed"/>
+                                   Source="{StaticResource PauseImage}"
+                                   Height="80"
+                                   Visibility="Collapsed" />
                         </StackPanel>
                     </Button>
-
                     <Border Style="{StaticResource DarkerBorder}"
                             Margin="0,0,0,20">
-                        <StackPanel HorizontalAlignment="Center" 
+                        <StackPanel HorizontalAlignment="Center"
                                     Orientation="Horizontal"
                                     Margin="20">
                             <Button x:Name="CancelTapTempoButton"
                                     Content="Cancel"
                                     Command="classes:KeyboardCommands.TapTempoCancel"
-                                    Padding="12,0"/>
+                                    Padding="12,0" />
                             <Button x:Name="TapTempoButton"
                                     Content="Tap tempo"
                                     Click="TapTempoButton_Click"
                                     Margin="5,0"
                                     Width="100"
-                                    Style="{StaticResource OrangeButton}"/>
+                                    Style="{StaticResource OrangeButton}" />
                             <Button x:Name="AcceptTapTempoButton"
                                     Content="Accept"
                                     Command="classes:KeyboardCommands.TapTempoAccept"
-                                    Padding="12,0"/>
+                                    Padding="12,0" />
                         </StackPanel>
                     </Border>
-
                     <Border Style="{StaticResource DarkerBorder}"
                             Padding="20">
                         <StackPanel>
-                            <StackPanel HorizontalAlignment="Center" 
+                            <StackPanel HorizontalAlignment="Center"
                                         Orientation="Horizontal"
                                         x:Name="TimerStackPanel">
                                 <Button x:Name="TimerDownButton"
                                         Content="-"
-                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
-                                        Click="TimerDownButton_Click"/>
-                                <Label x:Name="TimerLabel" 
+                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                        Click="TimerDownButton_Click" />
+                                <Label x:Name="TimerLabel"
                                        x:FieldModifier="public"
                                        Content="01:00"
                                        Style="{StaticResource DisplayLabel}"
                                        Margin="10,0"
-                                       Width="85"/>
+                                       Width="85" />
                                 <Button x:Name="TimerUpButton"
                                         Content="+"
-                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
-                                        Click="TimerUpButton_Click"/>
+                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                        Click="TimerUpButton_Click" />
                             </StackPanel>
                             <StackPanel x:Name="TimerButtonsStackPanel"
-                                        HorizontalAlignment="Center" 
+                                        HorizontalAlignment="Center"
                                         Orientation="Horizontal"
                                         Margin="0,10,0,0">
                                 <Button x:Name="StartTimerButton"
@@ -441,171 +438,161 @@
                                         Margin="0,0,5,0"
                                         Click="StartTimerButton_Click"
                                         Style="{StaticResource OrangeButton}"
-                                        Padding="12,0"/>
+                                        Padding="12,0" />
                                 <Button x:Name="ResetTimerButton"
                                         Content="Reset timer"
                                         Click="ResetTimerButton_Click"
                                         IsEnabled="False"
-                                        Padding="12,0"/>
+                                        Padding="12,0" />
                             </StackPanel>
                         </StackPanel>
                     </Border>
                 </StackPanel>
-
                 <Grid x:Name="FullViewGrid"
-                        Margin="20,0,0,0"
+                      Margin="20,0,0,0"
                       Visibility="Collapsed">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="0" 
+                    <Grid Grid.Row="0"
                           Margin="0,0,0,10">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-
-                        <TextBox x:Name="SearchBox" 
-                             Padding="20,0"
-                             VerticalContentAlignment="Center"
-                             TextChanged="SearchBox_TextChanged"
-                             Style="{StaticResource SearchBoxStyle}"/>
-                        <TextBlock IsHitTestVisible="False" 
-                               Text="Search..." 
-                               VerticalAlignment="Center" 
-                               HorizontalAlignment="Left" 
-                               Margin="20,0,0,0" 
-                               Foreground="LightGray">
+                        <TextBox x:Name="SearchBox"
+                                 Padding="20,0"
+                                 VerticalContentAlignment="Center"
+                                 TextChanged="SearchBox_TextChanged"
+                                 Style="{StaticResource SearchBoxStyle}" />
+                        <TextBlock IsHitTestVisible="False"
+                                   Text="Search..."
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   Margin="20,0,0,0"
+                                   Foreground="LightGray">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
-                                    <Setter Property="Visibility" 
-                                        Value="Collapsed"/>
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Text, ElementName=SearchBox}" 
-                                                 Value="">
-                                            <Setter Property="Visibility" 
-                                                Value="Visible"/>
+                                        <DataTrigger Binding="{Binding Text, ElementName=SearchBox}"
+                                                     Value="">
+                                            <Setter Property="Visibility"
+                                                    Value="Visible" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-
+                            </TextBlock.Style></TextBlock>
                         <ComboBox Grid.Column="1"
-                              Margin="10,0,0,0"
-                              Name="ExercisesCategoriesComboBox"
-                              Text="All exercices"
-                              VerticalContentAlignment="Center"
-                              HorizontalContentAlignment="Center"
-                              Padding="10,0"
-                              Width="300"
-                              SelectionChanged="ExercisesCategoriesComboBox_SelectionChanged">
+                                  Margin="10,0,0,0"
+                                  Name="ExercisesCategoriesComboBox"
+                                  Text="All exercices"
+                                  VerticalContentAlignment="Center"
+                                  HorizontalContentAlignment="Center"
+                                  Padding="10,0"
+                                  Width="300"
+                                  SelectionChanged="ExercisesCategoriesComboBox_SelectionChanged">
                             <ComboBoxItem>
-                                <TextBlock Text="All exercices"/>
+                                <TextBlock Text="All exercices" />
                             </ComboBoxItem>
                             <ComboBoxItem>
-                                <TextBlock Text="Exercices in session mode"/>
+                                <TextBlock Text="Exercices in session mode" />
                             </ComboBoxItem>
                         </ComboBox>
                     </Grid>
-
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-
                         <Grid Grid.Column="0"
                               Width="750"
                               Panel.ZIndex="1">
                             <Grid.Style>
                                 <Style TargetType="{x:Type Grid}">
-                                    <Setter Property="Visibility" 
-                                    Value="Collapsed" />
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=ExercisesListView, Path=Items.Count}" 
-                                             Value="0">
-                                            <Setter Property="Visibility" 
-                                            Value="Visible" />
+                                        <DataTrigger Binding="{Binding ElementName=ExercisesListView, Path=Items.Count}"
+                                                     Value="0">
+                                            <Setter Property="Visibility"
+                                                    Value="Visible" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Grid.Style>
-
-                            <Border Background="Black" 
+                            <Border Background="Black"
                                     CornerRadius="8"
-                               Panel.ZIndex="1" 
-                               Opacity="0.5"/>
-
-                            <Border
-                               Height="50">
+                                    Panel.ZIndex="1"
+                                    Opacity="0.5" />
+                            <Border Height="50">
                                 <Border.Style>
-                                    <Style TargetType="{x:Type Border}" BasedOn="{StaticResource InformationBorder}">
-                                        <Setter Property="Width" 
-                                        Value="450" />
+                                    <Style TargetType="{x:Type Border}"
+                                           BasedOn="{StaticResource InformationBorder}">
+                                        <Setter Property="Width"
+                                                Value="450" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=ExercisesCategoriesComboBox, Path=SelectedIndex}" 
-                                                 Value="1">
-                                                <Setter Property="Width" 
-                                                Value="550" />
+                                            <DataTrigger Binding="{Binding ElementName=ExercisesCategoriesComboBox, Path=SelectedIndex}"
+                                                         Value="1">
+                                                <Setter Property="Width"
+                                                        Value="550" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
-
                                 <TextBlock x:Name="EmptyListTextblock"
-                               FontSize="18" 
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Panel.ZIndex="1">
+                                           FontSize="18"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Panel.ZIndex="1">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Text" 
-                                        Value="List is empty. Please add some elements to the list." />
+                                            <Setter Property="Text"
+                                                    Value="List is empty. Please add some elements to the list." />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=ExercisesCategoriesComboBox, Path=SelectedIndex}" 
-                                                 Value="1">
-                                                    <Setter Property="Text" 
-                                                Value="Session list is empty. Please add some elements to the session." />
+                                                <DataTrigger Binding="{Binding ElementName=ExercisesCategoriesComboBox, Path=SelectedIndex}"
+                                                             Value="1">
+                                                    <Setter Property="Text"
+                                                            Value="Session list is empty. Please add some elements to the session." />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
+                                    </TextBlock.Style></TextBlock>
                             </Border>
                         </Grid>
-
                         <ListView x:Name="ExercisesListView"
-                          Grid.Column="0"
-                          Width="750"
-                          MouseDoubleClick="ExercisesListView_MouseDoubleClick"
-                          SelectionChanged="ExercisesListView_SelectionChanged"
-                          SelectionMode="Single"
-                          FontSize="14"
-                          ItemContainerStyle="{StaticResource contextMenu}">
+                                  Grid.Column="0"
+                                  Width="750"
+                                  MouseDoubleClick="ExercisesListView_MouseDoubleClick"
+                                  SelectionChanged="ExercisesListView_SelectionChanged"
+                                  SelectionMode="Single"
+                                  FontSize="14"
+                                  ItemContainerStyle="{StaticResource contextMenu}">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Width="0"
-                                            x:Name="ButtonsColumn">
+                                                    x:Name="ButtonsColumn">
                                         <GridViewColumn.HeaderContainerStyle>
-                                            <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                                                <Setter Property="IsHitTestVisible" Value="False"/>
-                                                <Setter Property="Template" Value="{StaticResource RoundedLeftWithoutThumb}"/>
+                                            <Style TargetType="{x:Type GridViewColumnHeader}"
+                                                   BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                                                <Setter Property="IsHitTestVisible"
+                                                        Value="False" />
+                                                <Setter Property="Template"
+                                                        Value="{StaticResource RoundedLeftWithoutThumb}" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ElementName=ExercisesCategoriesComboBox, Path=SelectedIndex}" 
-                                                 Value="1">
-                                                        <Setter Property="Template" 
-                                                Value="{StaticResource RoundedLeftWithThumb}" />
-                                                        
+                                                    <DataTrigger Binding="{Binding ElementName=ExercisesCategoriesComboBox, Path=SelectedIndex}"
+                                                                 Value="1">
+                                                        <Setter Property="Template"
+                                                                Value="{StaticResource RoundedLeftWithThumb}" />
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding ElementName=SessionButtonLabel, Path=Text}" 
-                                                 Value="CANCEL SESSION">
-                                                        <Setter Property="Template" 
-                                                Value="{StaticResource RoundedLeftWithoutThumb}" />
+                                                    <DataTrigger Binding="{Binding ElementName=SessionButtonLabel, Path=Text}"
+                                                                 Value="CANCEL SESSION">
+                                                        <Setter Property="Template"
+                                                                Value="{StaticResource RoundedLeftWithoutThumb}" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -614,36 +601,38 @@
                                             <DataTemplate x:Name="ButtonsDataTemplate">
                                                 <DockPanel Margin="10,0">
                                                     <Button x:Name="ListDownButton"
-                                                    Content="▼"
+                                                            Content="▼"
                                                             Margin="0,0,10,0"
-                                                    Click="ListDownButton_Click"
-                                                            Style="{StaticResource ListViewButton}"/>
+                                                            Click="ListDownButton_Click"
+                                                            Style="{StaticResource ListViewButton}" />
                                                     <Button x:Name="ListUpButton"
-                                                    Content="▲"
-                                                    Click="ListUpButton_Click"
-                                                            Style="{StaticResource ListViewButton}"/>
+                                                            Content="▲"
+                                                            Click="ListUpButton_Click"
+                                                            Style="{StaticResource ListViewButton}" />
                                                 </DockPanel>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-
                                     <GridViewColumn x:Name="SessionColumn"
-                                            Header="Session" 
-                                            Width="Auto">
+                                                    Header="Session"
+                                                    Width="Auto">
                                         <GridViewColumn.HeaderContainerStyle>
-                                            <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                                                <Setter Property="IsHitTestVisible" Value="False"/>
-                                                <Setter Property="Template" Value="{StaticResource RoundedLeftWithThumb}"/>
+                                            <Style TargetType="{x:Type GridViewColumnHeader}"
+                                                   BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                                                <Setter Property="IsHitTestVisible"
+                                                        Value="False" />
+                                                <Setter Property="Template"
+                                                        Value="{StaticResource RoundedLeftWithThumb}" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ElementName=ExercisesCategoriesComboBox, Path=SelectedIndex}" 
-                                                 Value="1">
-                                                        <Setter Property="Template" 
-                                                Value="{StaticResource NotRoundedWithThumb}" />
+                                                    <DataTrigger Binding="{Binding ElementName=ExercisesCategoriesComboBox, Path=SelectedIndex}"
+                                                                 Value="1">
+                                                        <Setter Property="Template"
+                                                                Value="{StaticResource NotRoundedWithThumb}" />
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding ElementName=SessionButtonLabel, Path=Text}" 
-                                                 Value="CANCEL SESSION">
-                                                        <Setter Property="Template" 
-                                                Value="{StaticResource RoundedLeftWithoutThumb}" />
+                                                    <DataTrigger Binding="{Binding ElementName=SessionButtonLabel, Path=Text}"
+                                                                 Value="CANCEL SESSION">
+                                                        <Setter Property="Template"
+                                                                Value="{StaticResource RoundedLeftWithoutThumb}" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -654,71 +643,74 @@
                                                            VerticalAlignment="Center"
                                                            Margin="0,3,0,0">
                                                     <CheckBox Click="CheckBox_Click"
-                                                      IsChecked="{Binding IsInSessionMode}" 
-                                                      HorizontalAlignment="Center"
-                                                              VerticalAlignment="Center"/>
+                                                              IsChecked="{Binding IsInSessionMode}"
+                                                              HorizontalAlignment="Center"
+                                                              VerticalAlignment="Center" />
                                                 </DockPanel>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-
-                                    <GridViewColumn Header="Name" 
-                                            Width="Auto"
-                                            DisplayMemberBinding="{Binding Name}">
+                                    <GridViewColumn Header="Name"
+                                                    Width="Auto"
+                                                    DisplayMemberBinding="{Binding Name}">
                                         <GridViewColumn.HeaderContainerStyle>
-                                            <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                                                <Setter Property="Template" Value="{StaticResource NotRoundedWithThumb}"/>
+                                            <Style TargetType="{x:Type GridViewColumnHeader}"
+                                                   BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                                                <Setter Property="Template"
+                                                        Value="{StaticResource NotRoundedWithThumb}" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ElementName=SessionButtonLabel, Path=Text}" 
-                                                 Value="CANCEL SESSION">
-                                                        <Setter Property="Template" 
-                                                Value="{StaticResource RoundedLeftWithThumb}" />
+                                                    <DataTrigger Binding="{Binding ElementName=SessionButtonLabel, Path=Text}"
+                                                                 Value="CANCEL SESSION">
+                                                        <Setter Property="Template"
+                                                                Value="{StaticResource RoundedLeftWithThumb}" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </GridViewColumn.HeaderContainerStyle>
                                     </GridViewColumn>
-
-                                    <GridViewColumn Header="Tempo" 
-                                            Width="Auto">
+                                    <GridViewColumn Header="Tempo"
+                                                    Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <DockPanel>
-                                                    <TextBlock Text="{Binding CurrentTempo}"/>
-                                                    <TextBlock Text="/"/>
+                                                    <TextBlock Text="{Binding CurrentTempo}" />
+                                                    <TextBlock Text="/" />
                                                     <TextBlock Text="{Binding TargetTempo}"
-                                                       FontWeight="Bold"/>
-                                                    <TextBlock Text=" BPM"/>
+                                                               FontWeight="Bold" />
+                                                    <TextBlock Text=" BPM" />
                                                 </DockPanel>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-
-                                    <GridViewColumn Header="Practice time" 
-                                            Width="Auto">
+                                    <GridViewColumn Header="Practice time"
+                                                    Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <DockPanel>
-                                                    <TextBlock Text="{Binding PracticeTime}"/>
-                                                    <TextBlock Text=" minutes"/>
+                                                    <TextBlock Text="{Binding PracticeTime}" />
+                                                    <TextBlock Text=" minutes" />
                                                 </DockPanel>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-
-                                    <GridViewColumn Header="Notes" 
-                                            Width="Auto">
+                                    <GridViewColumn Header="Notes"
+                                                    Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <DockPanel>
                                                     <TextBlock x:Name="NotesTextBlock"
-                                                        Text="{Binding Notes}"/>
-                                                    <TextBlock x:Name="DashTextBlock" Text="-" Visibility="Collapsed">
-                                                    </TextBlock>
+                                                               Text="{Binding Notes}" />
+                                                    <TextBlock x:Name="DashTextBlock"
+                                                               Text="-"
+                                                               Visibility="Collapsed"></TextBlock>
                                                 </DockPanel>
                                                 <DataTemplate.Triggers>
-                                                    <Trigger SourceName="NotesTextBlock" Property="Text" Value="">
-                                                        <Setter TargetName="DashTextBlock" Property="Visibility" Value="Visible"></Setter>
+                                                    <Trigger SourceName="NotesTextBlock"
+                                                             Property="Text"
+                                                             Value="">
+                                                        <Setter TargetName="DashTextBlock"
+                                                                Property="Visibility"
+                                                                Value="Visible"></Setter>
                                                     </Trigger>
                                                 </DataTemplate.Triggers>
                                             </DataTemplate>
@@ -727,38 +719,36 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-
                         <StackPanel Grid.Column="1"
                                     VerticalAlignment="Center"
                                     Margin="10,0,0,0">
                             <Button x:Name="AddExerciseButton"
-                            Click="AddExerciseButton_Click"
-                            Style="{StaticResource OrangeButton}">
+                                    Click="AddExerciseButton_Click"
+                                    Style="{StaticResource OrangeButton}">
                                 <Image Source="{StaticResource AddImage}"
-                                       Height="20"/>
+                                       Height="20" />
                             </Button>
                             <Button x:Name="EditExerciseButton"
-                            Click="EditExerciseButton_Click"
-                            IsEnabled="False"
+                                    Click="EditExerciseButton_Click"
+                                    IsEnabled="False"
                                     Margin="0,10">
                                 <Image Source="{StaticResource EditImage}"
-                                       Height="20"/>
+                                       Height="20" />
                             </Button>
                             <Button x:Name="DeleteExerciseButton"
-                            Click="DeleteExerciseButton_Click"
-                            IsEnabled="False"
+                                    Click="DeleteExerciseButton_Click"
+                                    IsEnabled="False"
                                     Margin="0,0,0,10">
                                 <Image Source="{StaticResource DeleteImage}"
-                                       Height="20"/>
+                                       Height="20" />
                             </Button>
                             <Button x:Name="RefreshButton"
-                            Click="RefreshButton_Click">
+                                    Click="RefreshButton_Click">
                                 <Image Source="{StaticResource RefreshImage}"
-                                       Height="20"/>
+                                       Height="20" />
                             </Button>
                         </StackPanel>
                     </Grid>
-
                     <Grid Grid.Row="2"
                           Margin="0,10">
                         <Grid.ColumnDefinitions>
@@ -767,60 +757,58 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Button x:Name="ApplyMetronomeSettingsButton"
-                            Content="Set up metronome for selected exercise" 
-                            Click="ApplyMetronomeSettingsButton_Click"
-                            Grid.Column="0"
-                            IsEnabled="False"/>
+                                Content="Set up metronome for selected exercise"
+                                Click="ApplyMetronomeSettingsButton_Click"
+                                Grid.Column="0"
+                                IsEnabled="False" />
                         <Button x:Name="SaveMetronomeSettingsIntoItemButton"
-                            Content="Save current tempo into selected exercise" 
-                            Click="SaveMetronomeSettingsIntoItemButton_Click"
-                            Grid.Column="2"
-                            IsEnabled="False"/>
+                                Content="Save current tempo into selected exercise"
+                                Click="SaveMetronomeSettingsIntoItemButton_Click"
+                                Grid.Column="2"
+                                IsEnabled="False" />
                     </Grid>
-
                     <Grid Grid.Row="3">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Button x:Name="PreviousSessionExerciseButton"
-                            Click="PreviousSessionExerciseButton_Click"
-                            Content="◄ Previous exercise"
-                            Width="200"
-                            Grid.Column="0"
-                            IsEnabled="False"/>
+                                Click="PreviousSessionExerciseButton_Click"
+                                Content="◄ Previous exercise"
+                                Width="200"
+                                Grid.Column="0"
+                                IsEnabled="False" />
                         <Button x:Name="StartSessionModeButton"
-                            FontWeight="Bold"
-                            Click="StartSessionModeButton_Click"
-                            Margin="10,0,10,0"
-                            Grid.Column="1"
-                            Style="{StaticResource OrangeButton}"
+                                FontWeight="Bold"
+                                Click="StartSessionModeButton_Click"
+                                Margin="10,0,10,0"
+                                Grid.Column="1"
+                                Style="{StaticResource OrangeButton}"
                                 HorizontalContentAlignment="Stretch">
                             <Grid>
                                 <Ellipse Margin="20,0"
-                                     x:Name="SessionIndicator"
+                                         x:Name="SessionIndicator"
                                          HorizontalAlignment="Left"
-                                         Style="{StaticResource LightbulbOff}"/>
+                                         Style="{StaticResource LightbulbOff}" />
                                 <TextBlock Text="START SESSION"
-                                       Margin="0,0,0,0"
-                                       x:Name="SessionButtonLabel"
-                                           HorizontalAlignment="Center"/>
+                                           Margin="0,0,0,0"
+                                           x:Name="SessionButtonLabel"
+                                           HorizontalAlignment="Center" />
                             </Grid>
                         </Button>
                         <Button x:Name="NextSessionExerciseButton"
-                            Click="NextSessionExerciseButton_Click"
-                            Content="Next exercise ►"
-                            Width="200"
-                            Grid.Column="2"
-                            IsEnabled="False"/>
+                                Click="NextSessionExerciseButton_Click"
+                                Content="Next exercise ►"
+                                Width="200"
+                                Grid.Column="2"
+                                IsEnabled="False" />
                     </Grid>
                 </Grid>
             </StackPanel>
-
             <DockPanel Grid.Row="2">
                 <Button x:Name="ExpandButton"
-                    HorizontalAlignment="Right"
+                        HorizontalAlignment="Right"
                         Margin="0,0,30,10"
                         Background="Transparent"
                         Style="{StaticResource ListViewButton}"
@@ -829,16 +817,16 @@
                         Click="ExpandButton_Click">
                     <DockPanel>
                         <TextBlock x:Name="ExpandTextBlock"
-                            Foreground="DarkGray">Expand to full view</TextBlock>
+                                   Foreground="DarkGray">Expand to full view</TextBlock>
                         <Grid Margin="6,0,0,0">
                             <Ellipse Fill="{StaticResource ButtonsBrush}"
-                             Width="23"
-                             Height="23"
-                                 HorizontalAlignment="Center"/>
+                                     Width="23"
+                                     Height="23"
+                                     HorizontalAlignment="Center" />
                             <TextBlock x:Name="ExpandArrowTextBlock"
-                                HorizontalAlignment="Center"
-                                   Foreground="DarkGray"
-                                   Text="&gt;"/>
+                                       HorizontalAlignment="Center"
+                                       Foreground="DarkGray"
+                                       Text="&gt;" />
                         </Grid>
                     </DockPanel>
                 </Button>

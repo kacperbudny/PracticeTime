@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MetronomeApp.Classes
 {
@@ -26,14 +16,14 @@ namespace MetronomeApp.Classes
         {
             InitializeComponent();
 
-            this.Owner = Application.Current.MainWindow;
+            Owner = Application.Current.MainWindow;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
             KeyboardShortcuts = new ObservableCollection<Tuple<string, string>>();
 
-            var fieldValues = typeof(KeyboardCommands).GetFields();
+            System.Reflection.FieldInfo[] fieldValues = typeof(KeyboardCommands).GetFields();
 
-            foreach (var field in fieldValues)
+            foreach (System.Reflection.FieldInfo field in fieldValues)
             {
                 RoutedUICommand command = (RoutedUICommand)field.GetValue(typeof(RoutedUICommand));
                 InputGesture[] inputs = new InputGesture[1];
@@ -41,7 +31,7 @@ namespace MetronomeApp.Classes
                 KeyGesture keyGesture = (KeyGesture)inputs[0];
                 KeyboardShortcuts.Add(Tuple.Create(command.Text, keyGesture.DisplayString));
             }
-            
+
             ShortcutsListView.ItemsSource = KeyboardShortcuts;
         }
     }

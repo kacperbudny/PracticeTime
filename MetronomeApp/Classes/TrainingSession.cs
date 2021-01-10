@@ -1,13 +1,4 @@
-﻿using MetronomeApp.Properties;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Media;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
 namespace MetronomeApp.Classes
 {
@@ -17,13 +8,7 @@ namespace MetronomeApp.Classes
         private readonly AudioPlayer clockHighSound;
         private readonly AudioPlayer clockLowSound;
         private readonly AudioPlayer completedSound;
-        public string SessionTime 
-        { 
-            get
-            {
-                return sessionTimer.Elapsed.ToString(@"hh\:mm\:ss");
-            } 
-        }
+        public string SessionTime => sessionTimer.Elapsed.ToString(@"hh\:mm\:ss");
         public int CurrentSessionExerciseId { get; set; }
         public int TotalBPMIncrease { get; set; }
         public bool IsEnabled { get; private set; }

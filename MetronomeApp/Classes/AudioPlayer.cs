@@ -1,19 +1,14 @@
 ﻿using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace MetronomeApp.Classes
 {
-    class AudioPlayer
+    internal class AudioPlayer
     {
-        readonly WaveOutEvent outputDevice = new WaveOutEvent();
-        readonly AudioFileReader audioFile;
+        private readonly WaveOutEvent outputDevice = new WaveOutEvent();
+        private readonly AudioFileReader audioFile;
 
         public AudioPlayer(string soundType)
         {

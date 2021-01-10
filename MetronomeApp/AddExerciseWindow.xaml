@@ -7,44 +7,44 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStyle="None"
-        Title="Add new exercise" 
+        Title="Add new exercise"
         SizeToContent="Height"
         Width="320"
         Style="{StaticResource DefaultStyles}"
         Background="{StaticResource HeadersBrush}">
     <StackPanel Margin="30,20,30,30">
         <StackPanel Margin="0,0,0,5">
-            <Label Content="Name"/>
-            <TextBox x:Name="NameTextBox"/>
+            <Label Content="Name" />
+            <TextBox x:Name="NameTextBox" />
         </StackPanel>
         <Grid Margin="0,0,0,5">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                <Label Content="Starting tempo"/>
+            <StackPanel Grid.Column="0"
+                        Margin="0,0,10,0">
+                <Label Content="Starting tempo" />
                 <TextBox x:Name="StartingTempoTextBox"
                          PreviewTextInput="PreviewNumericTextInput"
-                         PreviewKeyDown="PreviewSpaceKeyDown"/>
+                         PreviewKeyDown="PreviewSpaceKeyDown" />
             </StackPanel>
             <StackPanel Grid.Column="1">
-                <Label Content="Target tempo"/>
+                <Label Content="Target tempo" />
                 <TextBox x:Name="TargetTempoTextBox"
                          PreviewTextInput="PreviewNumericTextInput"
-                         PreviewKeyDown="PreviewSpaceKeyDown"/>
+                         PreviewKeyDown="PreviewSpaceKeyDown" />
             </StackPanel>
         </Grid>
-
         <StackPanel Margin="0,0,0,5">
-            <Label Content="Practice time (in minutes)"/>
+            <Label Content="Practice time (in minutes)" />
             <TextBox x:Name="PracticeTimeTextBox"
                      PreviewTextInput="PreviewNumericTextInput"
-                     PreviewKeyDown="PreviewSpaceKeyDown"/>
+                     PreviewKeyDown="PreviewSpaceKeyDown" />
         </StackPanel>
         <StackPanel Margin="0,0,0,5">
-            <Label Content="Notes (additional information)"/>
-            <TextBox x:Name="NotesTextBox"/>
+            <Label Content="Notes (additional information)" />
+            <TextBox x:Name="NotesTextBox" />
         </StackPanel>
         <TextBlock x:Name="WarningTextBlock"
                    Visibility="Collapsed"
@@ -52,20 +52,21 @@
                    Foreground="Red"
                    TextWrapping="Wrap"
                    HorizontalAlignment="Center"
-                   TextAlignment="Center"
-                   />
-        <DockPanel HorizontalAlignment="Center" 
+                   TextAlignment="Center" />
+        <DockPanel HorizontalAlignment="Center"
                    Margin="0,15,0,0">
             <Button x:Name="AddButton"
-                    Content="Add exercise" 
-                    Margin="0,0,10,0" 
-                    Padding="10,0" Click="AddButton_Click"
+                    Content="Add exercise"
+                    Margin="0,0,10,0"
+                    Padding="10,0"
+                    Click="AddButton_Click"
                     Style="{StaticResource OrangeButton}"
-                    IsDefault="True"/>
+                    IsDefault="True" />
             <Button x:Name="CancelButton"
                     Content="Cancel"
-                    Padding="10,0" Click="CancelButton_Click"
-                    IsCancel="True"/>
+                    Padding="10,0"
+                    Click="CancelButton_Click"
+                    IsCancel="True" />
         </DockPanel>
     </StackPanel>
 </Window>
