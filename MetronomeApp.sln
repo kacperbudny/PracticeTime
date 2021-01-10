@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetronomeApp", "MetronomeApp\MetronomeApp.csproj", "{FA6E160C-0E54-4228-AB8E-67C39D5BA62B}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MetronomeAppInstaller", "MetronomeAppInstaller\MetronomeAppInstaller.vdproj", "{529C6A73-575F-4C7A-9A92-397E69238B1A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{FA6E160C-0E54-4228-AB8E-67C39D5BA62B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA6E160C-0E54-4228-AB8E-67C39D5BA62B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA6E160C-0E54-4228-AB8E-67C39D5BA62B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{529C6A73-575F-4C7A-9A92-397E69238B1A}.Debug|Any CPU.ActiveCfg = Debug
+		{529C6A73-575F-4C7A-9A92-397E69238B1A}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

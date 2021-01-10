@@ -13,7 +13,7 @@ namespace MetronomeApp.Classes
         public AudioPlayer(string soundType)
         {
             string fileName = soundType + ".wav";
-            string path = Path.Combine(Environment.CurrentDirectory, "Resources", fileName);
+            string path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "Resources", fileName);
 
             try
             {
