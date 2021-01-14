@@ -206,7 +206,7 @@ namespace MetronomeApp
                 StopMetronome();
             }
 
-            if (tapTempo.IsTapTempoModeEnabled == false)
+            if (tapTempo.IsEnabled == false)
             {
                 StartButton.IsEnabled = false;
                 TapTempoButton.Content = "TAP HERE";
@@ -333,7 +333,7 @@ namespace MetronomeApp
             StartTimerButton.Content = "Stop timer";
             timekeeper.Start();
 
-            timekeeperHelper.SetTimeToReturn();
+            timekeeperHelper.SetInitialTime();
             ResetTimerButton.IsEnabled = true;
         }
 
@@ -726,7 +726,7 @@ namespace MetronomeApp
                 ResetTimer();
             }
 
-            if (tapTempo.IsTapTempoModeEnabled)
+            if (tapTempo.IsEnabled)
             {
                 ResetAfterTapTempo();
             }
@@ -865,7 +865,7 @@ namespace MetronomeApp
 
         private void StartButton_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = !CountdownGrid.IsVisible && !tapTempo.IsTapTempoModeEnabled;
+            e.CanExecute = !CountdownGrid.IsVisible && !tapTempo.IsEnabled;
         }
 
         private void IfCountdownDisabled_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -880,7 +880,7 @@ namespace MetronomeApp
 
         private void TapTempoCancel_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = tapTempo.IsTapTempoModeEnabled;
+            e.CanExecute = tapTempo.IsEnabled;
         }
 
         private void ResetTimer_CanExecute(object sender, CanExecuteRoutedEventArgs e)

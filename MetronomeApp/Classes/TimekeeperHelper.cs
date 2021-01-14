@@ -3,7 +3,7 @@
     internal class TimekeeperHelper
     {
         private readonly AudioPlayer timekeeperSound;
-        private int timeToReturn;
+        private int initialTime;
         private int _time;
         public int Time
         {
@@ -30,11 +30,11 @@
             timekeeperSound = new AudioPlayer(SoundType.Timekeeper);
         }
 
-        public void SetTimeToReturn()
+        public void SetInitialTime()
         {
             if (!IsEnabled)
             {
-                timeToReturn = Time;
+                initialTime = Time;
                 IsEnabled = true;
             }
         }
@@ -42,7 +42,7 @@
         public void Reset()
         {
             timekeeperSound.Reset();
-            Time = timeToReturn;
+            Time = initialTime;
             IsEnabled = false;
         }
 

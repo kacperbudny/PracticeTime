@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="MetronomeApp.MainWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.5" Y="7" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="metronome" Type="MetronomeApp.Classes.Metronome" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14.5" Y="7.188" />
+        <Point X="14.125" Y="7.188" />
+        <Point X="14.125" Y="5.859" />
+        <Point X="13" Y="5.859" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="timekeeperHelper" Type="MetronomeApp.Classes.TimekeeperHelper" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14.5" Y="7.5" />
+        <Point X="8.25" Y="7.5" />
+        <Point X="8.25" Y="5.603" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>JKBSTELmRCoNcWUgDhGqAkvD8DX5UhD89KgKEgEfJEg=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="metronome" />
+      <Field Name="tapTempo" />
+      <Field Name="timekeeperHelper" />
+      <Field Name="session" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="exercises" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MetronomeApp.Classes.AudioPlayer">
+    <Position X="10.75" Y="2.25" Width="2.25" />
+    <Members>
+      <Field Name="audioFile" Hidden="true" />
+      <Method Name="AudioPlayer" Hidden="true" />
+      <Field Name="outputDevice" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAgAAAAAAACEgAAAAAAAAAA=</HashCode>
+      <FileName>Classes\AudioPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetronomeApp.Classes.Exercise">
+    <Position X="18" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AACiAAAAIAAEAAgAAAAAAAQAAAAIARAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Exercise.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetronomeApp.Classes.Metronome">
+    <Position X="11" Y="4.25" Width="2" />
+    <Members>
+      <Method Name="Metronome" Hidden="true" />
+      <Field Name="stopwatch" Hidden="true" />
+      <Field Name="tickTime" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BAAAEAAAACAAACAAAAEAAAAAIAAAAACAIAAAAAAAAAE=</HashCode>
+      <FileName>Classes\Metronome.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="metronomeSound" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MetronomeApp.Classes.TapTempo">
+    <Position X="13.75" Y="8.25" Width="2.5" />
+    <Members>
+      <Method Name="TapTempo" Hidden="true" />
+      <Field Name="timer" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAABAAAAAEAAAAAAAAAAACAAAAAAAAGAEA=</HashCode>
+      <FileName>Classes\TapTempo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetronomeApp.Classes.TimekeeperHelper">
+    <Position X="7.25" Y="2.25" Width="2" />
+    <Members>
+      <Field Name="_time" Hidden="true" />
+      <Method Name="TimekeeperHelper" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAgBAIAAAEAAAABAAUAAACDAAAAAAAAAQA=</HashCode>
+      <FileName>Classes\TimekeeperHelper.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="timekeeperSound" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MetronomeApp.Classes.TrainingSession">
+    <Position X="14.25" Y="2" Width="2.25" />
+    <Members>
+      <Method Name="ResetClockHighSound" Hidden="true" />
+      <Method Name="ResetClockLowSound" Hidden="true" />
+      <Method Name="ResetCompletedSound" Hidden="true" />
+      <Field Name="sessionTimer" Hidden="true" />
+      <Method Name="TrainingSession" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IAMAAgYAACAEIAAAAAMQAAAAAAAAAACAIgAAAgEAAAA=</HashCode>
+      <FileName>Classes\TrainingSession.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="clockHighSound" />
+      <Field Name="clockLowSound" />
+      <Field Name="completedSound" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

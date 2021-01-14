@@ -8,7 +8,7 @@ namespace MetronomeApp.Classes
     internal class TapTempo
     {
         public int FinalTempo { get; private set; }
-        public bool IsTapTempoModeEnabled { get; private set; }
+        public bool IsEnabled { get; private set; }
 
         private readonly Stopwatch timer = new Stopwatch();
         private readonly List<long> tapTimes = new List<long>();
@@ -16,12 +16,12 @@ namespace MetronomeApp.Classes
         public TapTempo()
         {
             FinalTempo = 0;
-            IsTapTempoModeEnabled = false;
+            IsEnabled = false;
         }
 
         public void Start()
         {
-            IsTapTempoModeEnabled = true;
+            IsEnabled = true;
             timer.Start();
         }
 
@@ -35,7 +35,7 @@ namespace MetronomeApp.Classes
 
         public void Reset()
         {
-            IsTapTempoModeEnabled = false;
+            IsEnabled = false;
             timer.Reset();
             tapTimes.Clear();
             FinalTempo = 0;
