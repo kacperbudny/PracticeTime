@@ -27,25 +27,38 @@
                 <Label Content="Starting tempo" />
                 <TextBox x:Name="StartingTempoTextBox"
                          PreviewTextInput="PreviewNumericTextInput"
-                         PreviewKeyDown="PreviewSpaceKeyDown" />
+                         PreviewKeyDown="PreviewSpaceKeyDown" 
+                         MaxLength="3"
+                         CommandManager.PreviewExecuted="TextBox_PreviewExecuted"/>
             </StackPanel>
             <StackPanel Grid.Column="1">
                 <Label Content="Target tempo" />
                 <TextBox x:Name="TargetTempoTextBox"
                          PreviewTextInput="PreviewNumericTextInput"
-                         PreviewKeyDown="PreviewSpaceKeyDown" />
+                         PreviewKeyDown="PreviewSpaceKeyDown" 
+                         MaxLength="3"
+                         CommandManager.PreviewExecuted="TextBox_PreviewExecuted"/>
             </StackPanel>
         </Grid>
         <StackPanel Margin="0,0,0,5">
             <Label Content="Practice time (in minutes)" />
             <TextBox x:Name="PracticeTimeTextBox"
                      PreviewTextInput="PreviewNumericTextInput"
-                     PreviewKeyDown="PreviewSpaceKeyDown" />
+                     PreviewKeyDown="PreviewSpaceKeyDown"
+                     MaxLength="2"
+                     CommandManager.PreviewExecuted="TextBox_PreviewExecuted" />
         </StackPanel>
         <StackPanel Margin="0,0,0,5">
             <Label Content="Notes (additional information)" />
             <TextBox x:Name="NotesTextBox" />
         </StackPanel>
+        <DockPanel Margin="0,10,0,5"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center">
+            <CheckBox x:Name="AddToSessionCheckBox"
+                      Content="Add to session"
+                      Style="{StaticResource AddCheckboxStyle}"></CheckBox>
+        </DockPanel>
         <TextBlock x:Name="WarningTextBlock"
                    Visibility="Collapsed"
                    Margin="0,10,0,0"

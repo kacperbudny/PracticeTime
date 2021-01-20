@@ -267,15 +267,18 @@
                                VerticalAlignment="Center"
                                Padding="20,0">PracticeTime!</TextBlock>
                 </StackPanel>
-                <Slider Maximum="100"
-                        Name="VolumeSlider"
-                        Width="250"
-                        Value="100"
-                        ValueChanged="VolumeSlider_ValueChanged"
-                        VerticalAlignment="Center"
-                        Margin="50,0"
-                        Grid.Column="2"
-                        Visibility="Collapsed" />
+                <StackPanel Grid.Column="2"
+                            x:Name="SliderGrid"
+                            Visibility="Collapsed"
+                            Margin="50,0"
+                            VerticalAlignment="Center">
+                    <Slider Maximum="100"
+                            Name="VolumeSlider"
+                            Width="250"
+                            Value="100"
+                            ValueChanged="VolumeSlider_ValueChanged" 
+                            ToolTip="Change volume"/>
+                </StackPanel>
             </Grid>
             <StackPanel Orientation="Horizontal"
                         Margin="34,30"
@@ -329,7 +332,10 @@
                                      TextAlignment="Center"
                                      PreviewKeyDown="TempoBox_PreviewKeyDown"
                                      Style="{StaticResource TempoBoxStyle}"
-                                     Padding="5,5,0,0" />
+                                     Padding="5,5,0,0"
+                                     MaxLength="3"
+                                     CommandManager.PreviewExecuted="TextBox_PreviewExecuted" 
+                                     ContextMenu="{x:Null}"/>
                             <Button x:Name="TempoUpButton"
                                     Click="TempoUpButton_Click"
                                     ContextMenu="{StaticResource metronomeTempoContextMenu}">
@@ -504,7 +510,8 @@
                             </ComboBoxItem>
                         </ComboBox>
                     </Grid>
-                    <Grid Grid.Row="1">
+                    <Grid Grid.Row="1"
+                          Name="ExerciseListGrid">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
@@ -571,7 +578,8 @@
                                   SelectionChanged="ExercisesListView_SelectionChanged"
                                   SelectionMode="Single"
                                   FontSize="14"
-                                  ItemContainerStyle="{StaticResource contextMenu}">
+                                  ItemContainerStyle="{StaticResource contextMenu}"
+                                  MaxHeight="{Binding Path=ActualHeight, ElementName=ExerciseListGrid}">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Width="0"
@@ -641,11 +649,12 @@
                                             <DataTemplate>
                                                 <DockPanel HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
-                                                           Margin="0,3,0,0">
+                                                           Margin="0,2,0,0">
                                                     <CheckBox Click="CheckBox_Click"
                                                               IsChecked="{Binding IsInSessionMode}"
                                                               HorizontalAlignment="Center"
-                                                              VerticalAlignment="Center" />
+                                                              VerticalAlignment="Center" 
+                                                              ToolTip="Add/delete from session"/>
                                                 </DockPanel>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -724,26 +733,30 @@
                                     Margin="10,0,0,0">
                             <Button x:Name="AddExerciseButton"
                                     Click="AddExerciseButton_Click"
-                                    Style="{StaticResource OrangeButton}">
+                                    Style="{StaticResource OrangeButton}"
+                                    ToolTip="Add exercise">
                                 <Image Source="{StaticResource AddImage}"
                                        Height="20" />
                             </Button>
                             <Button x:Name="EditExerciseButton"
                                     Click="EditExerciseButton_Click"
                                     IsEnabled="False"
-                                    Margin="0,10">
+                                    Margin="0,10"
+                                    ToolTip="Edit exercise">
                                 <Image Source="{StaticResource EditImage}"
                                        Height="20" />
                             </Button>
                             <Button x:Name="DeleteExerciseButton"
                                     Click="DeleteExerciseButton_Click"
                                     IsEnabled="False"
-                                    Margin="0,0,0,10">
+                                    Margin="0,0,0,10"
+                                    ToolTip="Delete exercise">
                                 <Image Source="{StaticResource DeleteImage}"
                                        Height="20" />
                             </Button>
                             <Button x:Name="RefreshButton"
-                                    Click="RefreshButton_Click">
+                                    Click="RefreshButton_Click"
+                                    ToolTip="Refresh list">
                                 <Image Source="{StaticResource RefreshImage}"
                                        Height="20" />
                             </Button>

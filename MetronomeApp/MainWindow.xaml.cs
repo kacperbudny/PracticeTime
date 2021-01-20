@@ -228,9 +228,12 @@ namespace MetronomeApp
 
         private async Task AcceptTapTempoAsync()
         {
+            int tempoToSet = tapTempo.FinalTempo;
+            if (tempoToSet > 300) tempoToSet = 300;
+            else if (tempoToSet < 40) tempoToSet = 40;
             isTempoSetByUser = false;
-            metronome.SetTempo(tapTempo.FinalTempo);
-            TempoBox.Text = tapTempo.FinalTempo.ToString();
+            metronome.SetTempo(tempoToSet);
+            TempoBox.Text = tempoToSet.ToString();
             ResetAfterTapTempo();
             isTempoSetByUser = true;
             await StartMetronomeAsync();
@@ -461,7 +464,8 @@ namespace MetronomeApp
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            List<Exercise> filteredList = exercises.Where(ex => ex.Name.ToLower().Contains(SearchBox.Text.ToLower())).ToList();
+            List<Exercise> filteredList = exercises.Where(ex => 
+                ex.Name.ToLower().Contains(SearchBox.Text.ToLower())).ToList();
             ExercisesListView.ItemsSource = filteredList;
         }
 
@@ -511,7 +515,6 @@ namespace MetronomeApp
             if (ExercisesCategoriesComboBox.SelectedIndex == 1)
             {
                 int index = ExercisesListView.Items.IndexOf(exercise);
-
                 if (exercise.SessionModeOrder != exercises.Max(ex => ex.SessionModeOrder))
                 {
                     Exercise nextExercise = (Exercise)ExercisesListView.Items.GetItemAt(index + 1);
@@ -525,17 +528,13 @@ namespace MetronomeApp
         private void ReadDatabase()
         {
             exercises = DatabaseUtilities.ReadExercises();
-
             if (exercises != null)
             {
                 if (ExercisesCategoriesComboBox.SelectedIndex == 0)
-                {
                     ExercisesListView.ItemsSource = exercises;
-                }
                 else if (ExercisesCategoriesComboBox.SelectedIndex == 1)
-                {
-                    ExercisesListView.ItemsSource = exercises.Where(ex => ex.IsInSessionMode == true).ToList().OrderBy(ex => ex.SessionModeOrder);
-                }
+                    ExercisesListView.ItemsSource = exercises.Where(ex => ex.IsInSessionMode == true)
+                        .ToList().OrderBy(ex => ex.SessionModeOrder);
             }
         }
 
@@ -564,10 +563,9 @@ namespace MetronomeApp
         private void DeleteExercise()
         {
             Exercise selectedExercise = (Exercise)ExercisesListView.SelectedItem;
-
-            CustomMessageBox customMessageBox = new CustomMessageBox("Are you sure you want to delete this exercise?\n\n" + selectedExercise.Name, "Deleting exercise", true);
+            CustomMessageBox customMessageBox = new CustomMessageBox("Are you sure you want to delete this exercise?\n\n" 
+                + selectedExercise.Name, "Deleting exercise", true);
             bool? result = customMessageBox.ShowDialog();
-
             switch (result)
             {
                 case true:
@@ -705,17 +703,9 @@ namespace MetronomeApp
         {
             session.Start();
             ExercisesCategoriesComboBox.SelectedIndex = 1;
-            AddExerciseButton.IsEnabled = false;
-            EditExerciseButton.IsEnabled = false;
-            DeleteExerciseButton.IsEnabled = false;
-            RefreshButton.IsEnabled = false;
-            ApplyMetronomeSettingsButton.IsEnabled = false;
-            SaveMetronomeSettingsIntoItemButton.IsEnabled = false;
-            ExercisesCategoriesComboBox.IsEnabled = false;
-            SearchBox.IsEnabled = false;
-            PreviousSessionExerciseButton.IsEnabled = true;
-            NextSessionExerciseButton.IsEnabled = true;
+            DisableButtonsForSession();
             SessionButtonLabel.Text = "CANCEL SESSION";
+            Title = "PracticeTime! - SESSION ON";
             ButtonsColumn.Width = 0;
             SessionColumn.Width = 0;
             SessionIndicator.Style = (Style)FindResource("LightbulbOn");
@@ -731,11 +721,8 @@ namespace MetronomeApp
                 ResetAfterTapTempo();
             }
 
-            Title = "PracticeTime! - SESSION ON";
-
             ApplyMetronomeSettings((Exercise)ExercisesListView.Items[session.CurrentSessionExerciseId]);
             await CountdownDuringSessionAsync();
-
             await StartMetronomeAndTimerAsync();
         }
 
@@ -758,6 +745,20 @@ namespace MetronomeApp
             Title = "PracticeTime!";
             session.Stop();
             ReadDatabase();
+        }
+
+        private void DisableButtonsForSession()
+        {
+            AddExerciseButton.IsEnabled = false;
+            EditExerciseButton.IsEnabled = false;
+            DeleteExerciseButton.IsEnabled = false;
+            RefreshButton.IsEnabled = false;
+            ApplyMetronomeSettingsButton.IsEnabled = false;
+            SaveMetronomeSettingsIntoItemButton.IsEnabled = false;
+            ExercisesCategoriesComboBox.IsEnabled = false;
+            SearchBox.IsEnabled = false;
+            PreviousSessionExerciseButton.IsEnabled = true;
+            NextSessionExerciseButton.IsEnabled = true;
         }
 
         private void StopMetronomeAndTimer(bool isCompleteSoundNeeded)
@@ -1122,7 +1123,7 @@ namespace MetronomeApp
                 ExpandTextBlock.Text = "Go back to simple view";
                 ExpandArrowTextBlock.Text = "<";
                 isInFullView = true;
-                VolumeSlider.Visibility = Visibility.Visible;
+                SliderGrid.Visibility = Visibility.Visible;
                 FullViewGrid.Visibility = Visibility.Visible;
             }
             else if (!session.IsEnabled)
@@ -1130,7 +1131,7 @@ namespace MetronomeApp
                 ExpandTextBlock.Text = "Expand to full view";
                 ExpandArrowTextBlock.Text = ">";
                 isInFullView = false;
-                VolumeSlider.Visibility = Visibility.Collapsed;
+                SliderGrid.Visibility = Visibility.Collapsed;
                 FullViewGrid.Visibility = Visibility.Collapsed;
             }
         }
@@ -1152,6 +1153,14 @@ namespace MetronomeApp
                 {
                     e.Cancel = true;
                 }
+            }
+        }
+
+        private void TextBox_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Command == ApplicationCommands.Paste)
+            {
+                e.Handled = true;
             }
         }
 

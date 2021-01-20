@@ -27,10 +27,10 @@ namespace MetronomeApp.Classes
 
             while (stopwatch.IsRunning && IsEnabled)
             {
-                long ElapsedMilliseconds = stopwatch.ElapsedMilliseconds;
-                long mod = (ElapsedMilliseconds % tickTime);
+                long elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
+                long mod = elapsedMilliseconds % tickTime;
 
-                if (ElapsedMilliseconds != 0 && (mod == 0 || ElapsedMilliseconds > tickTime))
+                if (elapsedMilliseconds != 0 && (mod == 0 || elapsedMilliseconds > tickTime))
                 {
                     metronomeSound.Play();
                     stopwatch.Restart();

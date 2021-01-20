@@ -60,7 +60,7 @@ namespace MetronomeApp
                 CurrentTempo = int.Parse(StartingTempoTextBox.Text),
                 TargetTempo = int.Parse(TargetTempoTextBox.Text),
                 Notes = NotesTextBox.Text.Trim(),
-                IsInSessionMode = false
+                IsInSessionMode = (bool)AddToSessionCheckBox.IsChecked
             };
 
             DatabaseUtilities.AddExercise(exercise);
@@ -88,6 +88,14 @@ namespace MetronomeApp
         private void PreviewSpaceKeyDown(object sender, KeyEventArgs e)
         {
             e.Handled = Utilities.BlockSpaceInput(e);
+        }
+
+        private void TextBox_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Command == ApplicationCommands.Paste)
+            {
+                e.Handled = true;
+            }
         }
     }
 }

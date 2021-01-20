@@ -21,7 +21,8 @@ namespace MetronomeApp.Classes
             }
             catch
             {
-                MessageBox.Show("Couldn't load the file " + fileName, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Couldn't load the file " + fileName, 
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(0);
             }
 

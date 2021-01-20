@@ -27,20 +27,26 @@
                 <Label Content="Current tempo" />
                 <TextBox x:Name="CurrentTempoTextBox"
                          PreviewTextInput="PreviewNumericTextInput"
-                         PreviewKeyDown="PreviewSpaceKeyDown" />
+                         PreviewKeyDown="PreviewSpaceKeyDown"
+                         MaxLength="3"
+                         CommandManager.PreviewExecuted="TextBox_PreviewExecuted"/>
             </StackPanel>
             <StackPanel Grid.Column="1">
                 <Label Content="Target tempo" />
                 <TextBox x:Name="TargetTempoTextBox"
                          PreviewTextInput="PreviewNumericTextInput"
-                         PreviewKeyDown="PreviewSpaceKeyDown" />
+                         PreviewKeyDown="PreviewSpaceKeyDown"
+                         MaxLength="3"
+                         CommandManager.PreviewExecuted="TextBox_PreviewExecuted"/>
             </StackPanel>
         </Grid>
         <StackPanel Margin="0,0,0,5">
             <Label Content="Practice time (in minutes)" />
             <TextBox x:Name="PracticeTimeTextBox"
                      PreviewTextInput="PreviewNumericTextInput"
-                     PreviewKeyDown="PreviewSpaceKeyDown" />
+                     PreviewKeyDown="PreviewSpaceKeyDown"
+                     MaxLength="2"
+                     CommandManager.PreviewExecuted="TextBox_PreviewExecuted"/>
         </StackPanel>
         <StackPanel Margin="0,0,0,5">
             <Label Content="Notes (additional information)" />
