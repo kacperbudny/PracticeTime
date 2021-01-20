@@ -934,12 +934,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4AEC49E49D094C618CCCC1671D57362A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_C7F3123F782542DCBC6113EE231D631E"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1615,6 +1609,12 @@
         "OwnerKey" = "8:_D84B62A5A6B2A438D5B0244A874B16A9"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4AEC49E49D094C618CCCC1671D57362A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -1633,6 +1633,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -1649,6 +1657,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -5753,15 +5777,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:PracticeTime!"
-        "ProductCode" = "8:{B9ADF50B-6547-4D2A-9848-BE9D33F045FA}"
-        "PackageCode" = "8:{0307B042-B7AE-45D1-9478-D7D736C83076}"
+        "ProductCode" = "8:{35D25C5B-A962-4DAD-9677-D3BE544B45D4}"
+        "PackageCode" = "8:{B8E4DEF3-4F0B-48E7-B3FE-CBCD0DB701F3}"
         "UpgradeCode" = "8:{9AC15D57-8148-42D1-901E-2148CB2B973E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.2"
         "Manufacturer" = "8:Kacper Budny"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
