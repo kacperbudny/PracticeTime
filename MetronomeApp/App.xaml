@@ -471,11 +471,7 @@
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   Data="{Binding Content, 
-                                    RelativeSource={RelativeSource TemplatedParent}}">
-                                <Path.Fill>
-                                    <SolidColorBrush Color="{DynamicResource GlyphColor}" />
-                                </Path.Fill>
-                            </Path>
+                                    RelativeSource={RelativeSource TemplatedParent}}"></Path>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -509,16 +505,23 @@
                     Value="false" />
             <Setter Property="Focusable"
                     Value="false" />
+            <Setter Property="Opacity"
+                    Value="0.2" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Thumb}">
                         <Border CornerRadius="4"
                                 Background="Black"
-                                Opacity="0.2"
-                                BorderThickness="0" />
+                                BorderThickness="0" 
+                                x:Name="border"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.3" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
         <ControlTemplate x:Key="VerticalScrollBar"
                          TargetType="{x:Type ScrollBar}">
@@ -546,7 +549,7 @@
             <Grid>
                 <Track x:Name="PART_Track"
                        IsDirectionReversed="False"
-                       Margin="3,0">
+                       Margin="3,0,15,0">
                     <Track.DecreaseRepeatButton>
                         <RepeatButton Style="{StaticResource ScrollBarPageButton}"
                                       Command="ScrollBar.PageLeftCommand" />
